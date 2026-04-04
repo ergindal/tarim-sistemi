@@ -1,6 +1,7 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-04T17:30:48.138Z",
+  "tarih": "2026-04-04T17:36:27.813Z",
+  "kaydeden": "Admin",
   "stok": [
     {
       "id": 1,
@@ -195,6 +196,6 @@
   "log": [],
   "araclar": [],
   "mazotlar": [],
-  "kullanımlar": [],
+  "kullanim": [],
   "yakitBakimlar": []
 }
