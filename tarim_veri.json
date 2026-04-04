@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-04T18:08:06.191Z",
+  "tarih": "2026-04-04T18:11:12.650Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -194,23 +194,7 @@
     }
   ],
   "log": [],
-  "araclar": [
-    {
-      "id": 1775326054720,
-      "plaka": "34 AB 4747",
-      "tip": "🚜 Traktör",
-      "marka": "",
-      "model": "",
-      "yil": "",
-      "km": 0,
-      "sigorta": "",
-      "muayene": "",
-      "not": "",
-      "yakitlar": [],
-      "bakimlar": [],
-      "kmKayitlar": []
-    }
-  ],
+  "araclar": [],
   "mazotlar": [],
   "kullanim": [],
   "yakitBakimlar": []
