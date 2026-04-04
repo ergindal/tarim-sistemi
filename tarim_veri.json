@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-04T17:50:41.118Z",
+  "tarih": "2026-04-04T17:51:50.066Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -191,9 +191,105 @@
       "icerik": 25,
       "icBirim": "kg",
       "kritik": 2
+    },
+    {
+      "id": 1775041336692,
+      "ad": "BOTENUP",
+      "miktar": 25,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041422866,
+      "ad": "BotePhos",
+      "miktar": 30,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041459215,
+      "ad": "NitroEnt",
+      "miktar": 4,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041552178,
+      "ad": "MelangeSC",
+      "miktar": 5,
+      "ambalaj": "Bidon",
+      "icerik": 5,
+      "icBirim": "L",
+      "kritik": 1
+    },
+    {
+      "id": 1775041746437,
+      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
+      "miktar": 4,
+      "ambalaj": "Bidon",
+      "icerik": 5,
+      "icBirim": "L",
+      "kritik": 2
     }
   ],
-  "log": [],
+  "log": [
+    {
+      "tip": "yeni",
+      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
+      "miktar": 4,
+      "once": 0,
+      "sonra": 4,
+      "birim": "Bidon (5 L)",
+      "not": "",
+      "t": "01.04.2026 14:09"
+    },
+    {
+      "tip": "yeni",
+      "ad": "MelangeSC",
+      "miktar": 5,
+      "once": 0,
+      "sonra": 5,
+      "birim": "Bidon (5 L)",
+      "not": "",
+      "t": "01.04.2026 14:05"
+    },
+    {
+      "tip": "yeni",
+      "ad": "NitroEnt",
+      "miktar": 4,
+      "once": 0,
+      "sonra": 4,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:04"
+    },
+    {
+      "tip": "yeni",
+      "ad": "BotePhos",
+      "miktar": 30,
+      "once": 0,
+      "sonra": 30,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:03"
+    },
+    {
+      "tip": "yeni",
+      "ad": "BOTENUP",
+      "miktar": 25,
+      "once": 0,
+      "sonra": 25,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:02"
+    }
+  ],
   "araclar": [],
   "mazotlar": [],
   "kullanim": [],
