@@ -165,14 +165,14 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .sonuc-ilac-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px}
 .sonuc-ilac-toplam{font-size:20px;font-weight:800;color:#4ade80;margin-top:6px}
 
-.vana-sonuc-item{background:#0f172a;border-radius:10px;padding:12px 14px;margin-bottom:6px;border:1px solid #334155}
-.vana-sonuc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.vana-sonuc-baslik{font-size:14px;font-weight:800}
-.vana-sonuc-agac{font-size:12px;color:#64748b}
-.vana-sonuc-ilaclar{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.vana-ilac-mini{background:#1e293b;border-radius:8px;padding:7px 10px}
-.vana-ilac-mini-ad{font-size:10px;color:#64748b;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.vana-ilac-mini-mik{font-size:14px;font-weight:800;color:#e2e8f0}
+.vana-sonuc-item{background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:6px;border:1px solid #334155}
+.vana-sonuc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;flex-wrap:wrap;gap:2px}
+.vana-sonuc-baslik{font-size:13px;font-weight:800}
+.vana-sonuc-agac{font-size:11px;color:#64748b}
+.vana-sonuc-ilaclar{display:flex;flex-direction:column;gap:4px}
+.vana-ilac-mini{background:#1e293b;border-radius:8px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.vana-ilac-mini-ad{font-size:11px;color:#94a3b8;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vana-ilac-mini-mik{font-size:14px;font-weight:800;color:#e2e8f0;flex-shrink:0}
 
 /* ── LOG ── */
 .lrow{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid #0f172a;align-items:flex-start}
@@ -288,9 +288,131 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .pwa-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;color:#94a3b8;line-height:1.6}
 .pwa-step-no{width:22px;height:22px;border-radius:50%;background:#2563eb;color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 
+
+/* ── MAZOT/YAKIT MODÜLÜ ── */
+.arac-page-tabs{display:flex;gap:4px;background:#0f172a;border-radius:12px;padding:4px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.arac-page-tabs::-webkit-scrollbar{display:none}
+.apt{padding:9px 14px;background:transparent;border:none;color:#64748b;font-size:12px;font-weight:700;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.apt.active{background:#1e293b;color:#e2e8f0}
+.apt-page{display:none}
+.apt-page.active{display:block}
+
+.mz-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.mz-kpi{background:#1e293b;border-radius:12px;padding:14px;border:1px solid #334155;text-align:center}
+.mz-kpi .mk-val{font-size:22px;font-weight:800;line-height:1}
+.mz-kpi .mk-lbl{font-size:10px;color:#64748b;margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.mz-alert{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:12px;display:none}
+.mz-alert.show{display:block}
+.mz-alert.danger{background:#450a0a;border:1px solid #ef4444;color:#f87171}
+.mz-alert.warn{background:#431407;border:1px solid #f59e0b;color:#fbbf24}
+.mz-alert.ok{background:#052e16;border:1px solid #22c55e;color:#4ade80}
+
+.yakit-kayit{background:#0f172a;border-radius:10px;padding:12px 14px;margin-bottom:7px;border:1px solid #334155}
+.yk-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.yk-plaka{font-size:13px;font-weight:800;color:#e2e8f0}
+.yk-litre{font-size:16px;font-weight:800;color:#f59e0b}
+.yk-det{font-size:12px;color:#64748b;line-height:1.5}
+.yk-del{background:transparent;border:none;color:#475569;cursor:pointer;font-size:14px;padding:3px 6px;border-radius:6px;transition:color .2s}
+.yk-del:active{color:#ef4444}
+
+.bakim-kart{background:#0f172a;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #334155}
+.bk-plaka{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.bk-satir{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid #1e293b;font-size:12px}
+.bk-satir:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.bk-lbl{color:#64748b}
+.bk-status{font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+.bk-ok{background:#052e16;color:#22c55e;border:1px solid #16a34a}
+.bk-warn{background:#431407;color:#f59e0b;border:1px solid #92400e}
+.bk-danger{background:#450a0a;color:#f87171;border:1px solid #991b1b}
+.bk-info{background:#0c1f3f;color:#93c5fd;border:1px solid #2563eb}
+.bk-gray{background:#1e293b;color:#64748b;border:1px solid #334155}
+
+.dash-arac-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0f172a;border-radius:10px;margin-bottom:6px;border:1px solid #334155}
+.dai-plaka{font-size:13px;font-weight:700}
+.dai-litre{font-size:14px;font-weight:800;color:#f59e0b}
+
+
+/* ════════════ AKILLI UYARI SİSTEMİ ════════════ */
+.notif-btn{position:relative;background:transparent;border:none;cursor:pointer;padding:6px;border-radius:10px;transition:background .2s;flex-shrink:0}
+.notif-btn:active{background:#1e293b}
+.notif-ico{font-size:22px;line-height:1;display:block}
+.notif-badge{position:absolute;top:0;right:0;min-width:18px;height:18px;background:#ef4444;color:white;font-size:10px;font-weight:800;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid #0f172a;display:none}
+.notif-badge.show{display:flex}
+.notif-badge.pulse{animation:nbpulse 1.5s infinite}
+@keyframes nbpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
+
+/* Bildirim Paneli */
+.notif-panel{position:fixed;top:0;left:0;right:0;bottom:0;z-index:8000;display:none;flex-direction:column}
+.notif-panel.open{display:flex}
+.notif-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
+.notif-sheet{position:absolute;top:0;left:0;right:0;background:#1e293b;border-bottom:1px solid #334155;border-radius:0 0 20px 20px;max-height:85vh;display:flex;flex-direction:column;animation:slideDown .25s ease;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.notif-header{padding:16px 18px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155;flex-shrink:0}
+.notif-header-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.notif-header-sub{font-size:11px;color:#64748b;margin-top:1px}
+.notif-kapat{background:transparent;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.notif-list{overflow-y:auto;padding:12px;flex:1;-webkit-overflow-scrolling:touch}
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:opacity .2s;border:1px solid transparent}
+.notif-item:active{opacity:.7}
+.notif-item.acil{background:#1c0505;border-color:#991b1b}
+.notif-item.uyari{background:#1c1007;border-color:#92400e}
+.notif-item.bilgi{background:#0c1f3f;border-color:#1e3a5f}
+.notif-item.ok{background:#052e16;border-color:#14532d}
+.notif-item-ico{font-size:22px;flex-shrink:0;margin-top:1px;width:32px;text-align:center}
+.notif-item-body{flex:1;min-width:0}
+.notif-item-baslik{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.notif-item.acil .notif-item-baslik{color:#f87171}
+.notif-item.uyari .notif-item-baslik{color:#fbbf24}
+.notif-item.bilgi .notif-item-baslik{color:#93c5fd}
+.notif-item.ok .notif-item-baslik{color:#4ade80}
+.notif-item-det{font-size:11px;color:#64748b;line-height:1.4}
+.notif-item-zaman{font-size:10px;color:#475569;margin-top:3px}
+.notif-item-ok-chip{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;flex-shrink:0}
+.notif-item.acil .notif-item-ok-chip{background:#450a0a}
+.notif-item.uyari .notif-item-ok-chip{background:#451a03}
+.notif-item.bilgi .notif-item-ok-chip{background:#0c1f3f}
+.notif-bos{text-align:center;padding:32px 16px;color:#64748b;font-size:14px}
+.notif-grup-baslik{font-size:10px;font-weight:800;color:#475569;letter-spacing:.7px;text-transform:uppercase;padding:8px 4px 4px;margin-top:4px}
+.notif-footer{padding:12px;border-top:1px solid #334155;flex-shrink:0}
+.notif-tumu-temizle{width:100%;padding:10px;background:transparent;border:1px solid #334155;border-radius:10px;color:#64748b;font-size:13px;font-weight:700;cursor:pointer}
+
+
+/* ── GITHUB SYNC ── */
+.gh-durum-bar{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;background:#0f172a;border:1px solid #334155;margin-top:12px}
+.gh-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;transition:background .3s}
+.gh-dot.ok{background:#22c55e}
+.gh-dot.err{background:#ef4444}
+.gh-dot.ing{background:#f59e0b;animation:pulse 1s infinite}
+.gh-dot.off{background:#475569}
+.gh-lbl{font-size:12px;color:#64748b;flex:1}
+.gh-zaman{font-size:10px;color:#334155;flex-shrink:0}
+.gh-adim{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #1e293b;font-size:13px;color:#94a3b8;line-height:1.6}
+.gh-adim:last-child{border:none}
+.gh-adim-no{width:22px;height:22px;border-radius:50%;background:#1e3a5f;color:#93c5fd;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.gh-adim code{background:#0f172a;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:12px;font-family:monospace}
+
 </style>
 </head>
 <body>
+
+
+<!-- ════ BİLDİRİM PANELİ ════ -->
+<div class="notif-panel" id="notif-panel">
+  <div class="notif-backdrop" onclick="notifPanelKapat()"></div>
+  <div class="notif-sheet">
+    <div class="notif-header">
+      <div>
+        <div class="notif-header-title">🔔 Bildirimler <span id="notif-sayi-chip" style="font-size:12px;font-weight:700;background:#ef4444;color:white;padding:2px 8px;border-radius:20px;display:none"></span></div>
+        <div class="notif-header-sub" id="notif-header-sub">Tüm sistemleri kontrol ediliyor...</div>
+      </div>
+      <button class="notif-kapat" onclick="notifPanelKapat()">✕</button>
+    </div>
+    <div class="notif-list" id="notif-list"></div>
+    <div class="notif-footer">
+      <button class="notif-tumu-temizle" onclick="notifHepsiniOku()">✓ Tümünü Okundu İşaretle</button>
+    </div>
+  </div>
+</div>
 
 <div class="login-overlay" id="login-overlay">
   <div class="login-logo">
@@ -380,7 +502,12 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div class="hsu">Stok · Reçete · Vana · Araç Takip</div>
     </div>
   </div>
-  <div class="hbadges" id="hbadges"><div class="user-badge" onclick="sayfaGit('ayar')" id="user-badge-wrap" style="display:none"><span id="ub-adi" style="font-size:12px;font-weight:700;color:#e2e8f0"></span></div>
+  <div class="hbadges" id="hbadges">
+    <button class="notif-btn" onclick="notifPanelAc()" id="notif-btn" title="Bildirimler">
+      <span class="notif-ico">🔔</span>
+      <span class="notif-badge" id="notif-badge"></span>
+    </button>
+    <div class="user-badge" onclick="sayfaGit('ayar')" id="user-badge-wrap" style="display:none"><span id="ub-adi" style="font-size:12px;font-weight:700;color:#e2e8f0"></span></div>
     <span class="badge bgy" id="stok-badge">— ürün</span>
   </div>
 </div>
@@ -580,46 +707,97 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div id="yedek-durum" style="margin-top:10px;font-size:13px;display:none"></div>
     </div>
 
-    <!-- BÖLÜM 2: BULUT SYNC -->
-    <div class="card">
-      <div class="ctit">☁️ Bulut Senkronizasyonu</div>
+    <!-- BÖLÜM 2: GITHUB SYNC -->
+    <div class="card" style="border-color:#1e3a5f">
+      <div class="ctit" style="color:#93c5fd">🐙 GitHub Sync & Hosting</div>
       <p style="font-size:13px;color:#64748b;line-height:1.7;margin-bottom:14px">
-        <strong style="color:#e2e8f0">JSONBin.io</strong> ile telefon ↔ bilgisayar arası otomatik sync. Ücretsiz, kayıt gerektirir.
+        Veriler otomatik olarak <strong style="color:#e2e8f0">GitHub'a</strong> kaydedilir. Uygulama <strong style="color:#e2e8f0">GitHub Pages</strong> üzerinde çalışır — her cihazdan erişilir.
       </p>
 
-      <div style="background:#0f172a;border-radius:10px;padding:13px;margin-bottom:14px;border:1px solid #334155;font-size:12px;color:#94a3b8;line-height:1.8">
-        <strong style="color:#e2e8f0">Kurulum (2 dakika):</strong><br>
-        1. <strong style="color:#3b82f6">jsonbin.io</strong> → Sign Up FREE<br>
-        2. API Keys → CREATE ACCESS KEY<br>
-        3. Anahtarı aşağıya yapıştır → <strong>☁ Kaydet</strong><br>
-        4. Her cihazda aynı API Key + Bin ID ile senkronize olur
+      <!-- Durum göstergesi -->
+      <div class="gh-durum-bar" id="gh-durum-bar">
+        <span class="gh-dot off" id="gh-dot"></span>
+        <span class="gh-lbl" id="gh-lbl">GitHub bağlantısı yapılandırılmadı</span>
+        <span class="gh-zaman" id="gh-zaman"></span>
       </div>
 
-      <div class="field">
-        <label>API Anahtarı (X-Master-Key)</label>
-        <div style="display:flex;gap:8px">
-          <input id="jb-key" class="inp" type="password" placeholder="$2a$10$..." style="flex:1" oninput="localStorage.setItem('jb_key',this.value)">
-          <button onclick="togglePw('jb-key')" style="background:#334155;border:none;color:#94a3b8;padding:0 14px;border-radius:10px;font-size:16px;cursor:pointer;flex-shrink:0">👁</button>
+      <!-- Kurulum adımları -->
+      <div style="background:#0a0f1a;border-radius:10px;padding:14px;margin:14px 0;border:1px solid #1e293b">
+        <div style="font-size:11px;font-weight:800;color:#3b82f6;letter-spacing:.6px;text-transform:uppercase;margin-bottom:12px">📋 Kurulum Rehberi (5 dakika)</div>
+
+        <div class="gh-adim">
+          <div class="gh-adim-no">1</div>
+          <div><strong style="color:#e2e8f0">GitHub'da repo oluştur</strong><br>
+          github.com → New repository → İsim: <code>tarim-sistemi</code> → <strong>Public</strong> → Create</div>
+        </div>
+
+        <div class="gh-adim">
+          <div class="gh-adim-no">2</div>
+          <div><strong style="color:#e2e8f0">HTML dosyasını yükle</strong><br>
+          Repo sayfasında <code>Add file → Upload files</code> → <code>tarim_sistemi.html</code> dosyasını sürükle → Commit</div>
+        </div>
+
+        <div class="gh-adim">
+          <div class="gh-adim-no">3</div>
+          <div><strong style="color:#e2e8f0">GitHub Pages aktifleştir</strong><br>
+          Repo → Settings → Pages → Branch: <code>main</code> → Save<br>
+          <span style="color:#4ade80">Adres: https://KULLANICI.github.io/tarim-sistemi</span></div>
+        </div>
+
+        <div class="gh-adim">
+          <div class="gh-adim-no">4</div>
+          <div><strong style="color:#e2e8f0">Personal Access Token al</strong><br>
+          github.com → Profil → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>
+          Seç: <code>repo</code> (tüm repo izinleri) → Generate → Kopyala</div>
+        </div>
+
+        <div class="gh-adim">
+          <div class="gh-adim-no">5</div>
+          <div><strong style="color:#e2e8f0">Aşağıya bilgileri gir → Bağlan</strong></div>
         </div>
       </div>
+
+      <!-- Bağlantı bilgileri -->
       <div class="field">
-        <label>Bin ID <span style="color:#475569;font-weight:400;text-transform:none;font-size:10px">(ilk kayıtta otomatik oluşur)</span></label>
-        <input id="jb-bin" class="inp" placeholder="Otomatik oluşacak..." oninput="localStorage.setItem('jb_bin',this.value)">
+        <label>GitHub Kullanıcı Adı</label>
+        <input id="gh-user" class="inp" placeholder="kullanici_adi" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Repository Adı</label>
+        <input id="gh-repo" class="inp" placeholder="tarim-sistemi" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>Personal Access Token</label>
+        <div style="display:flex;gap:8px">
+          <input id="gh-token" class="inp" type="password" placeholder="ghp_xxxxxxxxxxxx" style="flex:1" autocomplete="off">
+          <button onclick="togglePw('gh-token')" style="background:#334155;border:none;color:#94a3b8;padding:0 14px;border-radius:10px;font-size:16px;cursor:pointer;flex-shrink:0">👁</button>
+        </div>
+        <div style="font-size:11px;color:#475569;margin-top:4px">⚠ Token cihazda şifreli saklanır, hiçbir yere gönderilmez</div>
+      </div>
+      <div class="field">
+        <label>Veri Dosyası Adı <span style="color:#475569;font-weight:400;font-size:10px">(değiştirmenize gerek yok)</span></label>
+        <input id="gh-file" class="inp" placeholder="tarim_veri.json" value="tarim_veri.json">
       </div>
 
       <div style="display:flex;gap:8px;margin-bottom:10px">
-        <button class="btn btn-green btn-sm" style="flex:1;margin-bottom:0" onclick="bulutKaydet()">☁ Buluta Kaydet</button>
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="bulutYukle()">⬇ Buluttan Yükle</button>
+        <button class="btn btn-blue" style="flex:1" onclick="ghBaglan()">🔗 Bağlan & Test Et</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="ghYukle()">⬇ GitHub'dan Yükle</button>
       </div>
+      <button class="btn btn-green" style="width:100%;margin-bottom:10px" onclick="ghKaydet(true)">☁ Şimdi GitHub'a Kaydet</button>
 
-      <div id="bulut-durum" style="font-size:12px;padding:10px 12px;border-radius:9px;display:none;line-height:1.5"></div>
+      <div id="gh-durum-mesaj" style="font-size:12px;padding:10px 12px;border-radius:9px;display:none;line-height:1.5;margin-top:4px"></div>
 
-      <!-- Sync durumu -->
-      <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
-        <span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:#64748b;flex-shrink:0;display:inline-block"></span>
-        <span id="sync-lbl" style="font-size:12px;color:#64748b">Bulut bağlantısı yapılandırılmadı</span>
+      <div style="background:#0f172a;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:11px;color:#475569;line-height:1.6">
+        🔒 Token yalnızca bu cihazın localStorage'ında saklanır.<br>
+        🔄 Her kayıt işleminde otomatik sync çalışır.<br>
+        📜 GitHub'da her commit geçmişi görülür — eski verilere dönülebilir.
       </div>
     </div>
+
+    <!-- JSONBin (eski, gizli ama kodda kalıyor) -->
+    <div id="bulut-durum" style="display:none"></div>
+    <span id="sync-dot" style="display:none"></span>
+    <span id="sync-lbl" style="display:none"></span>
 
     <!-- BÖLÜM 3: EXCEL -->
     <div class="card">
@@ -677,30 +855,85 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   <button class="bnav-btn" id="bnav-sonuc" onclick="sayfaGit('sonuc')">
     <span class="bico">📊</span><span class="blbl">Sonuç</span>
   </button>
-  <button class="bnav-btn" id="bnav-ayar" onclick="sayfaGit('ayar')">
-    <span class="bico">⚙️</span><span class="blbl">Ayarlar</span>
-  </button>
   <button class="bnav-btn" id="bnav-arac" onclick="sayfaGit('arac')">
     <span class="bico">🚗</span><span class="blbl">Araçlar</span>
+  </button>
+  <button class="bnav-btn" id="bnav-ayar" onclick="sayfaGit('ayar')">
+    <span class="bico">⚙️</span><span class="blbl">Ayarlar</span>
   </button>
 </nav>
 
 <!-- ══ SAYFA: ARAÇLAR ══ -->
 <div class="page" id="pg-arac">
 
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div>
-      <div style="font-size:15px;font-weight:800">🚗 Araç Yönetimi</div>
+      <div style="font-size:15px;font-weight:800">🚗 Araç & Yakıt Sistemi</div>
       <div style="font-size:11px;color:#64748b;margin-top:1px" id="arac-ozet-lbl">Yükleniyor...</div>
     </div>
-    <button onclick="aracFormAc()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:white;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer">＋ Araç Ekle</button>
+    <button onclick="aracFormAc()" id="arac-ekle-btn" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer">＋ Araç</button>
   </div>
 
-  <!-- Uyarı / Hatırlatma Bandı -->
-  <div id="arac-uyarilar" style="margin-bottom:12px"></div>
+  <!-- Alt Sekmeler -->
+  <div class="arac-page-tabs">
+    <button class="apt active" id="apt-araclar" onclick="aptSec('araclar',this)">🚗 Araçlar</button>
+    <button class="apt" id="apt-mazot" onclick="aptSec('mazot',this)">⛽ Mazot Deposu</button>
+    <button class="apt" id="apt-kullanim" onclick="aptSec('kullanim',this)">📋 Yakıt Kullanım</button>
+    <button class="apt" id="apt-bakim" onclick="aptSec('bakim',this)">🔧 Bakım Takip</button>
+    <button class="apt" id="apt-dashboard" onclick="aptSec('dashboard',this)">📊 Özet</button>
+  </div>
 
-  <!-- Araç Listesi -->
-  <div id="arac-liste"></div>
+  <!-- ── ARAÇLAR ── -->
+  <div class="apt-page active" id="apt-page-araclar">
+    <div id="arac-uyarilar" style="margin-bottom:12px"></div>
+    <div id="arac-liste"></div>
+  </div>
+
+  <!-- ── MAZOT DEPOSU ── -->
+  <div class="apt-page" id="apt-page-mazot">
+    <div class="mz-kpi-row" id="mz-kpi-row">
+      <div class="mz-kpi"><div class="mk-val" id="mz-stok" style="color:#f59e0b">0</div><div class="mk-lbl">Mevcut Stok (L)</div></div>
+      <div class="mz-kpi"><div class="mk-val" id="mz-alinan" style="color:#22c55e">0</div><div class="mk-lbl">Toplam Alınan (L)</div></div>
+      <div class="mz-kpi"><div class="mk-val" id="mz-harcama" style="color:#93c5fd">0 ₺</div><div class="mk-lbl">Toplam Harcama</div></div>
+    </div>
+    <div class="mz-alert" id="mz-alert"></div>
+    <button onclick="mazotFormAc()" style="width:100%;padding:12px;background:#452a03;border:1.5px dashed #f59e0b;color:#f59e0b;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px">⛽ Mazot Alım Kaydı Ekle</button>
+    <div id="mazot-liste"><div class="empty">Mazot alım kaydı yok</div></div>
+  </div>
+
+  <!-- ── YAKIT KULLANIM ── -->
+  <div class="apt-page" id="apt-page-kullanim">
+    <div style="background:#0f172a;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:13px;display:flex;justify-content:space-between">
+      <span style="color:#64748b">Mevcut Depo Stoku:</span>
+      <strong id="kul-stok-goster" style="color:#f59e0b">0 L</strong>
+    </div>
+    <button onclick="kullanımFormAc()" style="width:100%;padding:12px;background:#1c0909;border:1.5px dashed #ef4444;color:#f87171;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px">📋 Yakıt Kullanım Kaydı Ekle</button>
+    <div id="kullanim-liste"><div class="empty">Yakıt kullanım kaydı yok</div></div>
+  </div>
+
+  <!-- ── BAKIM TAKİP ── -->
+  <div class="apt-page" id="apt-page-bakim">
+    <div style="background:#0c1f3f;border:1px solid #1e3a5f;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:#93c5fd;line-height:1.7">
+      🚜 <strong>Traktörler:</strong> Yağ değişimi her <strong>250 saat</strong>, periyodik bakım her <strong>500 saat</strong>.<br>
+      🚗 <strong>Diğer araçlar:</strong> Tarih bazlı takip.
+    </div>
+    <button onclick="bakimFormAcYeni()" style="width:100%;padding:12px;background:#2d1b69;border:1.5px dashed #7c3aed;color:#c4b5fd;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px">🔧 Bakım Kaydı Ekle / Güncelle</button>
+    <div id="yakit-bakim-liste"><div class="empty">Bakım kaydı yok</div></div>
+  </div>
+
+  <!-- ── DASHBOARD ── -->
+  <div class="apt-page" id="apt-page-dashboard">
+    <div class="mz-kpi-row" style="grid-template-columns:1fr 1fr">
+      <div class="mz-kpi"><div class="mk-val" id="ds-stok" style="color:#f59e0b">0</div><div class="mk-lbl">Depo Stoku (L)</div></div>
+      <div class="mz-kpi"><div class="mk-val" id="ds-arac" style="color:#3b82f6">0</div><div class="mk-lbl">Aktif Araç</div></div>
+    </div>
+    <div class="ctit" style="margin-bottom:10px">Araç Bazında Tüketim</div>
+    <div id="ds-tuketim-liste"></div>
+    <div class="ctit" style="margin-top:14px;margin-bottom:10px">Son Yakıt Kullanımları</div>
+    <div id="ds-son-kullanim"></div>
+    <div class="ctit" style="margin-top:14px;margin-bottom:10px">Bakım Uyarıları</div>
+    <div id="ds-bakim-uyari"></div>
+  </div>
 
 </div>
 
@@ -811,6 +1044,106 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   </div>
 </div>
 
+
+<!-- ══ MAZOT ALIM FORMU ══ -->
+<div class="form-overlay" id="mazot-form-overlay">
+  <div class="form-sheet" style="max-height:90vh">
+    <div class="form-sheet-baslik">
+      <span>⛽ Mazot Alım Kaydı</span>
+      <button class="form-sheet-kapat" onclick="formKapat('mazot-form-overlay')">✕</button>
+    </div>
+    <div class="field"><label>Tarih</label><input id="mz-tarih" class="inp" type="date"></div>
+    <div class="g2">
+      <div class="field"><label>Bidon Sayısı</label><input id="mz-bidon" class="inp" type="number" min="1" placeholder="10" oninput="mzHesapla()" inputmode="numeric"></div>
+      <div class="field"><label>Bidon Hacmi (L)</label><input id="mz-hacim" class="inp" type="number" min="1" placeholder="200" oninput="mzHesapla()" inputmode="decimal"></div>
+    </div>
+    <div class="field"><label>Toplam Litre</label>
+      <input id="mz-toplam" class="inp" readonly style="background:#052e16;color:#f59e0b;font-weight:800;font-size:16px" placeholder="Otomatik hesaplanır">
+    </div>
+    <div class="g2">
+      <div class="field"><label>Birim Fiyat (₺/L)</label><input id="mz-fiyat" class="inp" type="number" step="0.01" placeholder="45.50" oninput="mzHesapla()" inputmode="decimal"></div>
+      <div class="field"><label>Toplam Tutar (₺)</label><input id="mz-tutar" class="inp" readonly style="background:#0c1f3f;color:#93c5fd;font-weight:700" placeholder="Otomatik"></div>
+    </div>
+    <div class="field"><label>Tedarikçi</label><input id="mz-tedarik" class="inp" placeholder="Petrol İstasyonu..."></div>
+    <div class="field"><label>Fatura / Not</label><input id="mz-not" class="inp" placeholder="Fatura no, notlar..."></div>
+    <button class="btn btn-green" onclick="mazotKaydet()">✓ Mazot Kaydını Kaydet</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="formKapat('mazot-form-overlay')">İptal</button>
+  </div>
+</div>
+
+<!-- ══ YAKIT KULLANIM FORMU ══ -->
+<div class="form-overlay" id="kullanim-form-overlay">
+  <div class="form-sheet" style="max-height:90vh">
+    <div class="form-sheet-baslik">
+      <span>📋 Yakıt Kullanım Kaydı</span>
+      <button class="form-sheet-kapat" onclick="formKapat('kullanim-form-overlay')">✕</button>
+    </div>
+    <div style="background:#452a03;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px">
+      Depo Stoku: <strong id="kul-form-stok" style="color:#f59e0b">0 L</strong>
+    </div>
+    <div class="field"><label>Tarih</label><input id="kul-tarih" class="inp" type="date"></div>
+    <div class="field"><label>Araç Plaka *</label>
+      <select id="kul-plaka" class="sel" onchange="kulPlakaSecildi()">
+        <option value="">— Araç seçin —</option>
+      </select>
+    </div>
+    <div class="field"><label>Sürücü</label><input id="kul-surucu" class="inp" placeholder="Ad Soyad"></div>
+    <div class="g2">
+      <div class="field"><label>Verilen Litre *</label><input id="kul-litre" class="inp" type="number" step="0.1" min="0.1" placeholder="80" inputmode="decimal"></div>
+      <div class="field"><label id="kul-saat-lbl">Traktör Saati</label><input id="kul-saat" class="inp" type="number" placeholder="1450" inputmode="numeric"></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Başlangıç KM</label><input id="kul-km1" class="inp" type="number" placeholder="12500" inputmode="numeric"></div>
+      <div class="field"><label>Bitiş KM</label><input id="kul-km2" class="inp" type="number" placeholder="12680" inputmode="numeric"></div>
+    </div>
+    <div class="field"><label>Açıklama / İş</label><input id="kul-aciklama" class="inp" placeholder="Tarla sürme, mal taşıma..."></div>
+    <button class="btn btn-green" onclick="kullanımKaydet()">✓ Kullanım Kaydını Kaydet</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="formKapat('kullanim-form-overlay')">İptal</button>
+  </div>
+</div>
+
+<!-- ══ BAKIM FORMU YENİ ══ -->
+<div class="form-overlay" id="yakit-bakim-form-overlay">
+  <div class="form-sheet" style="max-height:92vh">
+    <div class="form-sheet-baslik">
+      <span>🔧 Bakım Kaydı — <span id="ybf-plaka-adi"></span></span>
+      <button class="form-sheet-kapat" onclick="formKapat('yakit-bakim-form-overlay')">✕</button>
+    </div>
+    <div class="field"><label>Araç Plaka *</label>
+      <select id="ybf-plaka" class="sel" onchange="ybfPlakaSecildi()">
+        <option value="">— Araç seçin —</option>
+      </select>
+    </div>
+    <div class="field" id="ybf-saat-alan" style="display:none">
+      <label>Mevcut Saat Sayacı (Traktör)</label>
+      <input id="ybf-saat" class="inp" type="number" placeholder="Güncel saat" inputmode="numeric">
+    </div>
+    <div style="font-size:10px;font-weight:800;color:#f59e0b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;margin-top:4px">🛢 YAĞ DEĞİŞİMİ</div>
+    <div class="g2">
+      <div class="field"><label>Son Yağ (Saat veya Tarih)</label><input id="ybf-yag-son" class="inp" placeholder="ör: 1250 veya 2025-03-01"></div>
+      <div class="field"><label>Sonraki Yağ</label><input id="ybf-yag-sonraki" class="inp" placeholder="ör: 1500 veya 2025-09-01"></div>
+    </div>
+    <div style="font-size:10px;font-weight:800;color:#3b82f6;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;margin-top:4px">🔩 PERİYODİK BAKIM</div>
+    <div class="g2">
+      <div class="field"><label>Son Bakım</label><input id="ybf-bakim-son" class="inp" placeholder="Saat veya Tarih"></div>
+      <div class="field"><label>Sonraki Bakım</label><input id="ybf-bakim-sonraki" class="inp" placeholder="Saat veya Tarih"></div>
+    </div>
+    <div style="font-size:10px;font-weight:800;color:#22c55e;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px;margin-top:4px">🔍 MUAYENE & DİĞER</div>
+    <div class="g2">
+      <div class="field"><label>Son Muayene</label><input id="ybf-muy-son" class="inp" type="date"></div>
+      <div class="field"><label>Sonraki Muayene</label><input id="ybf-muy-sonraki" class="inp" type="date"></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Akü Değişim</label><input id="ybf-aku" class="inp" type="date"></div>
+      <div class="field"><label>Lastik Değişim</label><input id="ybf-lastik" class="inp" type="date"></div>
+    </div>
+    <div class="field"><label>Servis Notları</label><input id="ybf-not" class="inp" placeholder="Yapılan işlemler, yağ markası..."></div>
+    <input type="hidden" id="ybf-edit-id">
+    <button class="btn btn-purple" onclick="ybfKaydet()">✓ Bakım Kaydını Kaydet</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="formKapat('yakit-bakim-form-overlay')">İptal</button>
+  </div>
+</div>
+
 <!-- ══ YAZDIR ══ -->
 <div id="yazdir-alani">
   <div class="p-baslik"><h1 id="p-baslik-h1">REÇETE</h1><div class="p-alt" id="p-alt"></div></div>
@@ -836,7 +1169,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 /* ═══ VERİ ═══ */
-const SK='tarim_stok_v3',LK='tarim_log_v3';
+const SK='tarim_stok_v4',LK='tarim_log_v4';
 const BAZ=[
   {id:1,ad:'Zodiac',miktar:17,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
   {id:2,ad:'Quadris',miktar:7,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
@@ -854,14 +1187,14 @@ const BAZ=[
   {id:15,ad:'Clear Out 48 SL',miktar:1,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:5},
   {id:1774711345264,ad:'Can % 26 Gübre',miktar:17,ambalaj:'Çuval',icerik:50,icBirim:'kg',kritik:2},
   {id:1774711786242,ad:'Fulvera hümik asit',miktar:60,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:2},
-  {id:1774712152245,ad:'CNPalmira Kalsiyum Nitrat',miktar:22,ambalaj:'Torba',icerik:25,icBirim:'L',kritik:2},
-  {id:1774712243996,ad:'DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi',miktar:17,ambalaj:'Torba',icerik:25,icBirim:'L',kritik:2},
   {id:1774713074890,ad:'Greenleaf 20.20.20',miktar:20,ambalaj:'Paket',icerik:2.5,icBirim:'kg',kritik:2},
   {id:1774714874393,ad:'CANION PLUS',miktar:2,ambalaj:'Şişe',icerik:2,icBirim:'L',kritik:5},
-  {id:1774717289773,ad:'MICROLEX',miktar:13,ambalaj:'Paket',icerik:2.5,icBirim:'L',kritik:2}
+  {id:1774717289773,ad:'MICROLEX',miktar:13,ambalaj:'Paket',icerik:2.5,icBirim:'L',kritik:2},
+  {id:1774798729763,ad:'DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi',miktar:17,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2},
+  {id:1774798780355,ad:'CNPalmira Kalsiyum Nitrat',miktar:22,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2}
 ];
 let stok=[],slog=[],sMod='ekle';
-function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));}
+function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));ghOtomatikSync();}
 function yukle(){
   try{stok=JSON.parse(localStorage.getItem(SK))||JSON.parse(JSON.stringify(BAZ));}catch{stok=JSON.parse(JSON.stringify(BAZ));}
   try{slog=JSON.parse(localStorage.getItem(LK))||[];}catch{slog=[];}
@@ -900,7 +1233,7 @@ function sayfaGit(id){
   if(id==='liste')stokListeGun();
   if(id==='sonuc'&&sonHesap)sonucGoster();
   if(id==='ayar')ayarSayfasiGun();
-  if(id==='arac')aracListeGun();
+  if(id==='arac'){aracListeGun();mzSayfaGecisGun();}
 }
 
 /* ═══ YEDEKLEME ═══ */
@@ -1031,6 +1364,7 @@ function togglePw(id){
 }
 
 function ayarSayfasiGun(){
+  ghAyarSayfasiGun();
   const el=document.getElementById('aktif-ku-adi');
   if(el&&aktifKullanici)el.textContent=ROL_ICO[aktifKullanici.rol]+' '+aktifKullanici.adi+' ('+ROL_ETIKET[aktifKullanici.rol]+')';
   const kuCard=document.getElementById('ku-yonetim-card');
@@ -1176,10 +1510,15 @@ function stokStatsGun(){
   document.getElementById('stoplam').textContent=stok.length;
   document.getElementById('skritik').textContent=kS;
   document.getElementById('stukendi').textContent=tS;
-  let badges=`<span class="badge bgy" id="stok-badge">${stok.length} ürün</span>`;
-  if(kS)badges+=`<span class="badge bwarn">⚠${kS}</span>`;
-  if(tS)badges+=`<span class="badge bdanger">✕${tS}</span>`;
-  document.getElementById('hbadges').innerHTML=badges;
+  // Bildirim badge'i yönetir hbadges'i — sadece aktifKullanici yoksa basit göster
+  if(!aktifKullanici){
+    let badges=`<span class="badge bgy">${stok.length} ürün</span>`;
+    if(kS)badges+=`<span class="badge bwarn">⚠${kS}</span>`;
+    if(tS)badges+=`<span class="badge bdanger">✕${tS}</span>`;
+    document.getElementById('hbadges').innerHTML=badges;
+  }else{
+    notifBadgeGun();
+  }
 }
 
 function stokDlGun(){
@@ -1286,11 +1625,8 @@ function ilacDozGun(id){
   const top=toplamIcerik(s); // {miktar: icerik, birim: icBirim} per ambalaj
   if(!top)return;
   // Birim dönüşümü (basit)
-  let icerikMiktarDozBiriminde=s.icerik;
-  if(dozBirim==='mL'&&s.icBirim==='L')icerikMiktarDozBiriminde=s.icerik*1000;
-  else if(dozBirim==='L'&&s.icBirim==='mL')icerikMiktarDozBiriminde=s.icerik/1000;
-  else if(dozBirim==='gr'&&s.icBirim==='kg')icerikMiktarDozBiriminde=s.icerik*1000;
-  else if(dozBirim==='kg'&&s.icBirim==='gr')icerikMiktarDozBiriminde=s.icerik/1000;
+  // icerik'i dozBirim cinsine çevir (cc=mL dahil)
+  const icerikMiktarDozBiriminde=icerikDozBiriminde(s,dozBirim);
   const ambalajSayisi=icerikMiktarDozBiriminde>0?Math.ceil(toplamMiktar/icerikMiktarDozBiriminde):'-';
   const info=document.getElementById(id+'-sinfo');
   if(info&&info.classList.contains('show')){
@@ -1452,16 +1788,39 @@ function hesapla(){
   const topSira=list.reduce((a,v)=>a+v.sira,0);
 
   // Birim dönüşüm yardımcısı: dozBirim cinsinden icerik miktarını döndür
+  // Birim dönüşüm — cc=mL eşdeğer, tüm kombinasyonlar
+  function toBirimML(val,birim){
+    // Her birimi mL/cc cinsine çevirir
+    const b=(birim||'').toLowerCase().trim();
+    if(b==='l')return val*1000;
+    if(b==='ml'||b==='cc')return val;
+    if(b==='kg')return val*1000; // 1kg=1000gr referans
+    if(b==='gr'||b==='g')return val;
+    return val; // bilinmeyen birim: aynen döndür
+  }
   function icerikDozBiriminde(s,dozBirim){
     if(!s.icerik||s.icerik<=0)return 0;
-    let ic=s.icerik;
-    const ib=(s.icBirim||'').toLowerCase();
-    const db=(dozBirim||'').toLowerCase();
-    if(db==='ml'&&ib==='l')ic=s.icerik*1000;
-    else if(db==='l'&&ib==='ml')ic=s.icerik/1000;
-    else if(db==='gr'&&ib==='kg')ic=s.icerik*1000;
-    else if(db==='kg'&&ib==='gr')ic=s.icerik/1000;
-    return ic;
+    // Her ikisini de ortak birime çevir (mL veya gr bazlı)
+    const ib=(s.icBirim||'').toLowerCase().trim();
+    const db=(dozBirim||'').toLowerCase().trim();
+    // Hacim grubu: L, mL, cc
+    const hacimGrup=['l','ml','cc'];
+    // Kütle grubu: kg, gr, g
+    const kütleGrup=['kg','gr','g'];
+    const ibHacim=hacimGrup.includes(ib);
+    const ibKütle=kütleGrup.includes(ib);
+    const dbHacim=hacimGrup.includes(db);
+    const dbKütle=kütleGrup.includes(db);
+    // Aynı grupta → mL veya gr cinsine normalize edip oranla
+    if((ibHacim&&dbHacim)||(ibKütle&&dbKütle)){
+      const icNorm=toBirimML(s.icerik,ib);
+      const dozNorm=1; // dozBirim cinsinden 1 birim
+      const dozNormBase=toBirimML(1,db);
+      // icerik içindeki dozBirim cinsinden kaç birim var
+      return icNorm/dozNormBase;
+    }
+    // Farklı grup → dönüşüm yapılamaz, 0 döndür
+    return 0;
   }
 
   const ilacSonuc=ilaclar.map(il=>{
@@ -1544,7 +1903,7 @@ function sonucGoster(){
       <div class="vana-sonuc-ilaclar">
         ${v.ilacMiktarlar.map((m,i)=>`<div class="vana-ilac-mini">
           <div class="vana-ilac-mini-ad">${h.ilaclar[i].ad}</div>
-          <div class="vana-ilac-mini-mik">${fmt(m)} <span style="font-size:11px;color:#64748b;font-weight:400">${h.ilaclar[i].birim}</span></div>
+          <div class="vana-ilac-mini-mik">${fmt(m)} <span style="font-size:10px;color:#64748b;font-weight:400">${h.ilaclar[i].birim}</span></div>
         </div>`).join('')}
       </div>
     </div>`).join('');
@@ -1645,7 +2004,7 @@ let araclar=[];
 function aracYukle(){
   try{araclar=JSON.parse(localStorage.getItem(AK))||[];}catch{araclar=[];}
 }
-function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));}
+function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));ghOtomatikSync();}
 
 function gunFarki(ts){
   if(!ts)return null;
@@ -1897,13 +2256,13 @@ function aracListeGun(){
 
 /* ── YEDEK (araçlar dahil) ── */
 function yedekAl(){
-  const veri={versiyon:3,tarih:new Date().toISOString(),stok,log:slog,araclar};
+  const veri={versiyon:3,tarih:new Date().toISOString(),stok,log:slog,araclar,mazotlar,kullanımlar,yakitBakimlar};
   const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download=`tarim_yedek_${new Date().toLocaleDateString('tr-TR').replace(/\./g,'-')}.json`;
   a.click();URL.revokeObjectURL(a.href);
-  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün, ${araclar.length} araç`,true);
+  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün, ${araclar.length} araç`,true);ghKaydet(false);
   toast('⬇ Yedek indirildi!');
 }
 function yedekYukle(e){
@@ -1915,7 +2274,7 @@ function yedekYukle(e){
       if(!d.stok||!Array.isArray(d.stok))throw new Error('Geçersiz yedek dosyası');
       const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
       if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
-      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];
+      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];
       localStorage.setItem(SK,JSON.stringify(stok));
       localStorage.setItem(LK,JSON.stringify(slog));
       aracKaydetLS();
@@ -2046,7 +2405,11 @@ function uygulamaBaslat(){
   }
   stokStatsGun();stokDlGun();
   document.getElementById('r-tarih').value=new Date().toISOString().split('T')[0];
-  ilacEkle();gridCiz();aracSelectGun();
+  ilacEkle();gridCiz();aracSelectGun();kulSelectGun();
+  mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
 }
 
 function yetkiVar(gereken){
@@ -2182,9 +2545,902 @@ function stokDuzenleKaydet(){
   toast('✓ '+stok[idx].ad+': '+eski+' → '+yeniMiktar+' '+(stok[idx].ambalaj||'adet'));
 }
 
+
+/* ════════════════════════════════════════════
+   MAZOT / YAKIT / BAKIM SİSTEMİ
+════════════════════════════════════════════ */
+const MZK='erturan_mazot_v1', KULK='erturan_kullanim_v1', BAKK='erturan_yakit_bakim_v1';
+let mazotlar=[], kullanımlar=[], yakitBakimlar=[];
+
+function mzYukle(){
+  try{mazotlar=JSON.parse(localStorage.getItem(MZK))||[];}catch{mazotlar=[];}
+  try{kullanımlar=JSON.parse(localStorage.getItem(KULK))||[];}catch{kullanımlar=[];}
+  try{yakitBakimlar=JSON.parse(localStorage.getItem(BAKK))||[];}catch{yakitBakimlar=[];}
+}
+function mzKaydetLS(){
+  localStorage.setItem(MZK,JSON.stringify(mazotlar));
+  localStorage.setItem(KULK,JSON.stringify(kullanımlar));
+  localStorage.setItem(BAKK,JSON.stringify(yakitBakimlar));
+  ghOtomatikSync();
+}
+
+function getMzStok(){
+  const alin=mazotlar.reduce((a,m)=>a+(m.toplam||0),0);
+  const kul=kullanımlar.reduce((a,k)=>a+(k.litre||0),0);
+  return Math.max(0,alin-kul);
+}
+
+/* ── ALT SEKME ── */
+function aptSec(id,btn){
+  document.querySelectorAll('.apt').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.apt-page').forEach(p=>p.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const p=document.getElementById('apt-page-'+id);
+  if(p)p.classList.add('active');
+  if(id==='mazot')mzRenderMazot();
+  else if(id==='kullanim')mzRenderKullanim();
+  else if(id==='bakim')mzRenderBakim();
+  else if(id==='dashboard')mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
+}
+
+/* ── MAZOT FORM ── */
+function mazotFormAc(){
+  document.getElementById('mz-tarih').value=new Date().toISOString().split('T')[0];
+  ['mz-bidon','mz-hacim','mz-fiyat','mz-tedarik','mz-not'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('mz-toplam').value='';
+  document.getElementById('mz-tutar').value='';
+  formAc('mazot-form-overlay');
+}
+function mzHesapla(){
+  const b=parseFloat(document.getElementById('mz-bidon').value)||0;
+  const h=parseFloat(document.getElementById('mz-hacim').value)||0;
+  const f=parseFloat(document.getElementById('mz-fiyat').value)||0;
+  const t=b*h;
+  document.getElementById('mz-toplam').value=t>0?t+' L':'';
+  document.getElementById('mz-tutar').value=(t&&f)?t*f+' ₺':'';
+}
+function mazotKaydet(){
+  const tarih=document.getElementById('mz-tarih').value;
+  const bidon=parseFloat(document.getElementById('mz-bidon').value);
+  const hacim=parseFloat(document.getElementById('mz-hacim').value);
+  if(!tarih||!bidon||!hacim)return toast('Tarih, bidon ve hacim zorunludur!','err');
+  const fiyat=parseFloat(document.getElementById('mz-fiyat').value)||0;
+  const toplam=bidon*hacim;
+  mazotlar.push({
+    id:Date.now(),tarih,bidon,hacim,toplam,fiyat,
+    tutar:+(toplam*fiyat).toFixed(2),
+    tedarik:document.getElementById('mz-tedarik').value.trim(),
+    not:document.getElementById('mz-not').value.trim(),
+  });
+  mzKaydetLS();
+  formKapat('mazot-form-overlay');
+  mzRenderMazot();
+  mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
+  toast('✓ '+toplam+' L mazot alımı kaydedildi');
+}
+function mazotSil(id){
+  if(!confirm('Bu mazot kaydını silmek istiyor musunuz?'))return;
+  mazotlar=mazotlar.filter(m=>m.id!==id);
+  mzKaydetLS();mzRenderMazot();mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');toast('Mazot kaydı silindi');
+}
+function mzRenderMazot(){
+  const stok=getMzStok();
+  const topAlinan=mazotlar.reduce((a,m)=>a+(m.toplam||0),0);
+  const topTutar=mazotlar.reduce((a,m)=>a+(m.tutar||0),0);
+  const f=n=>n.toLocaleString('tr-TR',{maximumFractionDigits:1});
+  document.getElementById('mz-stok').textContent=f(stok);
+  document.getElementById('mz-alinan').textContent=f(topAlinan);
+  document.getElementById('mz-harcama').textContent=topTutar.toLocaleString('tr-TR',{maximumFractionDigits:0})+' ₺';
+  document.getElementById('kul-stok-goster').textContent=f(stok)+' L';
+  const al=document.getElementById('mz-alert');
+  if(stok<0){al.className='mz-alert show danger';al.textContent='⛔ Stok negatif! Mazot alımı gerekiyor.';}
+  else if(stok<500){al.className='mz-alert show warn';al.textContent='⚠ Stok kritik: '+f(stok)+' L kaldı!';}
+  else{al.className='mz-alert show ok';al.textContent='✓ Stok durumu iyi: '+f(stok)+' L mevcut.';}
+  const liste=document.getElementById('mazot-liste');
+  if(!mazotlar.length){liste.innerHTML='<div class="empty">Mazot alım kaydı yok</div>';return;}
+  liste.innerHTML=[...mazotlar].reverse().map(m=>`
+    <div class="yakit-kayit">
+      <div class="yk-header">
+        <div>
+          <div class="yk-plaka">⛽ ${m.toplam} L — ${m.bidon} bidon × ${m.hacim} L</div>
+          <div class="yk-det">${m.tarih?new Date(m.tarih).toLocaleDateString('tr-TR'):''} ${m.tedarik?'· '+m.tedarik:''} ${m.fiyat?'· '+m.fiyat+' ₺/L':''}</div>
+          ${m.tutar?'<div style="font-size:12px;color:#93c5fd;margin-top:2px">'+m.tutar.toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺ toplam</div>':''}
+          ${m.not?'<div class="yk-det" style="margin-top:2px">📝 '+m.not+'</div>':''}
+        </div>
+        <button class="yk-del" onclick="mazotSil(${m.id})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+/* ── KULLANIM FORM ── */
+function kulSelectGun(){
+  const sel=document.getElementById('kul-plaka');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Araç seçin —</option>'+
+    araclar.map(a=>`<option value="${a.id}"${String(a.id)===cur?' selected':''}>${a.tip?.split(' ')[0]||''} ${a.plaka} — ${a.marka||''}</option>`).join('');
+  const sel2=document.getElementById('ybf-plaka');
+  if(sel2){
+    const cur2=sel2.value;
+    sel2.innerHTML='<option value="">— Araç seçin —</option>'+
+      araclar.map(a=>`<option value="${a.id}"${String(a.id)===cur2?' selected':''}>${a.tip?.split(' ')[0]||''} ${a.plaka} — ${a.marka||''}</option>`).join('');
+  }
+}
+function kulPlakaSecildi(){
+  const sid=parseInt(document.getElementById('kul-plaka').value);
+  const a=araclar.find(x=>x.id===sid);
+  const sLbl=document.getElementById('kul-saat-lbl');
+  if(sLbl)sLbl.textContent=a&&a.tip?.includes('Traktör')?'Traktör Saati':'Çalışma Saati';
+  document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+}
+function kullanımFormAc(){
+  document.getElementById('kul-tarih').value=new Date().toISOString().split('T')[0];
+  ['kul-plaka','kul-litre','kul-saat','kul-km1','kul-km2','kul-surucu','kul-aciklama'].forEach(i=>{
+    const el=document.getElementById(i);if(el)el.value='';
+  });
+  document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+  kulSelectGun();
+  formAc('kullanim-form-overlay');
+}
+function kullanımKaydet(){
+  const tarih=document.getElementById('kul-tarih').value;
+  const aracId=parseInt(document.getElementById('kul-plaka').value);
+  const litre=parseFloat(document.getElementById('kul-litre').value);
+  if(!tarih||!aracId||!litre||litre<=0)return toast('Tarih, araç ve litre zorunludur!','err');
+  const stok=getMzStok();
+  if(litre>stok)return toast('Depo yetersiz! Mevcut: '+stok.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L','wrn');
+  const a=araclar.find(x=>x.id===aracId);
+  kullanımlar.push({
+    id:Date.now(),tarih,aracId,
+    plaka:a?.plaka||'',tip:a?.tip||'',
+    litre,
+    saat:parseFloat(document.getElementById('kul-saat').value)||null,
+    km1:parseFloat(document.getElementById('kul-km1').value)||null,
+    km2:parseFloat(document.getElementById('kul-km2').value)||null,
+    surucu:document.getElementById('kul-surucu').value.trim(),
+    aciklama:document.getElementById('kul-aciklama').value.trim(),
+  });
+  // Araç KM'sini güncelle
+  const km2=parseFloat(document.getElementById('kul-km2').value)||0;
+  if(km2>0){const idx=araclar.findIndex(x=>x.id===aracId);if(idx>=0&&km2>araclar[idx].km)araclar[idx].km=km2;aracKaydetLS();}
+  mzKaydetLS();
+  formKapat('kullanim-form-overlay');
+  mzRenderKullanim();mzRenderMazot();mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
+  toast('✓ '+litre+' L yakıt kullanım kaydedildi');
+}
+function kulSil(id){
+  if(!confirm('Bu kullanım kaydını silmek istiyor musunuz?'))return;
+  kullanımlar=kullanımlar.filter(k=>k.id!==id);
+  mzKaydetLS();mzRenderKullanim();mzRenderMazot();mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');toast('Kayıt silindi');
+}
+function mzRenderKullanim(){
+  document.getElementById('kul-stok-goster').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+  const liste=document.getElementById('kullanim-liste');
+  if(!kullanımlar.length){liste.innerHTML='<div class="empty">Yakıt kullanım kaydı yok</div>';return;}
+  liste.innerHTML=[...kullanımlar].reverse().map(k=>{
+    const km=k.km1&&k.km2?`${k.km2-k.km1} km`:'';
+    return`<div class="yakit-kayit">
+      <div class="yk-header">
+        <div>
+          <div class="yk-plaka">${k.plaka} <span style="font-size:11px;color:#64748b">${k.tip?.split(' ')[0]||''}</span></div>
+          <div class="yk-litre">${k.litre} L</div>
+          <div class="yk-det">${k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):''} ${k.surucu?'· '+k.surucu:''} ${k.saat?'· '+k.saat+' saat':''} ${km?'· '+km:''}</div>
+          ${k.aciklama?'<div class="yk-det">📍 '+k.aciklama+'</div>':''}
+        </div>
+        <button class="yk-del" onclick="kulSil(${k.id})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── BAKIM FORM ── */
+function bakimFormAcYeni(editId=null){
+  document.getElementById('ybf-edit-id').value=editId||'';
+  kulSelectGun();
+  if(editId){
+    const b=yakitBakimlar.find(x=>x.id===editId);
+    if(b){
+      document.getElementById('ybf-plaka').value=b.aracId||'';
+      ybfPlakaSecildi();
+      document.getElementById('ybf-saat').value=b.saat||'';
+      document.getElementById('ybf-yag-son').value=b.yagSon||'';
+      document.getElementById('ybf-yag-sonraki').value=b.yagSonraki||'';
+      document.getElementById('ybf-bakim-son').value=b.bakimSon||'';
+      document.getElementById('ybf-bakim-sonraki').value=b.bakimSonraki||'';
+      document.getElementById('ybf-muy-son').value=b.muySon||'';
+      document.getElementById('ybf-muy-sonraki').value=b.muySonraki||'';
+      document.getElementById('ybf-aku').value=b.aku||'';
+      document.getElementById('ybf-lastik').value=b.lastik||'';
+      document.getElementById('ybf-not').value=b.not||'';
+    }
+  }else{
+    ['ybf-plaka','ybf-saat','ybf-yag-son','ybf-yag-sonraki','ybf-bakim-son','ybf-bakim-sonraki','ybf-muy-son','ybf-muy-sonraki','ybf-aku','ybf-lastik','ybf-not'].forEach(i=>{
+      const el=document.getElementById(i);if(el)el.value='';
+    });
+    ybfPlakaSecildi();
+  }
+  formAc('yakit-bakim-form-overlay');
+}
+function ybfPlakaSecildi(){
+  const sid=parseInt(document.getElementById('ybf-plaka').value);
+  const a=araclar.find(x=>x.id===sid);
+  const sAlan=document.getElementById('ybf-saat-alan');
+  const adi=document.getElementById('ybf-plaka-adi');
+  if(adi)adi.textContent=a?a.plaka:'';
+  if(sAlan)sAlan.style.display=a&&a.tip?.includes('Traktör')?'block':'none';
+}
+function ybfKaydet(){
+  const aracId=parseInt(document.getElementById('ybf-plaka').value);
+  if(!aracId)return toast('Araç seçiniz!','err');
+  const a=araclar.find(x=>x.id===aracId);
+  const editId=document.getElementById('ybf-edit-id').value;
+  const obj={
+    id:editId?parseInt(editId):Date.now(),
+    aracId,plaka:a?.plaka||'',tip:a?.tip||'',
+    saat:parseFloat(document.getElementById('ybf-saat').value)||null,
+    yagSon:document.getElementById('ybf-yag-son').value,
+    yagSonraki:document.getElementById('ybf-yag-sonraki').value,
+    bakimSon:document.getElementById('ybf-bakim-son').value,
+    bakimSonraki:document.getElementById('ybf-bakim-sonraki').value,
+    muySon:document.getElementById('ybf-muy-son').value,
+    muySonraki:document.getElementById('ybf-muy-sonraki').value,
+    aku:document.getElementById('ybf-aku').value,
+    lastik:document.getElementById('ybf-lastik').value,
+    not:document.getElementById('ybf-not').value.trim(),
+  };
+  if(editId){
+    const idx=yakitBakimlar.findIndex(x=>x.id===parseInt(editId));
+    if(idx>=0)yakitBakimlar[idx]=obj;else yakitBakimlar.push(obj);
+  }else{
+    // Varsa güncelle
+    const idx=yakitBakimlar.findIndex(x=>x.aracId===aracId);
+    if(idx>=0)yakitBakimlar[idx]=obj;else yakitBakimlar.push(obj);
+  }
+  mzKaydetLS();formKapat('yakit-bakim-form-overlay');mzRenderBakim();mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
+  toast('✓ Bakım kaydı güncellendi');
+}
+
+/* ── BAKIM RENDER ── */
+function mzBakimDurum(tip,saat,sonraki,wL,wM){
+  if(tip?.includes('Traktör')){
+    if(saat==null||!sonraki)return{cls:'bk-gray',txt:'Girilmedi'};
+    const k=parseFloat(sonraki)-parseFloat(saat);
+    if(k<0)return{cls:'bk-danger',txt:'⛔ '+Math.abs(k).toFixed(0)+' saat geçti!'};
+    if(k<=wL)return{cls:'bk-warn',txt:'⚠ '+k.toFixed(0)+' saat kaldı'};
+    if(k<=wM)return{cls:'bk-info',txt:'🔔 '+k.toFixed(0)+' saat'};
+    return{cls:'bk-ok',txt:'✓ '+k.toFixed(0)+' saat'};
+  }else{
+    if(!sonraki)return{cls:'bk-gray',txt:'Girilmedi'};
+    const g=Math.round((new Date(sonraki)-new Date())/(864e5));
+    if(g<0)return{cls:'bk-danger',txt:'⛔ '+Math.abs(g)+' gün geçti!'};
+    if(g<=30)return{cls:'bk-warn',txt:'⚠ '+g+' gün kaldı'};
+    if(g<=90)return{cls:'bk-info',txt:'🔔 '+g+' gün'};
+    return{cls:'bk-ok',txt:'✓ '+g+' gün'};
+  }
+}
+function mzRenderBakim(){
+  const liste=document.getElementById('yakit-bakim-liste');
+  if(!yakitBakimlar.length){liste.innerHTML='<div class="empty">Bakım kaydı yok. "Bakım Kaydı Ekle" butonuna basın.</div>';return;}
+  liste.innerHTML=yakitBakimlar.map(b=>{
+    const isTr=b.tip?.includes('Traktör');
+    const yD=mzBakimDurum(b.tip,b.saat,b.yagSonraki,25,50);
+    const bD=mzBakimDurum(b.tip,b.saat,b.bakimSonraki,50,100);
+    const mG=b.muySonraki?Math.round((new Date(b.muySonraki)-new Date())/(864e5)):null;
+    const mD=mG===null?{cls:'bk-gray',txt:'Girilmedi'}:mG<0?{cls:'bk-danger',txt:'⛔ '+Math.abs(mG)+' gün geçti!'}:mG<=30?{cls:'bk-warn',txt:'⚠ '+mG+' gün'}:{cls:'bk-ok',txt:'✓ '+mG+' gün'};
+    return`<div class="bakim-kart">
+      <div class="bk-plaka">${b.plaka} <span style="font-size:11px;color:#64748b">${b.tip?.split(' ')[0]||''}</span>
+        ${isTr&&b.saat?'<span style="font-size:11px;color:#a78bfa;margin-left:auto">'+b.saat+' saat</span>':''}
+        <button onclick="bakimFormAcYeni(${b.id})" style="margin-left:auto;background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer">✏ Güncelle</button>
+      </div>
+      <div class="bk-satir"><span class="bk-lbl">🛢 Yağ Değişimi</span><span class="bk-status ${yD.cls}">${yD.txt}</span></div>
+      <div class="bk-satir"><span class="bk-lbl">🔩 Periyodik Bakım</span><span class="bk-status ${bD.cls}">${bD.txt}</span></div>
+      <div class="bk-satir"><span class="bk-lbl">🔍 Muayene</span><span class="bk-status ${mD.cls}">${mD.txt}</span></div>
+      ${b.aku?'<div class="bk-satir"><span class="bk-lbl">🔋 Akü</span><span style="font-size:12px;color:#64748b">'+new Date(b.aku).toLocaleDateString("tr-TR")+'</span></div>':''}
+      ${b.lastik?'<div class="bk-satir"><span class="bk-lbl">⚫ Lastik</span><span style="font-size:12px;color:#64748b">'+new Date(b.lastik).toLocaleDateString("tr-TR")+'</span></div>':''}
+      ${b.not?'<div class="bk-satir"><span class="bk-lbl">📝 Not</span><span style="font-size:12px;color:#94a3b8">'+b.not+'</span></div>':''}
+    </div>`;
+  }).join('');
+}
+
+/* ── DASHBOARD ── */
+function mzRenderDashboard(){
+  const stok=getMzStok();
+  document.getElementById('ds-stok').textContent=stok.toLocaleString('tr-TR',{maximumFractionDigits:0});
+  document.getElementById('ds-arac').textContent=araclar.length;
+  // Araç bazında tüketim
+  const tuketimDiv=document.getElementById('ds-tuketim-liste');
+  const araçTük=araclar.map(a=>{
+    const toplam=kullanımlar.filter(k=>k.aracId===a.id).reduce((s,k)=>s+(k.litre||0),0);
+    return{a,toplam};
+  }).filter(x=>x.toplam>0).sort((a,b)=>b.toplam-a.toplam);
+  tuketimDiv.innerHTML=araçTük.length?araçTük.map(x=>`
+    <div class="dash-arac-item">
+      <div>
+        <div class="dai-plaka">${x.a.plaka}</div>
+        <div style="font-size:11px;color:#64748b">${x.a.tip?.split(' ')[0]||''} ${x.a.marka||''}</div>
+      </div>
+      <div class="dai-litre">${x.toplam.toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+    </div>`).join(''):'<div class="empty">Henüz kullanım kaydı yok</div>';
+  // Son kullanımlar
+  const sonDiv=document.getElementById('ds-son-kullanim');
+  const son=[...kullanımlar].reverse().slice(0,5);
+  sonDiv.innerHTML=son.length?son.map(k=>`
+    <div class="yakit-kayit" style="margin-bottom:6px">
+      <div class="yk-header" style="margin-bottom:0">
+        <div><div class="yk-plaka">${k.plaka} <span style="color:#64748b;font-size:11px">${k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):''}</span></div>
+          <div class="yk-det">${k.surucu||''} ${k.aciklama?'· '+k.aciklama:''}</div></div>
+        <div class="yk-litre">${k.litre} L</div>
+      </div>
+    </div>`).join(''):'<div class="empty">Kayıt yok</div>';
+  // Bakım uyarıları
+  const uyDiv=document.getElementById('ds-bakim-uyari');
+  const uyarilar=[];
+  yakitBakimlar.forEach(b=>{
+    const isTr=b.tip?.includes('Traktör');
+    if(isTr){
+      if(b.saat&&b.yagSonraki){const k=parseFloat(b.yagSonraki)-b.saat;if(k<=50)uyarilar.push({plaka:b.plaka,tip:'Yağ Değişimi',acil:k<=25,det:k<=0?'Geçti!':k+' saat kaldı'});}
+      if(b.saat&&b.bakimSonraki){const k=parseFloat(b.bakimSonraki)-b.saat;if(k<=100)uyarilar.push({plaka:b.plaka,tip:'Periyodik Bakım',acil:k<=50,det:k<=0?'Geçti!':k+' saat kaldı'});}
+    }
+    if(b.muySonraki){const g=Math.round((new Date(b.muySonraki)-new Date())/(864e5));if(g<=30)uyarilar.push({plaka:b.plaka,tip:'Muayene',acil:g<0,det:g<0?Math.abs(g)+' gün geçti!':g+' gün kaldı'});}
+  });
+  uyDiv.innerHTML=uyarilar.length?uyarilar.map(u=>`
+    <div style="background:${u.acil?'#450a0a':'#431407'};border:1px solid ${u.acil?'#ef4444':'#f59e0b'};border-radius:10px;padding:10px 14px;margin-bottom:7px;font-size:13px;color:${u.acil?'#f87171':'#fbbf24'}">
+      ${u.acil?'⛔':'⚠'} <strong>${u.plaka}</strong> — ${u.tip} — ${u.det}
+    </div>`).join(''):'<div style="background:#052e16;border:1px solid #16a34a;border-radius:10px;padding:10px 14px;font-size:13px;color:#4ade80">✓ Tüm araçların bakımları güncel.</div>';
+}
+
+/* ── YAKIT DASHBOARD: sayfa geçişinde güncelle ── */
+function mzSayfaGecisGun(){
+  const topYk=kullanımlar.reduce((a,k)=>a+(k.litre||0),0);
+  const stok=getMzStok();
+  const el=document.getElementById('arac-ozet-lbl');
+  if(el)el.textContent=araclar.length+' araç · '+topYk.toLocaleString('tr-TR',{maximumFractionDigits:0})+' L tüketim · Depo: '+stok.toLocaleString('tr-TR',{maximumFractionDigits:0})+' L';
+  kulSelectGun();
+  mzRenderDashboard();
+  notifBadgeGun();
+  setInterval(notifPeriyodikKontrol,5*60*1000);
+  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   AKILLI UYARI SİSTEMİ — Merkezi Motor
+════════════════════════════════════════════════════════════ */
+const NOTIF_KEY='erturan_notif_oku_v1';
+let okunanNotifler=new Set();
+
+function notifOkunanlariYukle(){
+  try{const d=JSON.parse(localStorage.getItem(NOTIF_KEY)||'[]');okunanNotifler=new Set(d);}
+  catch{okunanNotifler=new Set();}
+}
+function notifOkunanlariKaydet(){
+  localStorage.setItem(NOTIF_KEY,JSON.stringify([...okunanNotifler]));
+}
+
+/* ── Tüm kaynaklardan uyarı topla ── */
+function tumUyarilariTopla(){
+  const uyarilar=[];
+  const bugun=new Date();bugun.setHours(0,0,0,0);
+
+  /* 1. STOK KRİTİK / TÜKENDİ */
+  stok.forEach(s=>{
+    const dv=sDur(s);
+    if(s.miktar===0){
+      uyarilar.push({
+        id:'stok-tukendi-'+s.id,
+        oncelik:1,seviye:'acil',
+        ico:'🧪',
+        baslik:s.ad+' tükendi!',
+        det:'Stok sıfır — acil temin gerekiyor.',
+        kategori:'Stok',
+        aksiyon:()=>sayfaGit('liste')
+      });
+    }else if(s.miktar<=s.kritik){
+      uyarilar.push({
+        id:'stok-kritik-'+s.id,
+        oncelik:2,seviye:'uyari',
+        ico:'🧪',
+        baslik:s.ad+' kritik seviyede',
+        det:'Mevcut: '+s.miktar+' '+s.ambalaj+' · Kritik eşik: '+s.kritik,
+        kategori:'Stok',
+        aksiyon:()=>sayfaGit('liste')
+      });
+    }
+  });
+
+  /* 2. MAZOT DEPOSU */
+  const mzStok=getMzStok();
+  const mzToplam=mazotlar.reduce((a,m)=>a+(m.toplam||0),0);
+  if(mzToplam>0){
+    const mzYuzde=mzToplam>0?Math.round(mzStok/mzToplam*100):100;
+    if(mzStok<=0){
+      uyarilar.push({
+        id:'mazot-bitti',oncelik:1,seviye:'acil',ico:'⛽',
+        baslik:'Mazot deposu boş!',
+        det:'Araç çalıştırılamaz, acil mazot alımı gerekiyor.',
+        kategori:'Mazot',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('mazot',document.getElementById('apt-mazot')),100);}
+      });
+    }else if(mzYuzde<=20){
+      uyarilar.push({
+        id:'mazot-kritik',oncelik:2,seviye:'uyari',ico:'⛽',
+        baslik:'Mazot deposu %'+mzYuzde+' seviyesinde',
+        det:'Kalan: '+mzStok.toLocaleString('tr-TR',{maximumFractionDigits:0})+' L · Mazot alımı planlanmalı.',
+        kategori:'Mazot',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('mazot',document.getElementById('apt-mazot')),100);}
+      });
+    }else if(mzYuzde<=40){
+      uyarilar.push({
+        id:'mazot-dusuk',oncelik:3,seviye:'bilgi',ico:'⛽',
+        baslik:'Mazot deposu doldurmayı düşünün',
+        det:'Kalan: '+mzStok.toLocaleString('tr-TR',{maximumFractionDigits:0})+' L (%'+mzYuzde+')',
+        kategori:'Mazot',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('mazot',document.getElementById('apt-mazot')),100);}
+      });
+    }
+  }
+
+  /* 3. ARAÇ — Sigorta & Muayene */
+  araclar.forEach(a=>{
+    const sg=gunFarki(a.sigorta);
+    const mh=gunFarki(a.muayene);
+    if(sg!==null){
+      if(sg<0){
+        uyarilar.push({
+          id:'sigorta-gecti-'+a.id,oncelik:1,seviye:'acil',ico:'🚗',
+          baslik:a.plaka+' sigortası sona erdi!',
+          det:Math.abs(sg)+' gün önce sona erdi — araç kullanılamaz!',
+          kategori:'Araç',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }else if(sg<=14){
+        uyarilar.push({
+          id:'sigorta-yakin-'+a.id,oncelik:2,seviye:'uyari',ico:'🚗',
+          baslik:a.plaka+' sigorta bitiyor',
+          det:sg+' gün kaldı · '+new Date(a.sigorta).toLocaleDateString('tr-TR'),
+          kategori:'Araç',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }else if(sg<=30){
+        uyarilar.push({
+          id:'sigorta-hatirla-'+a.id,oncelik:3,seviye:'bilgi',ico:'🚗',
+          baslik:a.plaka+' sigorta yaklaşıyor',
+          det:sg+' gün kaldı · '+new Date(a.sigorta).toLocaleDateString('tr-TR'),
+          kategori:'Araç',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }
+    }
+    if(mh!==null){
+      if(mh<0){
+        uyarilar.push({
+          id:'muayene-gecti-'+a.id,oncelik:1,seviye:'acil',ico:'🔍',
+          baslik:a.plaka+' muayene süresi doldu!',
+          det:Math.abs(mh)+' gün önce sona erdi — trafik cezası riski!',
+          kategori:'Araç',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }else if(mh<=14){
+        uyarilar.push({
+          id:'muayene-yakin-'+a.id,oncelik:2,seviye:'uyari',ico:'🔍',
+          baslik:a.plaka+' muayene yaklaşıyor',
+          det:mh+' gün kaldı · '+new Date(a.muayene).toLocaleDateString('tr-TR'),
+          kategori:'Araç',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }
+    }
+  });
+
+  /* 4. ARAÇ BAKIM — Traktör saat bazlı, diğerleri tarih bazlı */
+  yakitBakimlar.forEach(b=>{
+    const isTr=b.tip?.includes('Traktör');
+    // Yağ değişimi
+    if(b.saat&&b.yagSonraki){
+      const k=parseFloat(b.yagSonraki)-parseFloat(b.saat);
+      if(k<0){
+        uyarilar.push({
+          id:'yag-gecti-'+b.aracId,oncelik:1,seviye:'acil',ico:'🛢',
+          baslik:b.plaka+' yağ değişimi gecikti!',
+          det:Math.abs(k).toFixed(0)+' saat geçti · Hemen değiştirilmeli.',
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('bakim',document.getElementById('apt-bakim')),100);}
+        });
+      }else if(k<=25){
+        uyarilar.push({
+          id:'yag-yakin-'+b.aracId,oncelik:2,seviye:'uyari',ico:'🛢',
+          baslik:b.plaka+' yağ değişimi yaklaşıyor',
+          det:k.toFixed(0)+' saat kaldı · Yağ değişimini planlayın.',
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('bakim',document.getElementById('apt-bakim')),100);}
+        });
+      }
+    }
+    // Periyodik bakım
+    if(b.saat&&b.bakimSonraki){
+      const k=parseFloat(b.bakimSonraki)-parseFloat(b.saat);
+      if(k<0){
+        uyarilar.push({
+          id:'bakim-gecti-'+b.aracId,oncelik:1,seviye:'acil',ico:'🔧',
+          baslik:b.plaka+' periyodik bakım gecikti!',
+          det:Math.abs(k).toFixed(0)+' saat geçti · Servis randevusu alın.',
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('bakim',document.getElementById('apt-bakim')),100);}
+        });
+      }else if(k<=50){
+        uyarilar.push({
+          id:'bakim-yakin-'+b.aracId,oncelik:2,seviye:'uyari',ico:'🔧',
+          baslik:b.plaka+' periyodik bakım yaklaşıyor',
+          det:k.toFixed(0)+' saat kaldı · Bakım randevusu planlayın.',
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');setTimeout(()=>aptSec('bakim',document.getElementById('apt-bakim')),100);}
+        });
+      }
+    }
+    // Muayene (tarih bazlı)
+    if(b.muySonraki){
+      const g=Math.round((new Date(b.muySonraki)-new Date())/(864e5));
+      if(g<0){
+        uyarilar.push({
+          id:'muy-gecti-'+b.aracId,oncelik:1,seviye:'acil',ico:'📋',
+          baslik:b.plaka+' araç muayenesi geçti!',
+          det:Math.abs(g)+' gün önce sona erdi.',
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }else if(g<=30){
+        uyarilar.push({
+          id:'muy-yakin-'+b.aracId,oncelik:2,seviye:'uyari',ico:'📋',
+          baslik:b.plaka+' araç muayenesi yaklaşıyor',
+          det:g+' gün kaldı · '+new Date(b.muySonraki).toLocaleDateString('tr-TR'),
+          kategori:'Bakım',aksiyon:()=>{sayfaGit('arac');}
+        });
+      }
+    }
+  });
+
+  // Önceliğe göre sırala (1=acil en önce)
+  uyarilar.sort((a,b)=>a.oncelik-b.oncelik);
+  return uyarilar;
+}
+
+/* ── Badge güncelle ── */
+function notifBadgeGun(){
+  notifOkunanlariYukle();
+  const uyarilar=tumUyarilariTopla();
+  const okunmamis=uyarilar.filter(u=>!okunanNotifler.has(u.id));
+  const acilSayisi=okunmamis.filter(u=>u.seviye==='acil').length;
+  const badge=document.getElementById('notif-badge');
+  if(!badge)return;
+  const toplam=okunmamis.length;
+  if(toplam===0){
+    badge.className='notif-badge';
+    badge.textContent='';
+  }else{
+    badge.className='notif-badge show'+(acilSayisi>0?' pulse':'');
+    badge.textContent=toplam>9?'9+':String(toplam);
+  }
+  // Header stok badge de güncelle
+  const kS=stok.filter(s=>s.miktar<=s.kritik&&s.miktar>0).length;
+  const tS=stok.filter(s=>s.miktar===0).length;
+  document.getElementById('stoplam').textContent=stok.length;
+  document.getElementById('skritik').textContent=kS;
+  document.getElementById('stukendi').textContent=tS;
+  let badges=`<button class="notif-btn" onclick="notifPanelAc()" id="notif-btn" title="Bildirimler"><span class="notif-ico">🔔</span><span class="notif-badge ${toplam>0?'show':''}${acilSayisi>0?' pulse':''}" id="notif-badge">${toplam>9?'9+':toplam>0?String(toplam):''}</span></button>`;
+  badges+=`<div class="user-badge" onclick="sayfaGit('ayar')" id="user-badge-wrap" style="${aktifKullanici?'display:flex':'display:none'}"><span id="ub-adi" style="font-size:12px;font-weight:700;color:#e2e8f0">${aktifKullanici?(ROL_ICO[aktifKullanici.rol]+' '+aktifKullanici.adi):''}</span></div>`;
+  document.getElementById('hbadges').innerHTML=badges;
+}
+
+/* ── Panel Aç / Kapat ── */
+function notifPanelAc(){
+  notifOkunanlariYukle();
+  const uyarilar=tumUyarilariTopla();
+  const panel=document.getElementById('notif-panel');
+  const liste=document.getElementById('notif-list');
+  panel.classList.add('open');
+  if(!uyarilar.length){
+    liste.innerHTML='<div class="notif-bos">🌿<br><br>Tüm sistemler normal!<br><span style="font-size:12px;color:#475569">Stok, araç ve bakım uyarısı yok.</span></div>';
+    document.getElementById('notif-header-sub').textContent='Her şey yolunda';
+    document.getElementById('notif-sayi-chip').style.display='none';
+    return;
+  }
+  const acil=uyarilar.filter(u=>u.seviye==='acil');
+  const uyari=uyarilar.filter(u=>u.seviye==='uyari');
+  const bilgi=uyarilar.filter(u=>u.seviye==='bilgi');
+  const okunmamis=uyarilar.filter(u=>!okunanNotifler.has(u.id)).length;
+  document.getElementById('notif-header-sub').textContent=
+    uyarilar.length+' bildirim'+(okunmamis>0?' · '+okunmamis+' okunmamış':'');
+  const chip=document.getElementById('notif-sayi-chip');
+  if(okunmamis>0){chip.style.display='';chip.textContent=okunmamis;}
+  else chip.style.display='none';
+
+  function renderGrup(grup,baslik){
+    if(!grup.length)return'';
+    return`<div class="notif-grup-baslik">${baslik}</div>`+
+      grup.map(u=>`
+        <div class="notif-item ${u.seviye} ${okunanNotifler.has(u.id)?'':''}${u.seviye}" onclick="notifTikla('${u.id}',${uyarilar.indexOf(u)})" style="${okunanNotifler.has(u.id)?'opacity:.55':''}">
+          <div class="notif-item-ico">${u.ico}</div>
+          <div class="notif-item-body">
+            <div class="notif-item-baslik">${u.baslik}</div>
+            <div class="notif-item-det">${u.det}</div>
+            <div class="notif-item-zaman">${u.kategori} · ${okunanNotifler.has(u.id)?'Okundu ✓':'Yeni'}</div>
+          </div>
+          <div class="notif-item-ok-chip" style="font-size:14px">${okunanNotifler.has(u.id)?'✓':'›'}</div>
+        </div>`).join('');
+  }
+
+  liste.innerHTML=
+    renderGrup(acil,'⛔ ACİL')+
+    renderGrup(uyari,'⚠ UYARI')+
+    renderGrup(bilgi,'ℹ BİLGİ');
+
+  // Görünende okundu işaretle
+  setTimeout(()=>{
+    uyarilar.forEach(u=>{if(!okunanNotifler.has(u.id)){okunanNotifler.add(u.id);}});
+    notifOkunanlariKaydet();
+    notifBadgeGun();
+  },1500);
+}
+
+function notifTikla(id,idx){
+  const uyarilar=tumUyarilariTopla();
+  okunanNotifler.add(id);notifOkunanlariKaydet();
+  notifPanelKapat();
+  if(uyarilar[idx]?.aksiyon)uyarilar[idx].aksiyon();
+}
+
+function notifPanelKapat(){
+  document.getElementById('notif-panel').classList.remove('open');
+  notifBadgeGun();
+}
+
+function notifHepsiniOku(){
+  const uyarilar=tumUyarilariTopla();
+  uyarilar.forEach(u=>okunanNotifler.add(u.id));
+  notifOkunanlariKaydet();
+  notifPanelKapat();
+}
+
+/* ── Periyodik kontrol: 5 dakikada bir ── */
+function notifPeriyodikKontrol(){
+  notifBadgeGun();
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   GITHUB SYNC SİSTEMİ
+════════════════════════════════════════════════════════════ */
+const GH_KEY='erturan_gh_v1';
+let ghConfig={user:'',repo:'',token:'',file:'tarim_veri.json'};
+let ghSyncing=false;
+let ghSyncTimer=null;
+
+function ghConfigYukle(){
+  try{
+    const d=JSON.parse(localStorage.getItem(GH_KEY)||'{}');
+    ghConfig={
+      user:d.user||'',repo:d.repo||'',
+      token:d.token||'',file:d.file||'tarim_veri.json'
+    };
+  }catch{}
+}
+function ghConfigKaydet(){
+  localStorage.setItem(GH_KEY,JSON.stringify(ghConfig));
+}
+
+function ghAyarSayfasiGun(){
+  ghConfigYukle();
+  if(document.getElementById('gh-user'))document.getElementById('gh-user').value=ghConfig.user;
+  if(document.getElementById('gh-repo'))document.getElementById('gh-repo').value=ghConfig.repo;
+  if(document.getElementById('gh-token'))document.getElementById('gh-token').value=ghConfig.token;
+  if(document.getElementById('gh-file'))document.getElementById('gh-file').value=ghConfig.file||'tarim_veri.json';
+  ghDotGun(ghConfig.user&&ghConfig.token?'ok':'off');
+}
+
+function ghDotGun(state,msg,zaman){
+  const dot=document.getElementById('gh-dot');
+  const lbl=document.getElementById('gh-lbl');
+  const zm=document.getElementById('gh-zaman');
+  if(!dot)return;
+  dot.className='gh-dot '+state;
+  const lblMap={
+    ok:'GitHub bağlı ✓',err:'Bağlantı hatası',
+    ing:'Senkronize ediliyor...',off:'Yapılandırılmadı'
+  };
+  if(lbl)lbl.textContent=msg||(lblMap[state]||'');
+  if(zm&&zaman)zm.textContent=zaman;
+}
+
+function ghDurumMesaj(msg,ok){
+  const el=document.getElementById('gh-durum-mesaj');
+  if(!el)return;
+  el.style.cssText=`font-size:12px;padding:10px 12px;border-radius:9px;display:block;line-height:1.5;background:${ok?'#052e16':'#450a0a'};border:1px solid ${ok?'#16a34a':'#ef4444'};color:${ok?'#4ade80':'#f87171'}`;
+  el.textContent=msg;
+}
+
+function ghConfigOku(){
+  const u=document.getElementById('gh-user')?.value.trim();
+  const r=document.getElementById('gh-repo')?.value.trim();
+  const t=document.getElementById('gh-token')?.value.trim();
+  const f=document.getElementById('gh-file')?.value.trim()||'tarim_veri.json';
+  if(u)ghConfig.user=u;
+  if(r)ghConfig.repo=r;
+  if(t)ghConfig.token=t;
+  if(f)ghConfig.file=f;
+  ghConfigKaydet();
+}
+
+/* ── API URL ── */
+function ghApiUrl(){
+  return `https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}/contents/${ghConfig.file}`;
+}
+
+/* ── Mevcut dosya SHA al (update için gerekli) ── */
+async function ghGetSha(){
+  try{
+    const res=await fetch(ghApiUrl(),{
+      headers:{
+        'Authorization':'token '+ghConfig.token,
+        'Accept':'application/vnd.github.v3+json'
+      }
+    });
+    if(res.status===404)return null; // Dosya yok, ilk kez oluşturulacak
+    if(!res.ok)return null;
+    const d=await res.json();
+    return d.sha||null;
+  }catch{return null;}
+}
+
+/* ── Bağlan & Test ── */
+async function ghBaglan(){
+  ghConfigOku();
+  if(!ghConfig.user||!ghConfig.repo||!ghConfig.token){
+    ghDurumMesaj('⚠ Kullanıcı adı, repo ve token zorunludur!',false);return;
+  }
+  ghDotGun('ing','Test ediliyor...');
+  try{
+    // Repo erişimini test et
+    const res=await fetch(`https://api.github.com/repos/${ghConfig.user}/${ghConfig.repo}`,{
+      headers:{
+        'Authorization':'token '+ghConfig.token,
+        'Accept':'application/vnd.github.v3+json'
+      }
+    });
+    if(!res.ok){
+      const err=await res.json();
+      ghDotGun('err');
+      ghDurumMesaj('✕ Hata: '+(err.message||'Repo bulunamadı veya token geçersiz'),false);
+      return;
+    }
+    const repo=await res.json();
+    ghDotGun('ok','Bağlı: '+repo.full_name);
+    ghDurumMesaj('✓ Bağlantı başarılı! Repo: '+repo.full_name+'\nPages: '+(repo.has_pages?'Aktif ✓':'Henüz aktif değil — Settings > Pages\'den aktif edin'),true);
+    // İlk sync
+    await ghKaydet(false);
+  }catch(err){
+    ghDotGun('err');
+    ghDurumMesaj('✕ Ağ hatası: '+err.message,false);
+  }
+}
+
+/* ── GitHub'a Kaydet ── */
+async function ghKaydet(manuel=false){
+  ghConfigYukle();
+  if(!ghConfig.user||!ghConfig.token||!ghConfig.repo)return;
+  if(ghSyncing)return; // Çakışmayı önle
+  ghSyncing=true;
+  ghDotGun('ing');
+
+  const veri={
+    versiyon:3,
+    tarih:new Date().toISOString(),
+    kaydeden:aktifKullanici?.adi||'sistem',
+    stok,log:slog,araclar,mazotlar,
+    kullanim:kullanımlar,
+    yakitBakimlar
+  };
+  const icerik=btoa(unescape(encodeURIComponent(JSON.stringify(veri,null,2))));
+  const tarihStr=new Date().toLocaleString('tr-TR');
+
+  try{
+    const sha=await ghGetSha();
+    const body={
+      message:'Tarım Sistemi otomatik yedek — '+tarihStr,
+      content:icerik,
+      committer:{name:'Erturan Tarım',email:'tarim@erturan.local'}
+    };
+    if(sha)body.sha=sha; // Varsa güncelle, yoksa oluştur
+
+    const res=await fetch(ghApiUrl(),{
+      method:'PUT',
+      headers:{
+        'Authorization':'token '+ghConfig.token,
+        'Accept':'application/vnd.github.v3+json',
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(body)
+    });
+
+    if(!res.ok){
+      const err=await res.json();
+      ghDotGun('err','Kayıt hatası: '+(err.message||''));
+      if(manuel)ghDurumMesaj('✕ Hata: '+(err.message||'Kayıt başarısız'),false);
+    }else{
+      const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+      ghDotGun('ok','Son sync: '+zaman,zaman);
+      localStorage.setItem('gh_son_sync',new Date().toISOString());
+      if(manuel)ghDurumMesaj('✓ GitHub\'a kaydedildi — '+tarihStr,true);
+    }
+  }catch(err){
+    ghDotGun('err','Ağ hatası');
+    if(manuel)ghDurumMesaj('✕ Ağ hatası: '+err.message,false);
+  }finally{
+    ghSyncing=false;
+  }
+}
+
+/* ── GitHub'dan Yükle ── */
+async function ghYukle(){
+  ghConfigOku();
+  if(!ghConfig.user||!ghConfig.token||!ghConfig.repo){
+    ghDurumMesaj('⚠ Önce bağlantı bilgilerini girin ve Bağlan butonuna basın.',false);return;
+  }
+  ghDotGun('ing','Veri yükleniyor...');
+  try{
+    const res=await fetch(ghApiUrl(),{
+      headers:{
+        'Authorization':'token '+ghConfig.token,
+        'Accept':'application/vnd.github.v3+json'
+      }
+    });
+    if(res.status===404){ghDurumMesaj('⚠ GitHub\'da henüz veri yok. Önce kaydedin.',false);ghDotGun('off');return;}
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const d=await res.json();
+    const json=JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,'')))));
+    if(!json.stok)throw new Error('Geçersiz veri formatı');
+    const tarih=json.tarih?new Date(json.tarih).toLocaleString('tr-TR'):'?';
+    if(!confirm('GitHub\'dan veri yüklensin mi?\n\n📦 '+json.stok.length+' ürün\n🚗 '+(json.araclar||[]).length+' araç\n🕑 '+tarih+'\n\n⚠ Mevcut veriler silinecek!'))return;
+    stok=json.stok;slog=json.log||[];
+    araclar=json.araclar||[];
+    mazotlar=json.mazotlar||[];
+    kullanımlar=json.kullanim||json.kullanımlar||[];
+    yakitBakimlar=json.yakitBakimlar||[];
+    localStorage.setItem(SK,JSON.stringify(stok));
+    localStorage.setItem(LK,JSON.stringify(slog));
+    aracKaydetLS();mzKaydetLS();
+    stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
+    ghDotGun('ok','Yüklendi ✓');
+    ghDurumMesaj('✓ GitHub\'dan yüklendi — '+json.stok.length+' ürün, '+(json.araclar||[]).length+' araç',true);
+    toast('☁ GitHub\'dan yüklendi!');
+    notifBadgeGun();
+  }catch(err){
+    ghDotGun('err');
+    ghDurumMesaj('✕ Hata: '+err.message,false);
+  }
+}
+
+/* ── Otomatik sync: kaydet() çağrıldığında tetikle ── */
+function ghOtomatikSync(){
+  ghConfigYukle();
+  if(!ghConfig.user||!ghConfig.token||!ghConfig.repo)return;
+  // Debounce: art arda kayıtlarda sadece son işlemi gönder (3sn bekle)
+  clearTimeout(ghSyncTimer);
+  ghSyncTimer=setTimeout(()=>ghKaydet(false),3000);
+}
+
+/* ── ayarSayfasiGun'a gh ekle ── */
+
 /* ═══ BAŞLAT ═══ */
 aracYukle();
+mzYukle();
 yukle();
+notifOkunanlariYukle();
+ghConfigYukle();
 loginEkraniGoster();
 if(localStorage.getItem('jb_key'))setTimeout(()=>setSyncDot('ok'),100);
 </script>
