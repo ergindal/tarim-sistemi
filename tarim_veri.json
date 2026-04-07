@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T17:34:44.654Z",
+  "tarih": "2026-04-07T17:43:45.254Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 60,
+      "miktar": 80,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "Fulvera hümik asit",
+      "miktar": 20,
+      "once": 60,
+      "sonra": 80,
+      "birim": "Bidon",
+      "not": "Düzeltme",
+      "t": "07.04.2026 20:43"
+    },
     {
       "tip": "yeni",
       "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
