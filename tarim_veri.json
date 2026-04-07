@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T04:58:17.052Z",
+  "tarih": "2026-04-07T05:00:18.132Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -302,6 +302,21 @@
       "sigorta": "",
       "muayene": "",
       "not": "MAVİ",
+      "yakitlar": [],
+      "bakimlar": [],
+      "kmKayitlar": []
+    },
+    {
+      "id": 1775538015129,
+      "plaka": "55 AON 712",
+      "tip": "🚜 Traktör",
+      "marka": "ERKUT",
+      "model": "KSMET 55E-B",
+      "yil": "",
+      "km": 460,
+      "sigorta": "",
+      "muayene": "",
+      "not": "",
       "yakitlar": [],
       "bakimlar": [],
       "kmKayitlar": []
