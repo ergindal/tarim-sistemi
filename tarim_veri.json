@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T17:21:23.400Z",
+  "tarih": "2026-04-07T17:21:32.532Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -191,12 +191,180 @@
       "icerik": 25,
       "icBirim": "kg",
       "kritik": 2
+    },
+    {
+      "id": 1775041336692,
+      "ad": "BOTENUP",
+      "miktar": 25,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041422866,
+      "ad": "BotePhos",
+      "miktar": 30,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041459215,
+      "ad": "NitroEnt",
+      "miktar": 4,
+      "ambalaj": "Bidon",
+      "icerik": 20,
+      "icBirim": "L",
+      "kritik": 2
+    },
+    {
+      "id": 1775041552178,
+      "ad": "MelangeSC",
+      "miktar": 5,
+      "ambalaj": "Bidon",
+      "icerik": 5,
+      "icBirim": "L",
+      "kritik": 1
+    },
+    {
+      "id": 1775041746437,
+      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
+      "miktar": 4,
+      "ambalaj": "Bidon",
+      "icerik": 5,
+      "icBirim": "L",
+      "kritik": 2
     }
   ],
-  "log": [],
-  "araclar": [],
-  "mazotlar": [],
-  "kullanim": [],
+  "log": [
+    {
+      "tip": "yeni",
+      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
+      "miktar": 4,
+      "once": 0,
+      "sonra": 4,
+      "birim": "Bidon (5 L)",
+      "not": "",
+      "t": "01.04.2026 14:09"
+    },
+    {
+      "tip": "yeni",
+      "ad": "MelangeSC",
+      "miktar": 5,
+      "once": 0,
+      "sonra": 5,
+      "birim": "Bidon (5 L)",
+      "not": "",
+      "t": "01.04.2026 14:05"
+    },
+    {
+      "tip": "yeni",
+      "ad": "NitroEnt",
+      "miktar": 4,
+      "once": 0,
+      "sonra": 4,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:04"
+    },
+    {
+      "tip": "yeni",
+      "ad": "BotePhos",
+      "miktar": 30,
+      "once": 0,
+      "sonra": 30,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:03"
+    },
+    {
+      "tip": "yeni",
+      "ad": "BOTENUP",
+      "miktar": 25,
+      "once": 0,
+      "sonra": 25,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "01.04.2026 14:02"
+    }
+  ],
+  "araclar": [
+    {
+      "id": 1775537894045,
+      "plaka": "34 GTU 521",
+      "tip": "🚜 Traktör",
+      "marka": "NEW HOLANDA",
+      "model": "T3.70B",
+      "yil": "2023",
+      "km": 1886,
+      "sigorta": "",
+      "muayene": "",
+      "not": "MAVİ",
+      "yakitlar": [],
+      "bakimlar": [],
+      "kmKayitlar": []
+    },
+    {
+      "id": 1775538015129,
+      "plaka": "55 AON 712",
+      "tip": "🚜 Traktör",
+      "marka": "ERKUT",
+      "model": "KSMET 55E-B",
+      "yil": "",
+      "km": 460,
+      "sigorta": "",
+      "muayene": "",
+      "not": "",
+      "yakitlar": [],
+      "bakimlar": [],
+      "kmKayitlar": []
+    },
+    {
+      "id": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "marka": "KUmasu d31",
+      "model": "",
+      "yil": "",
+      "km": 0,
+      "sigorta": "",
+      "muayene": "",
+      "not": "",
+      "yakitlar": [],
+      "bakimlar": [],
+      "kmKayitlar": []
+    }
+  ],
+  "mazotlar": [
+    {
+      "id": 1775491700586,
+      "tarih": "2026-04-06",
+      "bidon": 30,
+      "hacim": 21.963,
+      "toplam": 658.89,
+      "fiyat": 78.87,
+      "tutar": 51966.65,
+      "tedarik": "",
+      "not": ""
+    }
+  ],
+  "kullanim": [
+    {
+      "id": 1775556562510,
+      "tarih": "2026-04-07",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "litre": 65,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan İnce",
+      "aciklama": ""
+    }
+  ],
   "yakitBakimlar": [],
   "adalar": {
     "ADA1": {
