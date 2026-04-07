@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T17:43:48.756Z",
+  "tarih": "2026-04-07T17:47:02.462Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 17,
+      "miktar": 25,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "ekle",
+      "ad": "Can % 26 Gübre",
+      "miktar": 8,
+      "once": 17,
+      "sonra": 25,
+      "birim": "Çuval (50 kg)",
+      "not": "",
+      "t": "07.04.2026 20:46"
+    },
     {
       "tip": "duz",
       "ad": "Fulvera hümik asit",
