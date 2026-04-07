@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T17:43:45.254Z",
+  "tarih": "2026-04-07T17:43:48.756Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "Fulvera hümik asit",
+      "miktar": 0,
+      "once": 80,
+      "sonra": 80,
+      "birim": "Bidon",
+      "not": "Düzeltme",
+      "t": "07.04.2026 20:43"
+    },
     {
       "tip": "duz",
       "ad": "Fulvera hümik asit",
