@@ -396,6 +396,24 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .gh-adim-no{width:22px;height:22px;border-radius:50%;background:#1e3a5f;color:#93c5fd;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .gh-adim code{background:#0f172a;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:12px;font-family:monospace}
 
+
+/* ── VANA DÜZENLEME ── */
+.vana-card{position:relative}
+.vana-edit-btn{position:absolute;top:3px;right:3px;background:rgba(30,58,95,.9);border:none;color:#93c5fd;font-size:10px;border-radius:5px;padding:2px 5px;cursor:pointer;opacity:0;transition:opacity .2s;line-height:1.4}
+.vana-card:active .vana-edit-btn,.vana-card:hover .vana-edit-btn{opacity:1}
+.vana-ada-yonetim{background:#0f172a;border-radius:12px;border:1px solid #334155;margin-bottom:12px;overflow:hidden}
+.vana-ada-header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer}
+.vana-ada-baslik{font-size:13px;font-weight:800}
+.vana-ada-ozet{font-size:11px;color:#64748b}
+.vana-ada-body{display:none;border-top:1px solid #334155}
+.vana-ada-body.acik{display:block}
+.vana-satir{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid #0f172a;font-size:13px}
+.vana-satir:last-child{border-bottom:none}
+.vana-satir-no{font-weight:800;color:#e2e8f0;width:60px;flex-shrink:0}
+.vana-satir-agac{flex:1;color:#4ade80;font-weight:700}
+.vana-satir-sira{color:#64748b;font-size:12px;width:55px;text-align:right;flex-shrink:0}
+.vana-satir-edit{background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
+
 </style>
 </head>
 <body>
@@ -695,6 +713,18 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div class="ctit">🚪 Oturum</div>
       <div style="font-size:13px;color:#64748b;margin-bottom:12px">Oturum: <strong id="aktif-ku-adi" style="color:#e2e8f0"></strong></div>
       <button class="btn btn-ghost" onclick="cikisYap()">🚪 Çıkış Yap</button>
+    </div>
+
+
+    <!-- VANA & AĞAÇ YÖNETİMİ -->
+    <div class="card" id="vana-yonetim-card">
+      <div class="ctit">🌿 Vana & Ağaç Yönetimi</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:12px;line-height:1.6">
+        Yeni ağaç dikimlerinde veya sayım düzeltmelerinde vana bazında ağaç sayısını güncelleyin.
+        <strong id="vana-toplam-goster" style="color:#4ade80;display:block;margin-top:6px">Toplam: — ağaç</strong>
+      </div>
+      <div id="vana-yonetim-liste"></div>
+      <button class="btn btn-ghost" style="margin-top:8px;font-size:12px" onclick="adalarSifirla()">↩ Fabrika Ayarlarına Dön</button>
     </div>
 
     <!-- BÖLÜM 1: JSON YEDEK -->
@@ -1146,6 +1176,35 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   </div>
 </div>
 
+
+<!-- ══ VANA DÜZENLEME FORMU ══ -->
+<div class="form-overlay" id="vana-duz-overlay">
+  <div class="form-sheet">
+    <div class="form-sheet-baslik">
+      <span>🌿 Vana Düzenle — <span id="vd-baslik"></span></span>
+      <button class="form-sheet-kapat" onclick="formKapat('vana-duz-overlay')">✕</button>
+    </div>
+    <div style="background:#0f172a;border-radius:10px;padding:11px 14px;margin-bottom:14px;font-size:12px;color:#64748b">
+      Yeni ağaç dikimleri veya sayım düzeltmeleri için ağaç ve sıra sayısını güncelleyin.
+    </div>
+    <div class="g2">
+      <div class="field">
+        <label>Ağaç Sayısı *</label>
+        <input id="vd-agac" class="inp" type="number" min="0" inputmode="numeric" placeholder="345">
+      </div>
+      <div class="field">
+        <label>Sıra Sayısı</label>
+        <input id="vd-sira" class="inp" type="number" min="0" inputmode="numeric" placeholder="23">
+      </div>
+    </div>
+    <div style="background:#052e16;border:1px solid #16a34a;border-radius:9px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:#4ade80" id="vd-ozet"></div>
+    <input type="hidden" id="vd-ada-key">
+    <input type="hidden" id="vd-vana-no">
+    <button class="btn btn-green" onclick="vanaDuzenleKaydet()">✓ Güncelle</button>
+    <button class="btn btn-ghost" style="margin-top:6px" onclick="formKapat('vana-duz-overlay')">İptal</button>
+  </div>
+</div>
+
 <!-- ══ YAZDIR ══ -->
 <div id="yazdir-alani">
   <div class="p-baslik"><h1 id="p-baslik-h1">REÇETE</h1><div class="p-alt" id="p-alt"></div></div>
@@ -1367,6 +1426,7 @@ function togglePw(id){
 
 function ayarSayfasiGun(){
   ghAyarSayfasiGun();
+  vanaYonetimListeGun();
   const el=document.getElementById('aktif-ku-adi');
   if(el&&aktifKullanici)el.textContent=ROL_ICO[aktifKullanici.rol]+' '+aktifKullanici.adi+' ('+ROL_ETIKET[aktifKullanici.rol]+')';
   const kuCard=document.getElementById('ku-yonetim-card');
@@ -1682,7 +1742,7 @@ function receteSelectGun(){
 }
 
 /* ═══ VANA ═══ */
-const ADALAR={
+const ADALAR_BAZ={
   ADA1:{ad:"Ada 1 — Ana Arazi",kisa:"Ada 1",vanalar:[
     {no:1,sira:23,agac:345},{no:2,sira:15,agac:224},{no:3,sira:8,agac:130},
     {no:4,sira:12,agac:115},{no:5,sira:29,agac:264},{no:6,sira:29,agac:278},
@@ -1714,6 +1774,24 @@ const ADALAR={
     {no:19,sira:24,agac:219},{no:20,sira:29,agac:449}
   ]}
 };
+const ADALAR_KEY='erturan_adalar_v1';
+let ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ)); // çalışma kopyası
+
+function adalarYukle(){
+  try{
+    const d=localStorage.getItem(ADALAR_KEY);
+    if(d)ADALAR=JSON.parse(d);
+    else ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ));
+  }catch{ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ));}
+}
+function adalarKaydet(){
+  localStorage.setItem(ADALAR_KEY,JSON.stringify(ADALAR));
+  ghOtomatikSync();
+}
+function adalarToplamAgac(){
+  return Object.values(ADALAR).reduce((t,ada)=>t+ada.vanalar.reduce((s,v)=>s+v.agac,0),0);
+}
+
 let secili={},aktifAda='hepsi';
 
 function adaSec(ada,btn){
@@ -1737,6 +1815,11 @@ function gridCiz(){
       c.className='vana-card'+(isSec?' selected':'');
       c.innerHTML=`<div class="vno">${ada.kisa} V-${v.no}</div><div class="vagac">${v.agac}</div><div class="vsira">${v.sira} sıra</div>`;
       c.onclick=()=>vanaToggle(ak,v.no,c);
+      // Uzun basınca düzenle (Admin)
+      let pressTimer;
+      c.addEventListener('touchstart',()=>{pressTimer=setTimeout(()=>vanaDuzFormAc(ak,v.no),600);},{passive:true});
+      c.addEventListener('touchend',()=>clearTimeout(pressTimer));
+      c.addEventListener('touchmove',()=>clearTimeout(pressTimer));
       g.appendChild(c);
     });
   });
@@ -2169,7 +2252,7 @@ function aracListeGun(){
     document.getElementById('arac-ozet-lbl').textContent='Araç yok';
     uyDiv.innerHTML='';return;
   }
-  const topYk=araclar.reduce((a,x)=>(x.yakitlar||[]).reduce((s,y)=>s+y.litre,0)+a,0);
+  const topYk=kullanımlar.reduce((a,k)=>a+(k.litre||0),0);
   document.getElementById('arac-ozet-lbl').textContent=`${araclar.length} araç · ${fmt(topYk)} L yakıt`;
   // Uyarılar
   const uy=[];
@@ -2185,8 +2268,9 @@ function aracListeGun(){
   // Kartlar
   body.innerHTML=araclar.map(a=>{
     const sg=gunFarki(a.sigorta),mh=gunFarki(a.muayene);
-    const tYk=(a.yakitlar||[]).reduce((s,y)=>s+y.litre,0);
-    const tTl=(a.yakitlar||[]).reduce((s,y)=>s+y.tutar,0);
+    const aracKulAll=kullanımlar.filter(k=>k.aracId===a.id);
+    const tYk=aracKulAll.reduce((s,k)=>s+(k.litre||0),0);
+    const tTl=0; // mazot maliyeti depo sisteminde takip ediliyor
     const tMs=(a.kmKayitlar||[]).reduce((s,k)=>s+k.mesafe,0);
     const sb=a.bakimlar?.[0];
     const snK=sb?.sonrakiKm||0,onK=sb?.km||0;
@@ -2228,12 +2312,20 @@ function aracListeGun(){
           </div>
         </div>
         <div class="arac-tab-icerik atab-ic-${a.id}" id="atab-ic-${a.id}-yakit">
-          <button onclick="yakitFormAc(${a.id})" style="width:100%;background:#052e16;border:1.5px dashed #16a34a;color:#4ade80;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">⛽ Yakıt Ekle</button>
-          ${!(a.yakitlar||[]).length?'<div class="empty">Yakıt kaydı yok</div>':(a.yakitlar||[]).slice(0,20).map(y=>`<div class="kayit-item">
-            <div class="kayit-item-header">
-              <div><div class="kayit-deger" style="color:#22c55e">${y.litre} L</div><div class="kayit-detay">${y.tip} · ${fmt(y.km)} km</div></div>
-              <div style="text-align:right"><div class="kayit-tarih">${y.tarih?new Date(y.tarih).toLocaleDateString('tr-TR'):''}</div>${y.tutar?`<div style="font-size:13px;font-weight:700;color:#fbbf24">${fmt(y.tutar)} ₺</div>`:''}</div>
-            </div>${y.not?`<div class="kayit-detay">${y.not}</div>`:''}</div>`).join('')}
+          <button onclick="kullanımFormAcArac(${a.id})" style="width:100%;background:#052e16;border:1.5px dashed #16a34a;color:#4ade80;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">⛽ Yakıt Kullanım Ekle</button>
+          ${(()=>{
+            const aracKul=[...kullanımlar].filter(k=>k.aracId===a.id).sort((x,y)=>y.id-x.id).slice(0,20);
+            const aracTopYk=aracKul.reduce((s,k)=>s+(k.litre||0),0);
+            if(!aracKul.length)return '<div class="empty">Yakıt kullanım kaydı yok.<br><small style=\"color:#475569\">Yakıt Kullanım sekmesinden ekleyin.</small></div>';
+            return '<div style=\"background:#0f172a;border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:12px;display:flex;justify-content:space-between\"><span style=\"color:#64748b\">Toplam Tüketim</span><strong style=\"color:#f59e0b\">' + aracTopYk.toLocaleString('tr-TR',{maximumFractionDigits:1}) + ' L</strong></div>' +
+            aracKul.map(k=>`<div class="kayit-item">
+              <div class="kayit-item-header">
+                <div><div class="kayit-deger" style="color:#f59e0b">${k.litre} L</div>
+                  <div class="kayit-detay">${k.surucu||''}${k.saat?' · '+k.saat+' saat':''}${k.km1&&k.km2?' · '+(k.km2-k.km1)+' km':''}</div>
+                  ${k.aciklama?'<div class="kayit-detay">📍 '+k.aciklama+'</div>':''}</div>
+                <div style="text-align:right"><div class="kayit-tarih">${k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):''}</div></div>
+              </div></div>`).join('');
+          })()}
         </div>
         <div class="arac-tab-icerik atab-ic-${a.id}" id="atab-ic-${a.id}-bakim">
           <button onclick="bakimFormAc(${a.id})" style="width:100%;background:#2d1b69;border:1.5px dashed #7c3aed;color:#c4b5fd;padding:11px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">🔧 Bakım Ekle</button>
@@ -2258,7 +2350,7 @@ function aracListeGun(){
 
 /* ── YEDEK (araçlar dahil) ── */
 function yedekAl(){
-  const veri={versiyon:3,tarih:new Date().toISOString(),stok,log:slog,araclar,mazotlar,kullanımlar,yakitBakimlar};
+  const veri={versiyon:3,tarih:new Date().toISOString(),stok,log:slog,araclar,mazotlar,kullanim:kullanımlar,yakitBakimlar,adalar:ADALAR};
   const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
@@ -2276,7 +2368,7 @@ function yedekYukle(e){
       if(!d.stok||!Array.isArray(d.stok))throw new Error('Geçersiz yedek dosyası');
       const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
       if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
-      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];
+      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];if(d.adalar){ADALAR=d.adalar;adalarKaydet();}gridCiz();
       localStorage.setItem(SK,JSON.stringify(stok));
       localStorage.setItem(LK,JSON.stringify(slog));
       aracKaydetLS();
@@ -2653,7 +2745,7 @@ function mzRenderMazot(){
     <div class="yakit-kayit">
       <div class="yk-header">
         <div>
-          <div class="yk-plaka">⛽ ${m.toplam} L — ${m.bidon} bidon × ${m.hacim} L</div>
+          <div class="yk-plaka">⛽ ${parseFloat(m.toplam).toLocaleString('tr-TR',{maximumFractionDigits:1})} L — ${m.bidon} bidon × ${parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
           <div class="yk-det">${m.tarih?new Date(m.tarih).toLocaleDateString('tr-TR'):''} ${m.tedarik?'· '+m.tedarik:''} ${m.fiyat?'· '+m.fiyat+' ₺/L':''}</div>
           ${m.tutar?'<div style="font-size:12px;color:#93c5fd;margin-top:2px">'+m.tutar.toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺ toplam</div>':''}
           ${m.not?'<div class="yk-det" style="margin-top:2px">📝 '+m.not+'</div>':''}
@@ -2683,6 +2775,13 @@ function kulPlakaSecildi(){
   const sLbl=document.getElementById('kul-saat-lbl');
   if(sLbl)sLbl.textContent=a&&a.tip?.includes('Traktör')?'Traktör Saati':'Çalışma Saati';
   document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+}
+function kullanımFormAcArac(aracId){
+  kullanımFormAc();
+  setTimeout(()=>{
+    const sel=document.getElementById('kul-plaka');
+    if(sel){sel.value=aracId;kulPlakaSecildi();}
+  },50);
 }
 function kullanımFormAc(){
   document.getElementById('kul-tarih').value=new Date().toISOString().split('T')[0];
@@ -3344,7 +3443,7 @@ async function ghKaydet(manuel=false){
     kaydeden:aktifKullanici?.adi||'sistem',
     stok,log:slog,araclar,mazotlar,
     kullanim:kullanımlar,
-    yakitBakimlar
+    yakitBakimlar,adalar:ADALAR
   };
   const icerik=btoa(unescape(encodeURIComponent(JSON.stringify(veri,null,2))));
   const tarihStr=new Date().toLocaleString('tr-TR');
@@ -3437,10 +3536,105 @@ function ghOtomatikSync(){
 
 /* ── ayarSayfasiGun'a gh ekle ── */
 
+
+/* ════════════════════════════════════════════════════════
+   VANA & AĞAÇ YÖNETİMİ
+════════════════════════════════════════════════════════ */
+function vanaDuzFormAc(adaKey,vanaNo){
+  if(aktifKullanici?.rol!=='admin'){toast('Admin yetkisi gerekli!','err');return;}
+  const ada=ADALAR[adaKey];
+  const v=ada.vanalar.find(x=>x.no===vanaNo);
+  if(!v)return;
+  document.getElementById('vd-baslik').textContent=ada.kisa+' — V-'+vanaNo;
+  document.getElementById('vd-ada-key').value=adaKey;
+  document.getElementById('vd-vana-no').value=vanaNo;
+  document.getElementById('vd-agac').value=v.agac;
+  document.getElementById('vd-sira').value=v.sira;
+  document.getElementById('vd-ozet').textContent=
+    'Mevcut: '+v.agac+' ağaç · '+v.sira+' sıra';
+  formAc('vana-duz-overlay');
+  // Canlı özet güncelle
+  document.getElementById('vd-agac').oninput=function(){
+    const yeni=parseInt(this.value)||0;
+    const fark=yeni-v.agac;
+    document.getElementById('vd-ozet').textContent=
+      'Mevcut: '+v.agac+' → Yeni: '+yeni+' ağaç'+
+      (fark!==0?' ('+( fark>0?'+':'')+fark+')':'');
+    document.getElementById('vd-ozet').style.color=
+      fark>0?'#4ade80':fark<0?'#f87171':'#4ade80';
+  };
+}
+
+function vanaDuzenleKaydet(){
+  const adaKey=document.getElementById('vd-ada-key').value;
+  const vanaNo=parseInt(document.getElementById('vd-vana-no').value);
+  const yeniAgac=parseInt(document.getElementById('vd-agac').value);
+  const yeniSira=parseInt(document.getElementById('vd-sira').value);
+  if(isNaN(yeniAgac)||yeniAgac<0)return toast('Geçerli ağaç sayısı giriniz!','err');
+  const ada=ADALAR[adaKey];
+  const idx=ada.vanalar.findIndex(v=>v.no===vanaNo);
+  if(idx<0)return;
+  const eskiAgac=ada.vanalar[idx].agac;
+  ada.vanalar[idx].agac=yeniAgac;
+  if(!isNaN(yeniSira)&&yeniSira>0)ada.vanalar[idx].sira=yeniSira;
+  adalarKaydet();
+  gridCiz();
+  vanaYonetimListeGun();
+  formKapat('vana-duz-overlay');
+  const fark=yeniAgac-eskiAgac;
+  toast('✓ '+ada.kisa+' V-'+vanaNo+': '+eskiAgac+' → '+yeniAgac+' ağaç'+(fark!==0?' ('+( fark>0?'+':'')+fark+')':''));
+  notifBadgeGun();
+}
+
+function adalarSifirla(){
+  if(!confirm('Tüm vana/ağaç verileri orijinal sayılara sıfırlansın mı?\n\nBu işlem geri alınamaz.'))return;
+  ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ));
+  adalarKaydet();gridCiz();vanaYonetimListeGun();
+  toast('✓ Vana verileri sıfırlandı');
+}
+
+function vanaYonetimListeGun(){
+  const liste=document.getElementById('vana-yonetim-liste');
+  const toplamEl=document.getElementById('vana-toplam-goster');
+  if(!liste)return;
+  const toplam=adalarToplamAgac();
+  if(toplamEl)toplamEl.textContent='Toplam: '+toplam.toLocaleString('tr-TR')+' ağaç';
+
+  liste.innerHTML=Object.entries(ADALAR).map(([ak,ada])=>{
+    const adaTop=ada.vanalar.reduce((s,v)=>s+v.agac,0);
+    const bazTop=ADALAR_BAZ[ak].vanalar.reduce((s,v)=>s+v.agac,0);
+    const fark=adaTop-bazTop;
+    return`<div class="vana-ada-yonetim">
+      <div class="vana-ada-header" onclick="this.nextElementSibling.classList.toggle('acik')">
+        <div>
+          <div class="vana-ada-baslik">${ada.ad}</div>
+          <div class="vana-ada-ozet">${ada.vanalar.length} vana · ${adaTop.toLocaleString('tr-TR')} ağaç
+          ${fark!==0?`<span style="color:${fark>0?'#4ade80':'#f87171'};font-size:11px"> (${fark>0?'+':''}${fark.toLocaleString('tr-TR')})</span>`:''}
+          </div>
+        </div>
+        <span style="color:#64748b;font-size:18px">›</span>
+      </div>
+      <div class="vana-ada-body">
+        ${ada.vanalar.map(v=>{
+          const bazV=ADALAR_BAZ[ak].vanalar.find(x=>x.no===v.no);
+          const degisti=bazV&&bazV.agac!==v.agac;
+          return`<div class="vana-satir">
+            <div class="vana-satir-no">V-${v.no}</div>
+            <div class="vana-satir-agac">${v.agac.toLocaleString('tr-TR')} ağaç${degisti?` <span style="font-size:10px;color:#f59e0b">(değişti)</span>`:''}</div>
+            <div class="vana-satir-sira">${v.sira} sıra</div>
+            <button class="vana-satir-edit" onclick="vanaDuzFormAc('${ak}',${v.no})">✏ Düzenle</button>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 /* ═══ BAŞLAT ═══ */
 aracYukle();
 mzYukle();
 yukle();
+adalarYukle();
 notifOkunanlariYukle();
 ghConfigYukle();
 loginEkraniGoster();
