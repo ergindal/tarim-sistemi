@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-07T17:17:28.243Z",
+  "tarih": "2026-04-07T17:21:23.400Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -191,179 +191,381 @@
       "icerik": 25,
       "icBirim": "kg",
       "kritik": 2
-    },
-    {
-      "id": 1775041336692,
-      "ad": "BOTENUP",
-      "miktar": 25,
-      "ambalaj": "Bidon",
-      "icerik": 20,
-      "icBirim": "L",
-      "kritik": 2
-    },
-    {
-      "id": 1775041422866,
-      "ad": "BotePhos",
-      "miktar": 30,
-      "ambalaj": "Bidon",
-      "icerik": 20,
-      "icBirim": "L",
-      "kritik": 2
-    },
-    {
-      "id": 1775041459215,
-      "ad": "NitroEnt",
-      "miktar": 4,
-      "ambalaj": "Bidon",
-      "icerik": 20,
-      "icBirim": "L",
-      "kritik": 2
-    },
-    {
-      "id": 1775041552178,
-      "ad": "MelangeSC",
-      "miktar": 5,
-      "ambalaj": "Bidon",
-      "icerik": 5,
-      "icBirim": "L",
-      "kritik": 1
-    },
-    {
-      "id": 1775041746437,
-      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
-      "miktar": 4,
-      "ambalaj": "Bidon",
-      "icerik": 5,
-      "icBirim": "L",
-      "kritik": 2
     }
   ],
-  "log": [
-    {
-      "tip": "yeni",
-      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
-      "miktar": 4,
-      "once": 0,
-      "sonra": 4,
-      "birim": "Bidon (5 L)",
-      "not": "",
-      "t": "01.04.2026 14:09"
+  "log": [],
+  "araclar": [],
+  "mazotlar": [],
+  "kullanim": [],
+  "yakitBakimlar": [],
+  "adalar": {
+    "ADA1": {
+      "ad": "Ada 1 — Ana Arazi",
+      "kisa": "Ada 1",
+      "vanalar": [
+        {
+          "no": 1,
+          "sira": 23,
+          "agac": 345
+        },
+        {
+          "no": 2,
+          "sira": 15,
+          "agac": 224
+        },
+        {
+          "no": 3,
+          "sira": 8,
+          "agac": 130
+        },
+        {
+          "no": 4,
+          "sira": 12,
+          "agac": 115
+        },
+        {
+          "no": 5,
+          "sira": 29,
+          "agac": 264
+        },
+        {
+          "no": 6,
+          "sira": 29,
+          "agac": 278
+        },
+        {
+          "no": 7,
+          "sira": 14,
+          "agac": 117
+        },
+        {
+          "no": 8,
+          "sira": 23,
+          "agac": 211
+        },
+        {
+          "no": 9,
+          "sira": 10,
+          "agac": 55
+        },
+        {
+          "no": 10,
+          "sira": 23,
+          "agac": 153
+        },
+        {
+          "no": 11,
+          "sira": 27,
+          "agac": 270
+        },
+        {
+          "no": 12,
+          "sira": 16,
+          "agac": 120
+        },
+        {
+          "no": 13,
+          "sira": 12,
+          "agac": 50
+        },
+        {
+          "no": 14,
+          "sira": 9,
+          "agac": 85
+        },
+        {
+          "no": 15,
+          "sira": 29,
+          "agac": 302
+        },
+        {
+          "no": 16,
+          "sira": 20,
+          "agac": 181
+        },
+        {
+          "no": 17,
+          "sira": 20,
+          "agac": 202
+        },
+        {
+          "no": 18,
+          "sira": 25,
+          "agac": 201
+        },
+        {
+          "no": 19,
+          "sira": 9,
+          "agac": 123
+        },
+        {
+          "no": 20,
+          "sira": 11,
+          "agac": 168
+        },
+        {
+          "no": 21,
+          "sira": 11,
+          "agac": 80
+        },
+        {
+          "no": 22,
+          "sira": 8,
+          "agac": 95
+        },
+        {
+          "no": 23,
+          "sira": 16,
+          "agac": 198
+        },
+        {
+          "no": 24,
+          "sira": 15,
+          "agac": 159
+        },
+        {
+          "no": 25,
+          "sira": 10,
+          "agac": 87
+        },
+        {
+          "no": 26,
+          "sira": 20,
+          "agac": 179
+        },
+        {
+          "no": 27,
+          "sira": 19,
+          "agac": 135
+        },
+        {
+          "no": 28,
+          "sira": 22,
+          "agac": 211
+        },
+        {
+          "no": 29,
+          "sira": 24,
+          "agac": 161
+        }
+      ]
     },
-    {
-      "tip": "yeni",
-      "ad": "MelangeSC",
-      "miktar": 5,
-      "once": 0,
-      "sonra": 5,
-      "birim": "Bidon (5 L)",
-      "not": "",
-      "t": "01.04.2026 14:05"
+    "ADA2": {
+      "ad": "Ada 2 — Üst Arazi",
+      "kisa": "Ada 2",
+      "vanalar": [
+        {
+          "no": 1,
+          "sira": 26,
+          "agac": 231
+        },
+        {
+          "no": 2,
+          "sira": 13,
+          "agac": 106
+        },
+        {
+          "no": 3,
+          "sira": 18,
+          "agac": 186
+        },
+        {
+          "no": 4,
+          "sira": 15,
+          "agac": 163
+        },
+        {
+          "no": 5,
+          "sira": 20,
+          "agac": 237
+        },
+        {
+          "no": 6,
+          "sira": 17,
+          "agac": 279
+        },
+        {
+          "no": 7,
+          "sira": 8,
+          "agac": 62
+        },
+        {
+          "no": 8,
+          "sira": 11,
+          "agac": 80
+        },
+        {
+          "no": 9,
+          "sira": 5,
+          "agac": 38
+        },
+        {
+          "no": 10,
+          "sira": 2,
+          "agac": 14
+        },
+        {
+          "no": 11,
+          "sira": 18,
+          "agac": 183
+        },
+        {
+          "no": 12,
+          "sira": 14,
+          "agac": 151
+        },
+        {
+          "no": 13,
+          "sira": 24,
+          "agac": 310
+        },
+        {
+          "no": 14,
+          "sira": 13,
+          "agac": 148
+        },
+        {
+          "no": 15,
+          "sira": 31,
+          "agac": 305
+        },
+        {
+          "no": 16,
+          "sira": 26,
+          "agac": 437
+        },
+        {
+          "no": 17,
+          "sira": 20,
+          "agac": 239
+        },
+        {
+          "no": 18,
+          "sira": 8,
+          "agac": 108
+        },
+        {
+          "no": 19,
+          "sira": 18,
+          "agac": 195
+        },
+        {
+          "no": 20,
+          "sira": 22,
+          "agac": 269
+        },
+        {
+          "no": 21,
+          "sira": 8,
+          "agac": 115
+        }
+      ]
     },
-    {
-      "tip": "yeni",
-      "ad": "NitroEnt",
-      "miktar": 4,
-      "once": 0,
-      "sonra": 4,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:04"
-    },
-    {
-      "tip": "yeni",
-      "ad": "BotePhos",
-      "miktar": 30,
-      "once": 0,
-      "sonra": 30,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:03"
-    },
-    {
-      "tip": "yeni",
-      "ad": "BOTENUP",
-      "miktar": 25,
-      "once": 0,
-      "sonra": 25,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:02"
+    "ADA3": {
+      "ad": "Ada 3 — Fidanlık",
+      "kisa": "Ada 3",
+      "vanalar": [
+        {
+          "no": 1,
+          "sira": 20,
+          "agac": 283
+        },
+        {
+          "no": 2,
+          "sira": 24,
+          "agac": 304
+        },
+        {
+          "no": 3,
+          "sira": 24,
+          "agac": 317
+        },
+        {
+          "no": 4,
+          "sira": 16,
+          "agac": 335
+        },
+        {
+          "no": 5,
+          "sira": 11,
+          "agac": 258
+        },
+        {
+          "no": 6,
+          "sira": 12,
+          "agac": 196
+        },
+        {
+          "no": 7,
+          "sira": 8,
+          "agac": 109
+        },
+        {
+          "no": 8,
+          "sira": 31,
+          "agac": 289
+        },
+        {
+          "no": 9,
+          "sira": 16,
+          "agac": 198
+        },
+        {
+          "no": 10,
+          "sira": 12,
+          "agac": 185
+        },
+        {
+          "no": 11,
+          "sira": 52,
+          "agac": 661
+        },
+        {
+          "no": 12,
+          "sira": 45,
+          "agac": 645
+        },
+        {
+          "no": 13,
+          "sira": 11,
+          "agac": 188
+        },
+        {
+          "no": 14,
+          "sira": 46,
+          "agac": 297
+        },
+        {
+          "no": 15,
+          "sira": 66,
+          "agac": 616
+        },
+        {
+          "no": 16,
+          "sira": 45,
+          "agac": 273
+        },
+        {
+          "no": 17,
+          "sira": 15,
+          "agac": 233
+        },
+        {
+          "no": 18,
+          "sira": 21,
+          "agac": 227
+        },
+        {
+          "no": 19,
+          "sira": 24,
+          "agac": 219
+        },
+        {
+          "no": 20,
+          "sira": 29,
+          "agac": 449
+        }
+      ]
     }
-  ],
-  "araclar": [
-    {
-      "id": 1775537894045,
-      "plaka": "34 GTU 521",
-      "tip": "🚜 Traktör",
-      "marka": "NEW HOLANDA",
-      "model": "T3.70B",
-      "yil": "2023",
-      "km": 1886,
-      "sigorta": "",
-      "muayene": "",
-      "not": "MAVİ",
-      "yakitlar": [],
-      "bakimlar": [],
-      "kmKayitlar": []
-    },
-    {
-      "id": 1775538015129,
-      "plaka": "55 AON 712",
-      "tip": "🚜 Traktör",
-      "marka": "ERKUT",
-      "model": "KSMET 55E-B",
-      "yil": "",
-      "km": 460,
-      "sigorta": "",
-      "muayene": "",
-      "not": "",
-      "yakitlar": [],
-      "bakimlar": [],
-      "kmKayitlar": []
-    },
-    {
-      "id": 1775556513258,
-      "plaka": "25555",
-      "tip": "⚙️ İş Makinesi",
-      "marka": "KUmasu d31",
-      "model": "",
-      "yil": "",
-      "km": 0,
-      "sigorta": "",
-      "muayene": "",
-      "not": "",
-      "yakitlar": [],
-      "bakimlar": [],
-      "kmKayitlar": []
-    }
-  ],
-  "mazotlar": [
-    {
-      "id": 1775491700586,
-      "tarih": "2026-04-06",
-      "bidon": 30,
-      "hacim": 21.963,
-      "toplam": 658.89,
-      "fiyat": 78.87,
-      "tutar": 51966.65,
-      "tedarik": "",
-      "not": ""
-    }
-  ],
-  "kullanim": [
-    {
-      "id": 1775556562510,
-      "tarih": "2026-04-07",
-      "aracId": 1775556513258,
-      "plaka": "25555",
-      "tip": "⚙️ İş Makinesi",
-      "litre": 65,
-      "saat": null,
-      "km1": null,
-      "km2": null,
-      "surucu": "Burhan İnce",
-      "aciklama": ""
-    }
-  ],
-  "yakitBakimlar": []
+  }
 }
