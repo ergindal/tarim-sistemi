@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-09T04:01:06.323Z",
+  "tarih": "2026-04-09T08:27:30.378Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 17,
+      "miktar": 25,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 60,
+      "miktar": 80,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -239,6 +239,36 @@
     }
   ],
   "log": [
+    {
+      "tip": "ekle",
+      "ad": "Can % 26 Gübre",
+      "miktar": 8,
+      "once": 17,
+      "sonra": 25,
+      "birim": "Çuval (50 kg)",
+      "not": "",
+      "t": "07.04.2026 20:46"
+    },
+    {
+      "tip": "duz",
+      "ad": "Fulvera hümik asit",
+      "miktar": 0,
+      "once": 80,
+      "sonra": 80,
+      "birim": "Bidon",
+      "not": "Düzeltme",
+      "t": "07.04.2026 20:43"
+    },
+    {
+      "tip": "duz",
+      "ad": "Fulvera hümik asit",
+      "miktar": 20,
+      "once": 60,
+      "sonra": 80,
+      "birim": "Bidon",
+      "not": "Düzeltme",
+      "t": "07.04.2026 20:43"
+    },
     {
       "tip": "yeni",
       "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
@@ -365,17 +395,17 @@
       "aciklama": ""
     },
     {
-      "id": 1775624809457,
+      "id": 1775701620236,
       "tarih": "2026-04-08",
       "aracId": 1775537894045,
       "plaka": "34 GTU 521",
       "tip": "🚜 Traktör",
       "litre": 22,
-      "saat": null,
+      "saat": 1880,
       "km1": null,
       "km2": null,
-      "surucu": "Oğuz Karaçelik",
-      "aciklama": "Tarla Sürme"
+      "surucu": "Oğuz Karcelik",
+      "aciklama": "Tarla"
     }
   ],
   "yakitBakimlar": [],
@@ -412,7 +442,7 @@
         {
           "no": 6,
           "sira": 29,
-          "agac": 278
+          "agac": 295
         },
         {
           "no": 7,
@@ -527,7 +557,7 @@
         {
           "no": 29,
           "sira": 24,
-          "agac": 161
+          "agac": 198
         }
       ]
     },
