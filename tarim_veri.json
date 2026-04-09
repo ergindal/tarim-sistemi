@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-09T08:46:56.859Z",
+  "tarih": "2026-04-09T08:47:01.698Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "CNPalmira Kalsiyum Nitrat",
+      "miktar": 0,
+      "once": 7,
+      "sonra": 7,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "09.04.2026 11:46"
+    },
     {
       "tip": "duz",
       "ad": "CNPalmira Kalsiyum Nitrat",
