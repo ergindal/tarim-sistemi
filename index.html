@@ -1110,8 +1110,9 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <span>📋 Yakıt Kullanım Kaydı</span>
       <button class="form-sheet-kapat" onclick="formKapat('kullanim-form-overlay')">✕</button>
     </div>
-    <div style="background:#452a03;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px">
-      Depo Stoku: <strong id="kul-form-stok" style="color:#f59e0b">0 L</strong>
+    <div style="background:#452a03;border:1px solid #f59e0b;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;display:flex;justify-content:space-between;align-items:center">
+      <span style="color:#94a3b8">Depo Stoku:</span>
+      <strong id="kul-form-stok" style="color:#f59e0b">0 L</strong>
     </div>
     <div class="field"><label>Tarih</label><input id="kul-tarih" class="inp" type="date"></div>
     <div class="field"><label>Araç Plaka *</label>
@@ -1120,10 +1121,30 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </select>
     </div>
     <div class="field"><label>Sürücü</label><input id="kul-surucu" class="inp" placeholder="Ad Soyad"></div>
-    <div class="g2">
-      <div class="field"><label>Verilen Litre *</label><input id="kul-litre" class="inp" type="number" step="0.1" min="0.1" placeholder="80" inputmode="decimal"></div>
-      <div class="field"><label id="kul-saat-lbl">Traktör Saati</label><input id="kul-saat" class="inp" type="number" placeholder="1450" inputmode="numeric"></div>
+
+    <!-- BİDON GİRİŞİ -->
+    <div style="background:#0f172a;border-radius:10px;padding:12px;border:1px solid #334155;margin-bottom:12px">
+      <div style="font-size:10px;font-weight:800;color:#f59e0b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px">⛽ Yakıt Miktarı</div>
+      <div class="g2" style="margin-bottom:8px">
+        <div class="field" style="margin-bottom:0">
+          <label>Bidon Adedi *</label>
+          <input id="kul-bidon" class="inp" type="number" min="1" step="1" placeholder="3" inputmode="numeric" oninput="kulBidonHesapla()">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Bidon Hacmi (L)</label>
+          <input id="kul-hacim" class="inp" type="number" min="1" step="any" placeholder="200" inputmode="decimal" oninput="kulBidonHesapla()">
+        </div>
+      </div>
+      <!-- Otomatik hesaplanan litre -->
+      <div style="background:#052e16;border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:12px;color:#64748b">Toplam Litre</span>
+        <strong id="kul-litre-goster" style="font-size:18px;font-weight:800;color:#f59e0b">— L</strong>
+      </div>
+      <!-- Gizli litre alanı — hesaplanan değer buraya yazılır -->
+      <input id="kul-litre" type="hidden" value="0">
     </div>
+
+    <div class="field"><label id="kul-saat-lbl">Traktör Saati</label><input id="kul-saat" class="inp" type="number" placeholder="1450" inputmode="numeric"></div>
     <div class="g2">
       <div class="field"><label>Başlangıç KM</label><input id="kul-km1" class="inp" type="number" placeholder="12500" inputmode="numeric"></div>
       <div class="field"><label>Bitiş KM</label><input id="kul-km2" class="inp" type="number" placeholder="12680" inputmode="numeric"></div>
@@ -2776,6 +2797,27 @@ function kulPlakaSecildi(){
   if(sLbl)sLbl.textContent=a&&a.tip?.includes('Traktör')?'Traktör Saati':'Çalışma Saati';
   document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
 }
+function kulBidonHesapla(){
+  const b=parseFloat(document.getElementById('kul-bidon').value)||0;
+  const h=parseFloat(document.getElementById('kul-hacim').value)||0;
+  const litre=+(b*h).toFixed(2);
+  document.getElementById('kul-litre').value=litre;
+  const goster=document.getElementById('kul-litre-goster');
+  if(b>0&&h>0){
+    goster.textContent=litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+    goster.style.color='#f59e0b';
+    // Stok kontrolü
+    const stok=getMzStok();
+    if(litre>stok){
+      goster.textContent=litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L ⚠ Yetersiz!';
+      goster.style.color='#f87171';
+    }
+  }else{
+    goster.textContent='— L';
+    goster.style.color='#f59e0b';
+  }
+}
+
 function kullanımFormAcArac(aracId){
   kullanımFormAc();
   setTimeout(()=>{
@@ -2785,9 +2827,12 @@ function kullanımFormAcArac(aracId){
 }
 function kullanımFormAc(){
   document.getElementById('kul-tarih').value=new Date().toISOString().split('T')[0];
-  ['kul-plaka','kul-litre','kul-saat','kul-km1','kul-km2','kul-surucu','kul-aciklama'].forEach(i=>{
+  ['kul-plaka','kul-bidon','kul-hacim','kul-saat','kul-km1','kul-km2','kul-surucu','kul-aciklama'].forEach(i=>{
     const el=document.getElementById(i);if(el)el.value='';
   });
+  document.getElementById('kul-litre').value='0';
+  document.getElementById('kul-litre-goster').textContent='— L';
+  document.getElementById('kul-litre-goster').style.color='#f59e0b';
   document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
   kulSelectGun();
   formAc('kullanim-form-overlay');
@@ -2795,31 +2840,32 @@ function kullanımFormAc(){
 function kullanımKaydet(){
   const tarih=document.getElementById('kul-tarih').value;
   const aracId=parseInt(document.getElementById('kul-plaka').value);
-  const litre=parseFloat(document.getElementById('kul-litre').value);
-  if(!tarih||!aracId||!litre||litre<=0)return toast('Tarih, araç ve litre zorunludur!','err');
+  const bidon=parseFloat(document.getElementById('kul-bidon').value)||0;
+  const hacim=parseFloat(document.getElementById('kul-hacim').value)||0;
+  const litre=parseFloat(document.getElementById('kul-litre').value)||0;
+  if(!tarih||!aracId)return toast('Tarih ve araç zorunludur!','err');
+  if(!bidon||bidon<=0)return toast('Bidon adedi giriniz!','err');
+  if(!hacim||hacim<=0)return toast('Bidon hacmi giriniz!','err');
   const stok=getMzStok();
   if(litre>stok)return toast('Depo yetersiz! Mevcut: '+stok.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L','wrn');
   const a=araclar.find(x=>x.id===aracId);
   kullanımlar.push({
     id:Date.now(),tarih,aracId,
     plaka:a?.plaka||'',tip:a?.tip||'',
-    litre,
+    bidon,hacim,litre,
     saat:parseFloat(document.getElementById('kul-saat').value)||null,
     km1:parseFloat(document.getElementById('kul-km1').value)||null,
     km2:parseFloat(document.getElementById('kul-km2').value)||null,
     surucu:document.getElementById('kul-surucu').value.trim(),
     aciklama:document.getElementById('kul-aciklama').value.trim(),
   });
-  // Araç KM'sini güncelle
   const km2=parseFloat(document.getElementById('kul-km2').value)||0;
   if(km2>0){const idx=araclar.findIndex(x=>x.id===aracId);if(idx>=0&&km2>araclar[idx].km)araclar[idx].km=km2;aracKaydetLS();}
   mzKaydetLS();
   formKapat('kullanim-form-overlay');
   mzRenderKullanim();mzRenderMazot();mzRenderDashboard();
   notifBadgeGun();
-  setInterval(notifPeriyodikKontrol,5*60*1000);
-  ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
-  toast('✓ '+litre+' L yakıt kullanım kaydedildi');
+  toast('✓ '+bidon+' bidon ('+litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L) '+a?.plaka+' için kaydedildi');
 }
 function kulSil(id){
   if(!confirm('Bu kullanım kaydını silmek istiyor musunuz?'))return;
@@ -2839,7 +2885,7 @@ function mzRenderKullanim(){
       <div class="yk-header">
         <div>
           <div class="yk-plaka">${k.plaka} <span style="font-size:11px;color:#64748b">${k.tip?.split(' ')[0]||''}</span></div>
-          <div class="yk-litre">${k.litre} L</div>
+          <div class="yk-litre">${k.bidon?'<span style="font-size:13px;color:#94a3b8">'+k.bidon+' bidon × '+k.hacim+'L = </span>':''}<span style="color:#f59e0b">${k.litre} L</span></div>
           <div class="yk-det">${k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):''} ${k.surucu?'· '+k.surucu:''} ${k.saat?'· '+k.saat+' saat':''} ${km?'· '+km:''}</div>
           ${k.aciklama?'<div class="yk-det">📍 '+k.aciklama+'</div>':''}
         </div>
