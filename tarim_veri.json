@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-09T02:28:02.828Z",
+  "tarih": "2026-04-09T04:00:59.066Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 25,
+      "miktar": 17,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 80,
+      "miktar": 60,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -239,36 +239,6 @@
     }
   ],
   "log": [
-    {
-      "tip": "ekle",
-      "ad": "Can % 26 Gübre",
-      "miktar": 8,
-      "once": 17,
-      "sonra": 25,
-      "birim": "Çuval (50 kg)",
-      "not": "",
-      "t": "07.04.2026 20:46"
-    },
-    {
-      "tip": "duz",
-      "ad": "Fulvera hümik asit",
-      "miktar": 0,
-      "once": 80,
-      "sonra": 80,
-      "birim": "Bidon",
-      "not": "Düzeltme",
-      "t": "07.04.2026 20:43"
-    },
-    {
-      "tip": "duz",
-      "ad": "Fulvera hümik asit",
-      "miktar": 20,
-      "once": 60,
-      "sonra": 80,
-      "birim": "Bidon",
-      "not": "Düzeltme",
-      "t": "07.04.2026 20:43"
-    },
     {
       "tip": "yeni",
       "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
@@ -395,17 +365,17 @@
       "aciklama": ""
     },
     {
-      "id": 1775701620236,
+      "id": 1775624809457,
       "tarih": "2026-04-08",
       "aracId": 1775537894045,
       "plaka": "34 GTU 521",
       "tip": "🚜 Traktör",
       "litre": 22,
-      "saat": 1880,
+      "saat": null,
       "km1": null,
       "km2": null,
-      "surucu": "Oğuz Karcelik",
-      "aciklama": "Tarla"
+      "surucu": "Oğuz Karaçelik",
+      "aciklama": "Tarla Sürme"
     }
   ],
   "yakitBakimlar": [],
@@ -557,7 +527,7 @@
         {
           "no": 29,
           "sira": 24,
-          "agac": 198
+          "agac": 161
         }
       ]
     },
