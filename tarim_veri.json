@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-10T08:47:23.414Z",
+  "tarih": "2026-04-10T08:48:20.669Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -426,6 +426,21 @@
       "bidon": 1,
       "hacim": 21,
       "litre": 21,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Oğuz Karaçelik",
+      "aciklama": ""
+    },
+    {
+      "id": 1775810897667,
+      "tarih": "2026-04-09",
+      "aracId": 1775537894045,
+      "plaka": "34 GTU 521",
+      "tip": "🚜 Traktör",
+      "bidon": 1,
+      "hacim": 22,
+      "litre": 22,
       "saat": null,
       "km1": null,
       "km2": null,
