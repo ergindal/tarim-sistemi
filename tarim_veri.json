@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-09T09:52:51.700Z",
+  "tarih": "2026-04-10T08:47:23.414Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 13,
+      "miktar": 60,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -239,16 +239,6 @@
     }
   ],
   "log": [
-    {
-      "tip": "duz",
-      "ad": "Fulvera hümik asit",
-      "miktar": 47,
-      "once": 60,
-      "sonra": 13,
-      "birim": "Bidon",
-      "not": "Düzeltme",
-      "t": "09.04.2026 12:52"
-    },
     {
       "tip": "duz",
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
@@ -426,6 +416,21 @@
       "km2": null,
       "surucu": "Oğuz Karaçelik",
       "aciklama": "Tarla Sürme"
+    },
+    {
+      "id": 1775810840405,
+      "tarih": "2026-04-10",
+      "aracId": 1775537894045,
+      "plaka": "34 GTU 521",
+      "tip": "🚜 Traktör",
+      "bidon": 1,
+      "hacim": 21,
+      "litre": 21,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Oğuz Karaçelik",
+      "aciklama": ""
     }
   ],
   "yakitBakimlar": [],
@@ -462,7 +467,7 @@
         {
           "no": 6,
           "sira": 29,
-          "agac": 278
+          "agac": 298
         },
         {
           "no": 7,
@@ -593,7 +598,7 @@
         {
           "no": 2,
           "sira": 13,
-          "agac": 106
+          "agac": 125
         },
         {
           "no": 3,
@@ -663,32 +668,32 @@
         {
           "no": 16,
           "sira": 26,
-          "agac": 437
+          "agac": 470
         },
         {
           "no": 17,
           "sira": 20,
-          "agac": 239
+          "agac": 255
         },
         {
           "no": 18,
           "sira": 8,
-          "agac": 108
+          "agac": 130
         },
         {
           "no": 19,
           "sira": 18,
-          "agac": 195
+          "agac": 205
         },
         {
           "no": 20,
           "sira": 22,
-          "agac": 269
+          "agac": 275
         },
         {
           "no": 21,
           "sira": 8,
-          "agac": 115
+          "agac": 120
         }
       ]
     },
