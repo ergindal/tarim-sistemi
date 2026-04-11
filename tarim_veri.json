@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-11T07:49:53.625Z",
+  "tarih": "2026-04-11T07:50:59.595Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -476,6 +476,21 @@
       "km2": null,
       "surucu": "Burhan İnce",
       "aciklama": ""
+    },
+    {
+      "id": 1775893856592,
+      "tarih": "2026-04-11",
+      "aracId": 1775537894045,
+      "plaka": "34 GTU 521",
+      "tip": "🚜 Traktör",
+      "bidon": 1,
+      "hacim": 21,
+      "litre": 21,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Oğuz Karaçelik",
+      "aciklama": "Tarla Sürme"
     }
   ],
   "yakitBakimlar": [],
