@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-11T15:41:37.114Z",
+  "tarih": "2026-04-11T15:42:44.593Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -506,6 +506,21 @@
       "km2": null,
       "surucu": "",
       "aciklama": "YOL ÇALIŞMASI"
+    },
+    {
+      "id": 1775922161590,
+      "tarih": "2026-04-11",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 1,
+      "hacim": 22,
+      "litre": 22,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan ince",
+      "aciklama": "Hakan Bey'in evine götürüldü"
     }
   ],
   "yakitBakimlar": [],
