@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-11T15:36:54.036Z",
+  "tarih": "2026-04-11T15:41:37.114Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -491,6 +491,21 @@
       "km2": null,
       "surucu": "Oğuz Karaçelik",
       "aciklama": "Tarla Sürme"
+    },
+    {
+      "id": 1775922094112,
+      "tarih": "2026-04-11",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 1,
+      "hacim": 22,
+      "litre": 22,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "",
+      "aciklama": "YOL ÇALIŞMASI"
     }
   ],
   "yakitBakimlar": [],
