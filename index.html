@@ -312,13 +312,23 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .mz-alert.warn{background:#431407;border:1px solid #f59e0b;color:#fbbf24}
 .mz-alert.ok{background:#052e16;border:1px solid #22c55e;color:#4ade80}
 
-.yakit-kayit{background:#0f172a;border-radius:10px;padding:12px 14px;margin-bottom:7px;border:1px solid #334155}
-.yk-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
-.yk-plaka{font-size:13px;font-weight:800;color:#e2e8f0}
-.yk-litre{font-size:16px;font-weight:800;color:#f59e0b}
-.yk-det{font-size:12px;color:#64748b;line-height:1.5}
-.yk-del{background:transparent;border:none;color:#475569;cursor:pointer;font-size:14px;padding:3px 6px;border-radius:6px;transition:color .2s}
-.yk-del:active{color:#ef4444}
+.yakit-kayit{background:#1e293b;border-radius:12px;margin-bottom:8px;border:1px solid #334155;overflow:hidden;transition:opacity .2s}
+.yk-header{background:#0f172a;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #334155}
+.yk-plaka{font-size:13px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:8px}
+.yk-tip-chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;background:#1e3a5f;color:#93c5fd}
+.yk-tarih{font-size:11px;color:#475569}
+.yk-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.yk-cell{padding:9px 14px;border-bottom:1px solid #0f172a;border-right:1px solid #0f172a}
+.yk-cell:nth-child(2n){border-right:none}
+.yk-cell:nth-last-child(-n+2){border-bottom:none}
+.yk-cell-lbl{font-size:10px;font-weight:700;color:#475569;letter-spacing:.4px;text-transform:uppercase;margin-bottom:3px}
+.yk-cell-val{font-size:14px;font-weight:800;color:#e2e8f0}
+.yk-cell-val.fuel{color:#f59e0b}
+.yk-cell-val.muted{color:#64748b;font-size:13px;font-weight:600}
+.yk-footer{padding:8px 14px;display:flex;align-items:center;justify-content:space-between;background:#0a1628;border-top:1px solid #0f172a}
+.yk-aciklama{font-size:11px;color:#64748b;display:flex;align-items:center;gap:5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.yk-del{background:transparent;border:none;color:#334155;cursor:pointer;font-size:13px;padding:3px 7px;border-radius:6px;transition:all .2s;flex-shrink:0}
+.yk-del:active{color:#ef4444;background:#450a0a}
 
 .bakim-kart{background:#0f172a;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #334155}
 .bk-plaka{font-size:14px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
@@ -1251,7 +1261,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 /* ═══ VERİ ═══ */
-const SK='tarim_stok_v4',LK='tarim_log_v4';
+const SK='tarim_stok_v5',LK='tarim_log_v5';
 const BAZ=[
   {id:1,ad:'Zodiac',miktar:17,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
   {id:2,ad:'Quadris',miktar:7,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
@@ -1267,13 +1277,18 @@ const BAZ=[
   {id:13,ad:'Bordo',miktar:10,ambalaj:'Torba',icerik:10,icBirim:'kg',kritik:5},
   {id:14,ad:'Innostar 10-0-45+ME',miktar:4,ambalaj:'Torba',icerik:25,icBirim:'kg',kritik:2},
   {id:15,ad:'Clear Out 48 SL',miktar:1,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:5},
-  {id:1774711345264,ad:'Can % 26 Gübre',miktar:17,ambalaj:'Çuval',icerik:50,icBirim:'kg',kritik:2},
-  {id:1774711786242,ad:'Fulvera hümik asit',miktar:60,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:2},
+  {id:1774711345264,ad:'Can % 26 Gübre',miktar:25,ambalaj:'Çuval',icerik:50,icBirim:'kg',kritik:2},
+  {id:1774711786242,ad:'Fulvera hümik asit',miktar:80,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:2},
   {id:1774713074890,ad:'Greenleaf 20.20.20',miktar:20,ambalaj:'Paket',icerik:2.5,icBirim:'kg',kritik:2},
   {id:1774714874393,ad:'CANION PLUS',miktar:2,ambalaj:'Şişe',icerik:2,icBirim:'L',kritik:5},
   {id:1774717289773,ad:'MICROLEX',miktar:13,ambalaj:'Paket',icerik:2.5,icBirim:'L',kritik:2},
   {id:1774798729763,ad:'DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi',miktar:17,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2},
-  {id:1774798780355,ad:'CNPalmira Kalsiyum Nitrat',miktar:22,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2}
+  {id:1774798780355,ad:'CNPalmira Kalsiyum Nitrat',miktar:22,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2},
+  {id:1774820000001,ad:'BOTENUP',miktar:25,ambalaj:'Paket',icerik:1,icBirim:'kg',kritik:5},
+  {id:1774820000002,ad:'BotePhos',miktar:30,ambalaj:'Paket',icerik:1,icBirim:'kg',kritik:5},
+  {id:1774820000003,ad:'NitroEnt',miktar:4,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2},
+  {id:1774820000004,ad:'MelangeSC',miktar:5,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2},
+  {id:1774820000005,ad:'BLUE-GUARD Likit (Aşı ve Budama Macunu)',miktar:4,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2}
 ];
 let stok=[],slog=[],sMod='ekle';
 function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));ghOtomatikSync();}
@@ -1765,37 +1780,37 @@ function receteSelectGun(){
 /* ═══ VANA ═══ */
 const ADALAR_BAZ={
   ADA1:{ad:"Ada 1 — Ana Arazi",kisa:"Ada 1",vanalar:[
-    {no:1,sira:23,agac:345},{no:2,sira:15,agac:224},{no:3,sira:8,agac:130},
-    {no:4,sira:12,agac:115},{no:5,sira:29,agac:264},{no:6,sira:29,agac:278},
-    {no:7,sira:14,agac:117},{no:8,sira:23,agac:211},{no:9,sira:10,agac:55},
-    {no:10,sira:23,agac:153},{no:11,sira:27,agac:270},{no:12,sira:16,agac:120},
-    {no:13,sira:12,agac:50},{no:14,sira:9,agac:85},{no:15,sira:29,agac:302},
-    {no:16,sira:20,agac:181},{no:17,sira:20,agac:202},{no:18,sira:25,agac:201},
+    {no:1,sira:23,agac:348},{no:2,sira:15,agac:241},{no:3,sira:8,agac:133},
+    {no:4,sira:12,agac:117},{no:5,sira:29,agac:277},{no:6,sira:29,agac:285},
+    {no:7,sira:14,agac:121},{no:8,sira:23,agac:211},{no:9,sira:10,agac:59},
+    {no:10,sira:23,agac:153},{no:11,sira:27,agac:295},{no:12,sira:16,agac:120},
+    {no:13,sira:12,agac:50},{no:14,sira:9,agac:93},{no:15,sira:29,agac:338},
+    {no:16,sira:20,agac:201},{no:17,sira:20,agac:202},{no:18,sira:25,agac:201},
     {no:19,sira:9,agac:123},{no:20,sira:11,agac:168},{no:21,sira:11,agac:80},
-    {no:22,sira:8,agac:95},{no:23,sira:16,agac:198},{no:24,sira:15,agac:159},
-    {no:25,sira:10,agac:87},{no:26,sira:20,agac:179},{no:27,sira:19,agac:135},
-    {no:28,sira:22,agac:211},{no:29,sira:24,agac:161}
+    {no:22,sira:8,agac:95},{no:23,sira:16,agac:172},{no:24,sira:15,agac:159},
+    {no:25,sira:10,agac:99},{no:26,sira:20,agac:179},{no:27,sira:19,agac:135},
+    {no:28,sira:24,agac:242},{no:29,sira:24,agac:198}
   ]},
   ADA2:{ad:"Ada 2 — Üst Arazi",kisa:"Ada 2",vanalar:[
-    {no:1,sira:26,agac:231},{no:2,sira:13,agac:106},{no:3,sira:18,agac:186},
+    {no:1,sira:26,agac:231},{no:2,sira:13,agac:116},{no:3,sira:18,agac:186},
     {no:4,sira:15,agac:163},{no:5,sira:20,agac:237},{no:6,sira:17,agac:279},
     {no:7,sira:8,agac:62},{no:8,sira:11,agac:80},{no:9,sira:5,agac:38},
-    {no:10,sira:2,agac:14},{no:11,sira:18,agac:183},{no:12,sira:14,agac:151},
-    {no:13,sira:24,agac:310},{no:14,sira:13,agac:148},{no:15,sira:31,agac:305},
+    {no:10,sira:2,agac:16},{no:11,sira:18,agac:183},{no:12,sira:14,agac:151},
+    {no:13,sira:24,agac:310},{no:14,sira:13,agac:148},{no:15,sira:31,agac:312},
     {no:16,sira:26,agac:437},{no:17,sira:20,agac:239},{no:18,sira:8,agac:108},
     {no:19,sira:18,agac:195},{no:20,sira:22,agac:269},{no:21,sira:8,agac:115}
   ]},
   ADA3:{ad:"Ada 3 — Fidanlık",kisa:"Ada 3",vanalar:[
-    {no:1,sira:20,agac:283},{no:2,sira:24,agac:304},{no:3,sira:24,agac:317},
-    {no:4,sira:16,agac:335},{no:5,sira:11,agac:258},{no:6,sira:12,agac:196},
-    {no:7,sira:8,agac:109},{no:8,sira:31,agac:289},{no:9,sira:16,agac:198},
+    {no:1,sira:20,agac:288},{no:2,sira:24,agac:304},{no:3,sira:24,agac:317},
+    {no:4,sira:16,agac:335},{no:5,sira:11,agac:265},{no:6,sira:12,agac:196},
+    {no:7,sira:8,agac:118},{no:8,sira:31,agac:289},{no:9,sira:16,agac:198},
     {no:10,sira:12,agac:185},{no:11,sira:52,agac:661},{no:12,sira:45,agac:645},
-    {no:13,sira:11,agac:188},{no:14,sira:46,agac:297},{no:15,sira:66,agac:616},
-    {no:16,sira:45,agac:273},{no:17,sira:15,agac:233},{no:18,sira:21,agac:227},
+    {no:13,sira:11,agac:188},{no:14,sira:46,agac:310},{no:15,sira:66,agac:616},
+    {no:16,sira:45,agac:283},{no:17,sira:15,agac:244},{no:18,sira:21,agac:231},
     {no:19,sira:24,agac:219},{no:20,sira:29,agac:449}
   ]}
 };
-const ADALAR_KEY='erturan_adalar_v1';
+const ADALAR_KEY='erturan_adalar_v2';
 let ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ)); // çalışma kopyası
 
 function adalarYukle(){
@@ -2075,29 +2090,93 @@ function yazdir(){
 function excelIndir(){
   if(typeof XLSX==='undefined')return toast('Excel kütüphanesi yüklenemedi','err');
   const wb=XLSX.utils.book_new(),tarih=new Date().toLocaleDateString('tr-TR');
+
+  // ── SAYFA 1: STOK ──
   const kS=stok.filter(s=>s.miktar<=s.kritik&&s.miktar>0).length;
   const tS=stok.filter(s=>s.miktar===0).length;
-  const s1=[["STOK RAPORU","","","",""],
-    [`Tarih: ${tarih} | Toplam: ${stok.length} | Kritik: ${kS} | Tükenen: ${tS}`,"","","",""],
-    ["","","","",""],["#","ÜRÜN","MİKTAR","BİRİM","DURUM"],
-    ...stok.map((s,i)=>[i+1,s.ad,s.miktar,s.birim,s.miktar===0?"TÜKENDİ":s.miktar<=s.kritik?"KRİTİK":"YETERLİ"])
+  const s1=[
+    ["ERTURAN TARIM & ZEYTİNCİLİK — STOK RAPORU","","","","","",""],
+    [`Tarih: ${tarih} | Toplam: ${stok.length} çeşit | Kritik: ${kS} | Tükenen: ${tS}`,"","","","","",""],
+    ["","","","","","",""],
+    ["#","ÜRÜN ADI","AMBALAJ TİPİ","ADET","İÇERİK","TOPLAM","DURUM"],
+    ...stok.map((s,i)=>{
+      const top=s.icerik>0?s.miktar*s.icerik:s.miktar;
+      const topStr=s.icerik>0?`${top} ${s.icBirim}`:'—';
+      const dur=s.miktar===0?"TÜKENDİ":s.miktar<=s.kritik?"KRİTİK":"YETERLİ";
+      return[i+1,s.ad,s.ambalaj||'—',s.miktar,s.icerik>0?`${s.icerik} ${s.icBirim}`:'—',topStr,dur];
+    })
   ];
   const ws1=XLSX.utils.aoa_to_sheet(s1);
-  ws1['!cols']=[{wch:5},{wch:28},{wch:12},{wch:10},{wch:12}];
-  ws1['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}}];
+  ws1['!cols']=[{wch:5},{wch:32},{wch:12},{wch:8},{wch:12},{wch:14},{wch:10}];
+  ws1['!merges']=[{s:{r:0,c:0},e:{r:0,c:6}},{s:{r:1,c:0},e:{r:1,c:6}}];
   XLSX.utils.book_append_sheet(wb,ws1,"STOK");
-  const tipAd={ekle:"EKLEME",yeni:"YENİ",dus:"DÜŞME",sil:"SİLME"};
-  const s2=[["İŞLEM GEÇMİŞİ","","","",""],
-    [`Tarih: ${tarih}`,"","","",""],["","","","",""],
-    ["TARİH","İŞLEM","ÜRÜN","ÖNCEKİ","YENİ"],
-    ...slog.map(l=>[l.t,tipAd[l.tip]||l.tip,l.ad,l.once,l.sonra])
+
+  // ── SAYFA 2: İŞLEM GEÇMİŞİ ──
+  const tipAd={ekle:"EKLEME",yeni:"YENİ ÜRÜN",dus:"DÜŞME",sil:"SİLME",duz:"DÜZELTME"};
+  const s2=[
+    ["İŞLEM GEÇMİŞİ","","","","",""],
+    [`Tarih: ${tarih}`,"","","","",""],
+    ["","","","","",""],
+    ["TARİH","İŞLEM","ÜRÜN","ÖNCEKİ","YENİ","NOT"],
+    ...slog.map(l=>[l.t,tipAd[l.tip]||l.tip,l.ad,l.once,l.sonra,l.not||''])
   ];
   const ws2=XLSX.utils.aoa_to_sheet(s2);
-  ws2['!cols']=[{wch:18},{wch:10},{wch:26},{wch:10},{wch:10}];
-  ws2['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}}];
+  ws2['!cols']=[{wch:18},{wch:12},{wch:30},{wch:10},{wch:10},{wch:20}];
+  ws2['!merges']=[{s:{r:0,c:0},e:{r:0,c:5}},{s:{r:1,c:0},e:{r:1,c:5}}];
   XLSX.utils.book_append_sheet(wb,ws2,"GEÇMİŞ");
-  XLSX.writeFile(wb,`Stok_${tarih.replace(/\./g,'-')}.xlsx`);
-  toast('Excel indirildi');
+
+  // ── SAYFA 3: VANA & AĞAÇ ──
+  const toplamAgac=adalarToplamAgac();
+  const s3=[
+    ["ERTURAN TARIM — VANA & AĞAÇ SAYILARI","","","",""],
+    [`Tarih: ${tarih} | Toplam: ${toplamAgac.toLocaleString('tr-TR')} ağaç`,"","","",""],
+    ["","","","",""],
+    ["ADA","VANA NO","SIRA SAYISI","AĞAÇ SAYISI","AÇIKLAMA"]
+  ];
+  // Ada özetleri + vana detayları
+  Object.entries(ADALAR).forEach(([ak,ada])=>{
+    const adaTop=ada.vanalar.reduce((s,v)=>s+v.agac,0);
+    const bazTop=ADALAR_BAZ[ak]?.vanalar.reduce((s,v)=>s+v.agac,0)||adaTop;
+    const fark=adaTop-bazTop;
+    // Ada özet satırı
+    s3.push([ada.ad,'TOPLAM','—',adaTop,fark!==0?`Başlangıçtan ${fark>0?'+':''}${fark} ağaç fark`:'Orijinal sayı']);
+    // Her vana
+    ada.vanalar.forEach(v=>{
+      const bazV=ADALAR_BAZ[ak]?.vanalar.find(x=>x.no===v.no);
+      const vFark=bazV?v.agac-bazV.agac:0;
+      s3.push([ada.kisa,`V-${v.no}`,v.sira,v.agac,vFark!==0?`(${vFark>0?'+':''}${vFark} yeni dikim)`:'']);
+    });
+    s3.push(["","","","",""]);
+  });
+  const ws3=XLSX.utils.aoa_to_sheet(s3);
+  ws3['!cols']=[{wch:22},{wch:10},{wch:14},{wch:14},{wch:28}];
+  ws3['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}}];
+  XLSX.utils.book_append_sheet(wb,ws3,"VANA & AĞAÇ");
+
+  // ── SAYFA 4: ADA ÖZETİ ──
+  const s4=[
+    ["ADA ÖZETİ","","","",""],
+    [`Tarih: ${tarih}`,"","","",""],
+    ["","","","",""],
+    ["ADA","VANA SAYISI","TOPLAM SIRA","TOPLAM AĞAÇ","ORTALAMA/VANA"]
+  ];
+  let genelVana=0,genelAgac=0;
+  Object.entries(ADALAR).forEach(([ak,ada])=>{
+    const topAgac=ada.vanalar.reduce((s,v)=>s+v.agac,0);
+    const topSira=ada.vanalar.reduce((s,v)=>s+v.sira,0);
+    const ort=Math.round(topAgac/ada.vanalar.length);
+    s4.push([ada.ad,ada.vanalar.length,topSira,topAgac,ort]);
+    genelVana+=ada.vanalar.length;genelAgac+=topAgac;
+  });
+  s4.push(["","","","",""]);
+  s4.push(["GENEL TOPLAM",genelVana,'—',genelAgac,Math.round(genelAgac/genelVana)]);
+  const ws4=XLSX.utils.aoa_to_sheet(s4);
+  ws4['!cols']=[{wch:22},{wch:14},{wch:14},{wch:14},{wch:16}];
+  ws4['!merges']=[{s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}}];
+  XLSX.utils.book_append_sheet(wb,ws4,"ADA ÖZETİ");
+
+  XLSX.writeFile(wb,`Erturan_${tarih.replace(/\./g,'-')}.xlsx`);
+  toast('Excel indirildi — 4 sayfa');
 }
 
 
@@ -2765,14 +2844,31 @@ function mzRenderMazot(){
   liste.innerHTML=[...mazotlar].reverse().map(m=>`
     <div class="yakit-kayit">
       <div class="yk-header">
-        <div>
-          <div class="yk-plaka">⛽ ${parseFloat(m.toplam).toLocaleString('tr-TR',{maximumFractionDigits:1})} L — ${m.bidon} bidon × ${parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
-          <div class="yk-det">${m.tarih?new Date(m.tarih).toLocaleDateString('tr-TR'):''} ${m.tedarik?'· '+m.tedarik:''} ${m.fiyat?'· '+m.fiyat+' ₺/L':''}</div>
-          ${m.tutar?'<div style="font-size:12px;color:#93c5fd;margin-top:2px">'+m.tutar.toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺ toplam</div>':''}
-          ${m.not?'<div class="yk-det" style="margin-top:2px">📝 '+m.not+'</div>':''}
+        <div class="yk-plaka">⛽ Mazot Alımı</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="yk-tarih">${m.tarih?new Date(m.tarih).toLocaleDateString('tr-TR'):''}</span>
+          <button class="yk-del" onclick="mazotSil(${m.id})">✕</button>
         </div>
-        <button class="yk-del" onclick="mazotSil(${m.id})">✕</button>
       </div>
+      <div class="yk-body">
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">📦 Bidon</div>
+          <div class="yk-cell-val">${m.bidon} × ${parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">⛽ Toplam Litre</div>
+          <div class="yk-cell-val fuel">${parseFloat(m.toplam).toLocaleString('tr-TR',{maximumFractionDigits:1})} L</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">💰 Birim Fiyat</div>
+          <div class="yk-cell-val ${m.fiyat?'':'muted'}">${m.fiyat?parseFloat(m.fiyat).toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺/L':'—'}</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">💳 Toplam Tutar</div>
+          <div class="yk-cell-val" style="color:#93c5fd">${m.tutar?m.tutar.toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺':'—'}</div>
+        </div>
+      </div>
+      ${m.tedarik||m.not?`<div class="yk-footer"><span class="yk-aciklama">${m.tedarik?'🏪 '+m.tedarik:''}${m.tedarik&&m.not?' · ':''}${m.not?'📝 '+m.not:''}</span></div>`:''}
     </div>`).join('');
 }
 
@@ -2879,18 +2975,61 @@ function mzRenderKullanim(){
   document.getElementById('kul-stok-goster').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
   const liste=document.getElementById('kullanim-liste');
   if(!kullanımlar.length){liste.innerHTML='<div class="empty">Yakıt kullanım kaydı yok</div>';return;}
-  liste.innerHTML=[...kullanımlar].reverse().map(k=>{
-    const km=k.km1&&k.km2?`${k.km2-k.km1} km`:'';
+
+  // Özet satırı
+  const topLitre=kullanımlar.reduce((s,k)=>s+(k.litre||0),0);
+  const topBidon=kullanımlar.reduce((s,k)=>s+(k.bidon||0),0);
+  const ozet=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Toplam Kullanım</div>
+      <div style="font-size:18px;font-weight:800;color:#f59e0b">${topLitre.toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+    </div>
+    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Toplam Bidon</div>
+      <div style="font-size:18px;font-weight:800;color:#93c5fd">${topBidon.toLocaleString('tr-TR',{maximumFractionDigits:0})}</div>
+    </div>
+    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Kayıt Sayısı</div>
+      <div style="font-size:18px;font-weight:800;color:#4ade80">${kullanımlar.length}</div>
+    </div>
+  </div>`;
+
+  liste.innerHTML=ozet+[...kullanımlar].reverse().map(k=>{
+    const km=k.km1&&k.km2?`${(k.km2-k.km1).toLocaleString('tr-TR')} km`:'—';
+    const tarih=k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):'—';
+    const bidonStr=k.bidon&&k.hacim?`${k.bidon} × ${k.hacim} L`:'—';
+    const litreStr=k.litre?k.litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L':'—';
+    const saatStr=k.saat?k.saat.toLocaleString('tr-TR')+' saat':'—';
+    const tipIco=k.tip?.includes('Traktör')?'🚜':k.tip?.includes('Kamyon')?'🚚':'🚗';
     return`<div class="yakit-kayit">
       <div class="yk-header">
-        <div>
-          <div class="yk-plaka">${k.plaka} <span style="font-size:11px;color:#64748b">${k.tip?.split(' ')[0]||''}</span></div>
-          <div class="yk-litre">${k.bidon?'<span style="font-size:13px;color:#94a3b8">'+k.bidon+' bidon × '+k.hacim+'L = </span>':''}<span style="color:#f59e0b">${k.litre} L</span></div>
-          <div class="yk-det">${k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):''} ${k.surucu?'· '+k.surucu:''} ${k.saat?'· '+k.saat+' saat':''} ${km?'· '+km:''}</div>
-          ${k.aciklama?'<div class="yk-det">📍 '+k.aciklama+'</div>':''}
+        <div class="yk-plaka">${tipIco} ${k.plaka||'—'}
+          ${k.tip?'<span class="yk-tip-chip">'+k.tip.split(' ').slice(1).join(' ')+'</span>':''}
         </div>
-        <button class="yk-del" onclick="kulSil(${k.id})">✕</button>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="yk-tarih">${tarih}</span>
+          <button class="yk-del" onclick="kulSil(${k.id})">✕</button>
+        </div>
       </div>
+      <div class="yk-body">
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">⛽ Verilen Litre</div>
+          <div class="yk-cell-val fuel">${litreStr}</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">📦 Bidon</div>
+          <div class="yk-cell-val">${bidonStr}</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">👤 Sürücü</div>
+          <div class="yk-cell-val ${k.surucu?'':'muted'}">${k.surucu||'—'}</div>
+        </div>
+        <div class="yk-cell">
+          <div class="yk-cell-lbl">⏱ Saat / KM</div>
+          <div class="yk-cell-val muted">${k.saat?saatStr:km}</div>
+        </div>
+      </div>
+      ${k.aciklama?`<div class="yk-footer"><span class="yk-aciklama">📍 ${k.aciklama}</span></div>`:''}
     </div>`;
   }).join('');
 }
