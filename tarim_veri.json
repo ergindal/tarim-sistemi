@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-11T15:47:26.333Z",
+  "tarih": "2026-04-11T15:51:06.090Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 5,
+      "miktar": 25,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 60,
+      "miktar": 80,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -177,7 +177,7 @@
     {
       "id": 1774798729763,
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 5,
+      "miktar": 17,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -186,150 +186,59 @@
     {
       "id": 1774798780355,
       "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 7,
+      "miktar": 22,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
       "kritik": 2
     },
     {
-      "id": 1775041336692,
+      "id": 1774820000001,
       "ad": "BOTENUP",
       "miktar": 25,
-      "ambalaj": "Bidon",
-      "icerik": 20,
-      "icBirim": "L",
-      "kritik": 2
+      "ambalaj": "Paket",
+      "icerik": 1,
+      "icBirim": "kg",
+      "kritik": 5
     },
     {
-      "id": 1775041422866,
+      "id": 1774820000002,
       "ad": "BotePhos",
       "miktar": 30,
-      "ambalaj": "Bidon",
-      "icerik": 20,
-      "icBirim": "L",
-      "kritik": 2
+      "ambalaj": "Paket",
+      "icerik": 1,
+      "icBirim": "kg",
+      "kritik": 5
     },
     {
-      "id": 1775041459215,
+      "id": 1774820000003,
       "ad": "NitroEnt",
       "miktar": 4,
       "ambalaj": "Bidon",
-      "icerik": 20,
+      "icerik": 1,
       "icBirim": "L",
       "kritik": 2
     },
     {
-      "id": 1775041552178,
+      "id": 1774820000004,
       "ad": "MelangeSC",
       "miktar": 5,
       "ambalaj": "Bidon",
-      "icerik": 5,
+      "icerik": 1,
       "icBirim": "L",
-      "kritik": 1
+      "kritik": 2
     },
     {
-      "id": 1775041746437,
+      "id": 1774820000005,
       "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
       "miktar": 4,
       "ambalaj": "Bidon",
-      "icerik": 5,
+      "icerik": 1,
       "icBirim": "L",
       "kritik": 2
     }
   ],
-  "log": [
-    {
-      "tip": "duz",
-      "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 12,
-      "once": 17,
-      "sonra": 5,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "09.04.2026 11:47"
-    },
-    {
-      "tip": "duz",
-      "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 0,
-      "once": 7,
-      "sonra": 7,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "09.04.2026 11:46"
-    },
-    {
-      "tip": "duz",
-      "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 15,
-      "once": 22,
-      "sonra": 7,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "09.04.2026 11:46"
-    },
-    {
-      "tip": "duz",
-      "ad": "Can % 26 Gübre",
-      "miktar": 12,
-      "once": 17,
-      "sonra": 5,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "09.04.2026 11:46"
-    },
-    {
-      "tip": "yeni",
-      "ad": "BLUE-GUARD Likit (Aşı ve Budama Macunu)",
-      "miktar": 4,
-      "once": 0,
-      "sonra": 4,
-      "birim": "Bidon (5 L)",
-      "not": "",
-      "t": "01.04.2026 14:09"
-    },
-    {
-      "tip": "yeni",
-      "ad": "MelangeSC",
-      "miktar": 5,
-      "once": 0,
-      "sonra": 5,
-      "birim": "Bidon (5 L)",
-      "not": "",
-      "t": "01.04.2026 14:05"
-    },
-    {
-      "tip": "yeni",
-      "ad": "NitroEnt",
-      "miktar": 4,
-      "once": 0,
-      "sonra": 4,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:04"
-    },
-    {
-      "tip": "yeni",
-      "ad": "BotePhos",
-      "miktar": 30,
-      "once": 0,
-      "sonra": 30,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:03"
-    },
-    {
-      "tip": "yeni",
-      "ad": "BOTENUP",
-      "miktar": 25,
-      "once": 0,
-      "sonra": 25,
-      "birim": "Bidon (20 L)",
-      "not": "",
-      "t": "01.04.2026 14:02"
-    }
-  ],
+  "log": [],
   "araclar": [
     {
       "id": 1775537894045,
@@ -343,7 +252,17 @@
       "muayene": "",
       "not": "MAVİ",
       "yakitlar": [],
-      "bakimlar": [],
+      "bakimlar": [
+        {
+          "id": 1775922663087,
+          "tarih": "2026-04-11",
+          "tur": "Genel Bakım / Servis",
+          "km": 1886,
+          "sonrakiKm": 2210,
+          "tutar": 0,
+          "not": ""
+        }
+      ],
       "kmKayitlar": []
     },
     {
@@ -532,37 +451,37 @@
         {
           "no": 1,
           "sira": 23,
-          "agac": 345
+          "agac": 348
         },
         {
           "no": 2,
           "sira": 15,
-          "agac": 224
+          "agac": 241
         },
         {
           "no": 3,
           "sira": 8,
-          "agac": 130
+          "agac": 133
         },
         {
           "no": 4,
           "sira": 12,
-          "agac": 115
+          "agac": 117
         },
         {
           "no": 5,
           "sira": 29,
-          "agac": 264
+          "agac": 277
         },
         {
           "no": 6,
           "sira": 29,
-          "agac": 295
+          "agac": 285
         },
         {
           "no": 7,
           "sira": 14,
-          "agac": 117
+          "agac": 121
         },
         {
           "no": 8,
@@ -572,7 +491,7 @@
         {
           "no": 9,
           "sira": 10,
-          "agac": 55
+          "agac": 59
         },
         {
           "no": 10,
@@ -582,7 +501,7 @@
         {
           "no": 11,
           "sira": 27,
-          "agac": 270
+          "agac": 295
         },
         {
           "no": 12,
@@ -597,17 +516,17 @@
         {
           "no": 14,
           "sira": 9,
-          "agac": 85
+          "agac": 93
         },
         {
           "no": 15,
           "sira": 29,
-          "agac": 302
+          "agac": 338
         },
         {
           "no": 16,
           "sira": 20,
-          "agac": 181
+          "agac": 201
         },
         {
           "no": 17,
@@ -642,7 +561,7 @@
         {
           "no": 23,
           "sira": 16,
-          "agac": 198
+          "agac": 172
         },
         {
           "no": 24,
@@ -652,7 +571,7 @@
         {
           "no": 25,
           "sira": 10,
-          "agac": 87
+          "agac": 99
         },
         {
           "no": 26,
@@ -666,8 +585,8 @@
         },
         {
           "no": 28,
-          "sira": 22,
-          "agac": 211
+          "sira": 24,
+          "agac": 242
         },
         {
           "no": 29,
@@ -688,7 +607,7 @@
         {
           "no": 2,
           "sira": 13,
-          "agac": 106
+          "agac": 116
         },
         {
           "no": 3,
@@ -728,7 +647,7 @@
         {
           "no": 10,
           "sira": 2,
-          "agac": 14
+          "agac": 16
         },
         {
           "no": 11,
@@ -753,7 +672,7 @@
         {
           "no": 15,
           "sira": 31,
-          "agac": 305
+          "agac": 312
         },
         {
           "no": 16,
@@ -794,7 +713,7 @@
         {
           "no": 1,
           "sira": 20,
-          "agac": 283
+          "agac": 288
         },
         {
           "no": 2,
@@ -814,7 +733,7 @@
         {
           "no": 5,
           "sira": 11,
-          "agac": 258
+          "agac": 265
         },
         {
           "no": 6,
@@ -824,7 +743,7 @@
         {
           "no": 7,
           "sira": 8,
-          "agac": 109
+          "agac": 118
         },
         {
           "no": 8,
@@ -859,7 +778,7 @@
         {
           "no": 14,
           "sira": 46,
-          "agac": 297
+          "agac": 310
         },
         {
           "no": 15,
@@ -869,17 +788,17 @@
         {
           "no": 16,
           "sira": 45,
-          "agac": 273
+          "agac": 283
         },
         {
           "no": 17,
           "sira": 15,
-          "agac": 233
+          "agac": 244
         },
         {
           "no": 18,
           "sira": 21,
-          "agac": 227
+          "agac": 231
         },
         {
           "no": 19,
