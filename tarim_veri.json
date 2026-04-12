@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-12T02:50:00.016Z",
+  "tarih": "2026-04-12T23:51:34.037Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -282,7 +282,7 @@
     },
     {
       "id": 1775556513258,
-      "plaka": "25555",
+      "plaka": "KUMASU D31",
       "tip": "⚙️ İş Makinesi",
       "marka": "KUmasu d31",
       "model": "",
@@ -812,5 +812,6 @@
         }
       ]
     }
-  }
+  },
+  "envanter": []
 }
