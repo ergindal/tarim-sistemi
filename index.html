@@ -51,7 +51,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── ALT NAVİGASYON ── */
 .bottom-nav{flex-shrink:0;background:#1e293b;border-top:1px solid #334155;
-  display:grid;grid-template-columns:repeat(6,1fr);
+  display:grid;grid-template-columns:repeat(7,1fr);
   padding-bottom:env(safe-area-inset-bottom)}
 .bnav-btn{background:transparent;border:none;cursor:pointer;color:#64748b;
   padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -425,6 +425,46 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .vana-satir-sira{color:#64748b;font-size:12px;width:55px;text-align:right;flex-shrink:0}
 .vana-satir-edit{background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
 
+
+/* ════════ ENVANTER MODÜLÜ ════════ */
+.env-filtre-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.env-filtre-bar::-webkit-scrollbar{display:none}
+.env-filt-btn{padding:7px 14px;border-radius:20px;border:1.5px solid #334155;background:transparent;color:#64748b;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.env-filt-btn.active{background:#16a34a;border-color:#16a34a;color:white}
+
+.env-galeri{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.env-kart{background:#1e293b;border-radius:14px;border:1px solid #334155;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s;position:relative}
+.env-kart:active{transform:scale(.97)}
+.env-kart.bakim-var{border-color:#f59e0b}
+.env-kart-foto{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#0f172a}
+.env-kart-foto-placeholder{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e293b);font-size:36px}
+.env-kart-body{padding:10px}
+.env-kart-ad{font-size:13px;font-weight:800;color:#e2e8f0;line-height:1.3;margin-bottom:3px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.env-kart-kat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;display:inline-block;margin-bottom:4px}
+.env-kart-durum{font-size:11px;color:#64748b}
+.env-kart-bakim-chip{position:absolute;top:7px;right:7px;background:#f59e0b;color:#0f172a;font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px}
+
+/* Detay overlay */
+.env-detay-overlay{position:fixed;inset:0;z-index:200;display:none;flex-direction:column;background:#0f172a;pointer-events:none}
+.env-detay-overlay.acik{display:flex;pointer-events:all}
+.env-detay-header{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #1e293b;flex-shrink:0}
+.env-detay-geri{background:transparent;border:none;color:#64748b;font-size:22px;cursor:pointer;padding:4px 8px}
+.env-detay-adi{font-size:16px;font-weight:800;flex:1}
+.env-detay-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.env-detay-foto{width:100%;max-height:280px;object-fit:cover;display:block}
+.env-detay-foto-placeholder{width:100%;height:200px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1e293b,#0f172a);font-size:64px}
+.env-detay-bilgi{padding:16px}
+.env-detay-satir{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid #1e293b;font-size:13px}
+.env-detay-satir:last-child{border:none}
+.env-detay-lbl{color:#64748b;flex-shrink:0;margin-right:12px}
+.env-detay-val{font-weight:700;text-align:right}
+
+/* Kategori renkleri */
+.kat-ekipman{background:#0c1f3f;color:#93c5fd}
+.kat-sulama{background:#0c2e2e;color:#34d399}
+.kat-depo{background:#2d1b69;color:#c4b5fd}
+.kat-diger{background:#1e293b;color:#94a3b8}
+
 </style>
 </head>
 <body>
@@ -693,6 +733,27 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     </div>
   </div>
 
+
+  <!-- ══ SAYFA: ENVANTER ══ -->
+  <div class="page" id="pg-envanter">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div>
+        <div style="font-size:15px;font-weight:800">📦 Envanter</div>
+        <div style="font-size:11px;color:#64748b;margin-top:1px" id="env-ozet-lbl">Yükleniyor...</div>
+      </div>
+      <button onclick="envFormAc()" id="env-ekle-btn" style="background:linear-gradient(135deg,#16a34a,#15803d);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer">＋ Ekle</button>
+    </div>
+    <div class="env-filtre-bar">
+      <button class="env-filt-btn active" onclick="envFiltre('hepsi',this)">Tümü</button>
+      <button class="env-filt-btn" onclick="envFiltre('ekipman',this)">🚜 Ekipman</button>
+      <button class="env-filt-btn" onclick="envFiltre('sulama',this)">💧 Sulama</button>
+      <button class="env-filt-btn" onclick="envFiltre('depo',this)">🏚 Depo</button>
+      <button class="env-filt-btn" onclick="envFiltre('diger',this)">📌 Diğer</button>
+    </div>
+    <input class="search-inp" id="env-ara" placeholder="🔍  Ekipman ara..." oninput="envListeGun()" style="margin-bottom:12px">
+    <div class="env-galeri" id="env-galeri"></div>
+  </div>
+
   <!-- ══ SAYFA: AYARLAR & YEDEK ══ -->
   <div class="page" id="pg-ayar">
 
@@ -900,6 +961,9 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   </button>
   <button class="bnav-btn" id="bnav-arac" onclick="sayfaGit('arac')">
     <span class="bico">🚗</span><span class="blbl">Araçlar</span>
+  </button>
+  <button class="bnav-btn" id="bnav-envanter" onclick="sayfaGit('envanter')">
+    <span class="bico">📦</span><span class="blbl">Envanter</span>
   </button>
   <button class="bnav-btn" id="bnav-ayar" onclick="sayfaGit('ayar')">
     <span class="bico">⚙️</span><span class="blbl">Ayarlar</span>
@@ -1332,6 +1396,7 @@ function sayfaGit(id){
   if(id==='sonuc'&&sonHesap)sonucGoster();
   if(id==='ayar')ayarSayfasiGun();
   if(id==='arac'){aracListeGun();mzSayfaGecisGun();}
+  if(id==='envanter')envListeGun();
 }
 
 /* ═══ YEDEKLEME ═══ */
@@ -2442,7 +2507,7 @@ function yedekYukle(e){
       if(!d.stok||!Array.isArray(d.stok))throw new Error('Geçersiz yedek dosyası');
       const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
       if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
-      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];if(d.adalar){ADALAR=d.adalar;adalarKaydet();}gridCiz();
+      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];if(d.adalar){ADALAR=d.adalar;adalarKaydet();}if(d.envanter)envanter=d.envanter;envKaydetLS();gridCiz();
       localStorage.setItem(SK,JSON.stringify(stok));
       localStorage.setItem(LK,JSON.stringify(slog));
       aracKaydetLS();
@@ -2575,6 +2640,7 @@ function uygulamaBaslat(){
   document.getElementById('r-tarih').value=new Date().toISOString().split('T')[0];
   ilacEkle();gridCiz();aracSelectGun();kulSelectGun();
   mzRenderDashboard();
+  envYukle();
   notifBadgeGun();
   setInterval(notifPeriyodikKontrol,5*60*1000);
   ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
@@ -3602,7 +3668,7 @@ async function ghKaydet(manuel=false){
     kaydeden:aktifKullanici?.adi||'sistem',
     stok,log:slog,araclar,mazotlar,
     kullanim:kullanımlar,
-    yakitBakimlar,adalar:ADALAR
+    yakitBakimlar,adalar:ADALAR,envanter
   };
   const icerik=btoa(unescape(encodeURIComponent(JSON.stringify(veri,null,2))));
   const tarihStr=new Date().toLocaleString('tr-TR');
@@ -3789,9 +3855,202 @@ function vanaYonetimListeGun(){
   }).join('');
 }
 
+
+/* ════════════════════════════════════════════════════════
+   ENVANTER SİSTEMİ
+════════════════════════════════════════════════════════ */
+const ENV_KEY='erturan_envanter_v1';
+let envanter=[];
+let envAktifFiltre='hepsi';
+let envAktifId=null;
+
+function envYukle(){
+  try{envanter=JSON.parse(localStorage.getItem(ENV_KEY))||[];}catch{envanter=[];}
+}
+function envKaydetLS(){localStorage.setItem(ENV_KEY,JSON.stringify(envanter));ghOtomatikSync();}
+
+const KAT_ADI={ekipman:'🚜 Ekipman',sulama:'💧 Sulama',depo:'🏚 Depo',diger:'📌 Diğer'};
+const KAT_CLS={ekipman:'kat-ekipman',sulama:'kat-sulama',depo:'kat-depo',diger:'kat-diger'};
+const KAT_ICO={ekipman:'🚜',sulama:'💧',depo:'🏚',diger:'📌'};
+const DUR_ADI={iyi:'✅ İyi',bakim:'🔧 Bakım Gerekiyor',arizali:'⛔ Arızalı',emekli:'📦 Kullanım Dışı'};
+const DUR_RENK={iyi:'#22c55e',bakim:'#f59e0b',arizali:'#ef4444',emekli:'#64748b'};
+
+/* ── Liste & Galeri ── */
+function envFiltre(kat,btn){
+  envAktifFiltre=kat;
+  document.querySelectorAll('.env-filt-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  envListeGun();
+}
+
+function envListeGun(){
+  const ara=(document.getElementById('env-ara')?.value||'').toLowerCase();
+  const galeri=document.getElementById('env-galeri');
+  const ozet=document.getElementById('env-ozet-lbl');
+  if(!galeri)return;
+
+  let fil=envanter.filter(e=>{
+    const katOk=envAktifFiltre==='hepsi'||e.kategori===envAktifFiltre;
+    const araOk=!ara||e.ad.toLowerCase().includes(ara)||(e.aciklama||'').toLowerCase().includes(ara)||(e.konum||'').toLowerCase().includes(ara);
+    return katOk&&araOk;
+  });
+
+  if(ozet)ozet.textContent=`${envanter.length} kayıt · ${fil.length} gösteriliyor`;
+
+  if(!fil.length){
+    galeri.innerHTML='<div class="empty" style="grid-column:1/-1">Kayıt bulunamadı</div>';
+    return;
+  }
+
+  galeri.innerHTML=fil.map(e=>{
+    const bakimVar=e.durum==='bakim'||e.durum==='arizali';
+    const fotoHtml=e.foto
+      ?`<img class="env-kart-foto" src="${e.foto}" alt="${e.ad}" loading="lazy">`
+      :`<div class="env-kart-foto-placeholder">${KAT_ICO[e.kategori]||'📦'}</div>`;
+    return`<div class="env-kart${bakimVar?' bakim-var':''}" onclick="envDetayAc(${e.id})">
+      ${fotoHtml}
+      ${bakimVar?`<div class="env-kart-bakim-chip">${e.durum==='arizali'?'⛔':'🔧'}</div>`:''}
+      <div class="env-kart-body">
+        <div class="env-kart-kat ${KAT_CLS[e.kategori]||'kat-diger'}">${KAT_ADI[e.kategori]||e.kategori}</div>
+        <div class="env-kart-ad">${e.ad}</div>
+        <div class="env-kart-durum" style="color:${DUR_RENK[e.durum]||'#64748b'}">${DUR_ADI[e.durum]||e.durum}</div>
+        ${e.konum?`<div class="env-kart-durum">📍 ${e.konum}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ── Detay ── */
+function envDetayAc(id){
+  const e=envanter.find(x=>x.id===id);if(!e)return;
+  envAktifId=id;
+
+  document.getElementById('env-detay-adi').textContent=e.ad;
+  document.getElementById('env-detay-foto-wrap').innerHTML=e.foto
+    ?`<img class="env-detay-foto" src="${e.foto}" alt="${e.ad}">`
+    :`<div class="env-detay-foto-placeholder">${KAT_ICO[e.kategori]||'📦'}</div>`;
+
+  const arac=e.aracId?araclar.find(a=>a.id===e.aracId):null;
+  const satirlar=[
+    ['Kategori', KAT_ADI[e.kategori]||e.kategori],
+    ['Durum', `<span style="color:${DUR_RENK[e.durum]||'#64748b'}">${DUR_ADI[e.durum]||e.durum}</span>`],
+    e.konum?['Konum', '📍 '+e.konum]:null,
+    e.tarih?['Satın Alma', new Date(e.tarih).toLocaleDateString('tr-TR')]:null,
+    e.fiyat?['Fiyat', parseFloat(e.fiyat).toLocaleString('tr-TR',{maximumFractionDigits:0})+' ₺']:null,
+    e.aciklama?['Açıklama', e.aciklama]:null,
+    arac?['Bağlı Araç', `<span style="color:#93c5fd;cursor:pointer" onclick="envDetayKapat();sayfaGit('arac')">${arac.tip?.split(' ')[0]||'🚗'} ${arac.plaka} →</span>`]:null,
+  ].filter(Boolean);
+
+  document.getElementById('env-detay-bilgi').innerHTML=
+    satirlar.map(([l,v])=>`<div class="env-detay-satir">
+      <span class="env-detay-lbl">${l}</span>
+      <span class="env-detay-val">${v}</span>
+    </div>`).join('');
+
+  document.getElementById('env-detay-overlay').classList.add('acik');
+}
+
+function envDetayKapat(){
+  document.getElementById('env-detay-overlay').classList.remove('acik');
+  envAktifId=null;
+}
+
+/* ── Form ── */
+function envFormAc(id=null){
+  const e=id?envanter.find(x=>x.id===id):{};
+  document.getElementById('env-form-baslik').textContent=id?'Ekipmanı Düzenle':'Yeni Ekipman Ekle';
+  document.getElementById('env-edit-id').value=id||'';
+  document.getElementById('env-ad').value=e.ad||'';
+  document.getElementById('env-kat').value=e.kategori||'ekipman';
+  document.getElementById('env-konum').value=e.konum||'';
+  document.getElementById('env-durum').value=e.durum||'iyi';
+  document.getElementById('env-tarih').value=e.tarih||'';
+  document.getElementById('env-fiyat').value=e.fiyat||'';
+  document.getElementById('env-aciklama').value=e.aciklama||'';
+  document.getElementById('env-foto-data').value=e.foto||'';
+  // Foto önizleme
+  const oniz=document.getElementById('env-foto-onizleme');
+  const ico=document.getElementById('env-foto-ico');
+  const lbl=document.getElementById('env-foto-lbl');
+  if(e.foto){
+    oniz.style.cssText='width:100%;height:160px;border-radius:12px;border:2px solid #16a34a;overflow:hidden;cursor:pointer;padding:0';
+    oniz.innerHTML=`<img src="${e.foto}" style="width:100%;height:100%;object-fit:cover;display:block" onclick="document.getElementById('env-foto-input').click()">`;
+  }else{
+    oniz.style.cssText='width:100%;height:160px;background:#0f172a;border-radius:12px;border:2px dashed #334155;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;overflow:hidden';
+    oniz.innerHTML=`<span id="env-foto-ico" style="font-size:36px;margin-bottom:8px">📷</span><span id="env-foto-lbl" style="font-size:12px;color:#64748b">Fotoğraf ekle</span>`;
+    oniz.onclick=()=>document.getElementById('env-foto-input').click();
+  }
+  // Araç select
+  const aracSel=document.getElementById('env-arac');
+  aracSel.innerHTML='<option value="">— Araç seçin (opsiyonel) —</option>'+
+    araclar.map(a=>`<option value="${a.id}"${a.id===e.aracId?' selected':''}>${a.tip?.split(' ')[0]||'🚗'} ${a.plaka}</option>`).join('');
+  formAc('env-form-overlay');
+}
+
+function envDuzenle(){
+  if(!envAktifId)return;
+  envDetayKapat();
+  setTimeout(()=>envFormAc(envAktifId),150);
+}
+
+function envSilOnay(){
+  if(!envAktifId)return;
+  const e=envanter.find(x=>x.id===envAktifId);if(!e)return;
+  if(!confirm(`"${e.ad}" silinsin mi?`))return;
+  envanter=envanter.filter(x=>x.id!==envAktifId);
+  envKaydetLS();envDetayKapat();envListeGun();
+  toast(`${e.ad} silindi`);
+}
+
+/* ── Fotoğraf ── */
+function envFotoSec(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const data=ev.target.result;
+    document.getElementById('env-foto-data').value=data;
+    const oniz=document.getElementById('env-foto-onizleme');
+    oniz.style.cssText='width:100%;height:160px;border-radius:12px;border:2px solid #16a34a;overflow:hidden;cursor:pointer;padding:0';
+    oniz.innerHTML=`<img src="${data}" style="width:100%;height:100%;object-fit:cover;display:block" onclick="document.getElementById('env-foto-input').click()">`;
+    oniz.onclick=null;
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
+}
+
+/* ── Kaydet ── */
+function envKaydet(){
+  const ad=document.getElementById('env-ad').value.trim();
+  if(!ad)return toast('Ad giriniz!','err');
+  const editId=document.getElementById('env-edit-id').value;
+  const obj={
+    id:editId?parseInt(editId):Date.now(),
+    ad,
+    kategori:document.getElementById('env-kat').value,
+    konum:document.getElementById('env-konum').value.trim(),
+    durum:document.getElementById('env-durum').value,
+    tarih:document.getElementById('env-tarih').value,
+    fiyat:parseFloat(document.getElementById('env-fiyat').value)||0,
+    aciklama:document.getElementById('env-aciklama').value.trim(),
+    foto:document.getElementById('env-foto-data').value||'',
+    aracId:parseInt(document.getElementById('env-arac').value)||null,
+  };
+  if(editId){
+    const idx=envanter.findIndex(x=>x.id===parseInt(editId));
+    if(idx>=0)envanter[idx]=obj;
+  }else{
+    envanter.push(obj);
+  }
+  envKaydetLS();
+  formKapat('env-form-overlay');
+  envListeGun();
+  toast(`✓ ${ad} kaydedildi`);
+}
+
 /* ═══ BAŞLAT ═══ */
 aracYukle();
 mzYukle();
+envYukle();
 yukle();
 adalarYukle();
 notifOkunanlariYukle();
