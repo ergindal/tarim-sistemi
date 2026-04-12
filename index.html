@@ -18,7 +18,8 @@
 <style>
 /* ── RESET & TEMEL ── */
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{height:100%;overflow:hidden}
+html,body{height:100%;margin:0;padding:0}
+html{overflow:hidden}
 body{font-family:'DM Sans',system-ui,sans-serif;background:#0f172a;color:#e2e8f0;
   height:100%;display:flex;flex-direction:column;overflow:hidden;
   padding-top:env(safe-area-inset-top);
@@ -44,8 +45,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── İÇERİK ALANI ── */
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;min-height:0}
-.page{display:none;padding:14px 14px 24px}
+  overscroll-behavior:contain;min-height:0;position:relative}
+.page{display:none;padding:14px 14px 80px}
 .page.active{display:block}
 
 /* ── ALT NAVİGASYON ── */
@@ -216,8 +217,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .uyari-kart{background:#1c1007;border:1.5px solid #92400e;border-radius:10px;padding:10px 13px;margin-bottom:8px}
 .uyari-kart.ok{background:#052e16;border-color:#16a34a}
 .uyari-ikon{font-size:16px;margin-right:6px}
-.form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center}
-.form-overlay.acik{display:flex}
+.form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center;pointer-events:none}
+.form-overlay.acik{display:flex;pointer-events:all}
 .form-sheet{background:#1e293b;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .form-sheet-baslik{font-size:15px;font-weight:800;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
 .form-sheet-kapat{background:transparent;border:none;color:#64748b;font-size:22px;cursor:pointer;padding:0 4px}
@@ -271,7 +272,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 }
 
 /* ── GİRİŞ EKRANI ── */
-.login-overlay{position:fixed;inset:0;background:#0f172a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.login-overlay{position:fixed;inset:0;background:#0f172a;z-index:9999;flex-direction:column;align-items:center;justify-content:center;padding:24px}
 .login-logo{width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,#16a34a,#15803d);display:flex;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 8px 32px rgba(22,163,74,.4)}
 .login-baslik{font-size:20px;font-weight:800;color:#e2e8f0;text-align:center;line-height:1.3}
 .login-alt{font-size:13px;color:#64748b;margin-top:4px;margin-bottom:28px;text-align:center}
@@ -300,7 +301,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .apt{padding:9px 14px;background:transparent;border:none;color:#64748b;font-size:12px;font-weight:700;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
 .apt.active{background:#1e293b;color:#e2e8f0}
 .apt-page{display:none}
-.apt-page.active{display:block}
+.apt-page.active{display:block;min-height:0}
 
 .mz-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .mz-kpi{background:#1e293b;border-radius:12px;padding:14px;border:1px solid #334155;text-align:center}
@@ -357,8 +358,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 @keyframes nbpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
 
 /* Bildirim Paneli */
-.notif-panel{position:fixed;top:0;left:0;right:0;bottom:0;z-index:8000;display:none;flex-direction:column}
-.notif-panel.open{display:flex}
+.notif-panel{position:fixed;top:0;left:0;right:0;bottom:0;z-index:8000;display:none;flex-direction:column;pointer-events:none}
+.notif-panel.open{display:flex;pointer-events:all}
 .notif-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(2px)}
 .notif-sheet{position:absolute;top:0;left:0;right:0;background:#1e293b;border-bottom:1px solid #334155;border-radius:0 0 20px 20px;max-height:85vh;display:flex;flex-direction:column;animation:slideDown .25s ease;box-shadow:0 8px 32px rgba(0,0,0,.5)}
 @keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
@@ -1261,7 +1262,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 /* ═══ VERİ ═══ */
-const SK='tarim_stok_v5',LK='tarim_log_v5';
+const SK='tarim_stok_v6',LK='tarim_log_v6';
 const BAZ=[
   {id:1,ad:'Zodiac',miktar:17,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
   {id:2,ad:'Quadris',miktar:7,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
@@ -1779,38 +1780,11 @@ function receteSelectGun(){
 
 /* ═══ VANA ═══ */
 const ADALAR_BAZ={
-  ADA1:{ad:"Ada 1 — Ana Arazi",kisa:"Ada 1",vanalar:[
-    {no:1,sira:23,agac:348},{no:2,sira:15,agac:241},{no:3,sira:8,agac:133},
-    {no:4,sira:12,agac:117},{no:5,sira:29,agac:277},{no:6,sira:29,agac:285},
-    {no:7,sira:14,agac:121},{no:8,sira:23,agac:211},{no:9,sira:10,agac:59},
-    {no:10,sira:23,agac:153},{no:11,sira:27,agac:295},{no:12,sira:16,agac:120},
-    {no:13,sira:12,agac:50},{no:14,sira:9,agac:93},{no:15,sira:29,agac:338},
-    {no:16,sira:20,agac:201},{no:17,sira:20,agac:202},{no:18,sira:25,agac:201},
-    {no:19,sira:9,agac:123},{no:20,sira:11,agac:168},{no:21,sira:11,agac:80},
-    {no:22,sira:8,agac:95},{no:23,sira:16,agac:172},{no:24,sira:15,agac:159},
-    {no:25,sira:10,agac:99},{no:26,sira:20,agac:179},{no:27,sira:19,agac:135},
-    {no:28,sira:24,agac:242},{no:29,sira:24,agac:198}
-  ]},
-  ADA2:{ad:"Ada 2 — Üst Arazi",kisa:"Ada 2",vanalar:[
-    {no:1,sira:26,agac:231},{no:2,sira:13,agac:116},{no:3,sira:18,agac:186},
-    {no:4,sira:15,agac:163},{no:5,sira:20,agac:237},{no:6,sira:17,agac:279},
-    {no:7,sira:8,agac:62},{no:8,sira:11,agac:80},{no:9,sira:5,agac:38},
-    {no:10,sira:2,agac:16},{no:11,sira:18,agac:183},{no:12,sira:14,agac:151},
-    {no:13,sira:24,agac:310},{no:14,sira:13,agac:148},{no:15,sira:31,agac:312},
-    {no:16,sira:26,agac:437},{no:17,sira:20,agac:239},{no:18,sira:8,agac:108},
-    {no:19,sira:18,agac:195},{no:20,sira:22,agac:269},{no:21,sira:8,agac:115}
-  ]},
-  ADA3:{ad:"Ada 3 — Fidanlık",kisa:"Ada 3",vanalar:[
-    {no:1,sira:20,agac:288},{no:2,sira:24,agac:304},{no:3,sira:24,agac:317},
-    {no:4,sira:16,agac:335},{no:5,sira:11,agac:265},{no:6,sira:12,agac:196},
-    {no:7,sira:8,agac:118},{no:8,sira:31,agac:289},{no:9,sira:16,agac:198},
-    {no:10,sira:12,agac:185},{no:11,sira:52,agac:661},{no:12,sira:45,agac:645},
-    {no:13,sira:11,agac:188},{no:14,sira:46,agac:310},{no:15,sira:66,agac:616},
-    {no:16,sira:45,agac:283},{no:17,sira:15,agac:244},{no:18,sira:21,agac:231},
-    {no:19,sira:24,agac:219},{no:20,sira:29,agac:449}
-  ]}
+  ADA1:{ad:"Ada 1 — Ana Arazi",kisa:"Ada 1",vanalar:[{no:1,sira:23,agac:348},{no:2,sira:15,agac:241},{no:3,sira:8,agac:133},{no:4,sira:12,agac:117},{no:5,sira:29,agac:277},{no:6,sira:29,agac:285},{no:7,sira:14,agac:121},{no:8,sira:23,agac:211},{no:9,sira:10,agac:59},{no:10,sira:23,agac:153},{no:11,sira:27,agac:295},{no:12,sira:16,agac:120},{no:13,sira:12,agac:50},{no:14,sira:9,agac:93},{no:15,sira:29,agac:338},{no:16,sira:20,agac:201},{no:17,sira:20,agac:202},{no:18,sira:25,agac:201},{no:19,sira:9,agac:123},{no:20,sira:11,agac:168},{no:21,sira:11,agac:80},{no:22,sira:8,agac:95},{no:23,sira:16,agac:172},{no:24,sira:15,agac:159},{no:25,sira:10,agac:99},{no:26,sira:20,agac:179},{no:27,sira:19,agac:135},{no:28,sira:24,agac:242},{no:29,sira:24,agac:198}]},
+  ADA2:{ad:"Ada 2 — Üst Arazi",kisa:"Ada 2",vanalar:[{no:1,sira:26,agac:231},{no:2,sira:13,agac:116},{no:3,sira:18,agac:186},{no:4,sira:15,agac:163},{no:5,sira:20,agac:237},{no:6,sira:17,agac:279},{no:7,sira:8,agac:62},{no:8,sira:11,agac:80},{no:9,sira:5,agac:38},{no:10,sira:2,agac:16},{no:11,sira:18,agac:183},{no:12,sira:14,agac:151},{no:13,sira:24,agac:310},{no:14,sira:13,agac:148},{no:15,sira:31,agac:312},{no:16,sira:26,agac:437},{no:17,sira:20,agac:239},{no:18,sira:8,agac:108},{no:19,sira:18,agac:195},{no:20,sira:22,agac:269},{no:21,sira:8,agac:115}]},
+  ADA3:{ad:"Ada 3 — Fidanlık",kisa:"Ada 3",vanalar:[{no:1,sira:20,agac:288},{no:2,sira:24,agac:304},{no:3,sira:24,agac:317},{no:4,sira:16,agac:335},{no:5,sira:11,agac:265},{no:6,sira:12,agac:196},{no:7,sira:8,agac:118},{no:8,sira:31,agac:289},{no:9,sira:16,agac:198},{no:10,sira:12,agac:185},{no:11,sira:52,agac:661},{no:12,sira:45,agac:645},{no:13,sira:11,agac:188},{no:14,sira:46,agac:310},{no:15,sira:66,agac:616},{no:16,sira:45,agac:283},{no:17,sira:15,agac:244},{no:18,sira:21,agac:231},{no:19,sira:24,agac:219},{no:20,sira:29,agac:449}]}
 };
-const ADALAR_KEY='erturan_adalar_v2';
+const ADALAR_KEY='erturan_adalar_v3';
 let ADALAR=JSON.parse(JSON.stringify(ADALAR_BAZ)); // çalışma kopyası
 
 function adalarYukle(){
@@ -2529,7 +2503,7 @@ function kullanicilariKaydetLS(u){localStorage.setItem(UK,JSON.stringify(u));}
 
 function loginEkraniGoster(){
   const ov=document.getElementById('login-overlay');
-  if(ov)ov.style.display='flex';
+  if(ov){ov.style.display='flex';ov.style.pointerEvents='all';}
   const users=kullanicilariYukle();
   const list=document.getElementById('login-ku-list');
   if(!list)return;
@@ -2574,7 +2548,7 @@ function girisYap(){
   }
   aktifKullanici={id:user.id,adi:user.adi,rol:user.rol};
   const ov=document.getElementById('login-overlay');
-  if(ov)ov.style.display='none';
+  if(ov){ov.style.display='none';ov.style.pointerEvents='none';}
   uygulamaBaslat();
 }
 
