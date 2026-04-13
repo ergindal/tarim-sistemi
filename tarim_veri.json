@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-13T05:00:39.966Z",
+  "tarih": "2026-04-13T05:01:10.519Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -481,6 +481,21 @@
       "km2": null,
       "surucu": "Burhan ince",
       "aciklama": "Hakan Bey'in evine götürüldü"
+    },
+    {
+      "id": 1776056467518,
+      "tarih": "2026-04-13",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 1,
+      "hacim": 21,
+      "litre": 21,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan İnce",
+      "aciklama": ""
     }
   ],
   "yakitBakimlar": [],
