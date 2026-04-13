@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-13T00:15:19.881Z",
+  "tarih": "2026-04-13T00:16:36.723Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 25,
+      "miktar": 5,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "Can % 26 Gübre",
+      "miktar": 20,
+      "once": 25,
+      "sonra": 5,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "13.04.2026 03:16"
+    },
     {
       "tip": "duz",
       "ad": "CNPalmira Kalsiyum Nitrat",
