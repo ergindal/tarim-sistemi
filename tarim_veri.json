@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-12T23:51:34.037Z",
+  "tarih": "2026-04-13T00:14:16.186Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 80,
+      "miktar": 13,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -238,7 +238,18 @@
       "kritik": 2
     }
   ],
-  "log": [],
+  "log": [
+    {
+      "tip": "duz",
+      "ad": "Fulvera hümik asit",
+      "miktar": 67,
+      "once": 80,
+      "sonra": 13,
+      "birim": "Bidon",
+      "not": "Düzeltme",
+      "t": "13.04.2026 03:14"
+    }
+  ],
   "araclar": [
     {
       "id": 1775537894045,
@@ -282,7 +293,7 @@
     },
     {
       "id": 1775556513258,
-      "plaka": "KUMASU D31",
+      "plaka": "25555",
       "tip": "⚙️ İş Makinesi",
       "marka": "KUmasu d31",
       "model": "",
