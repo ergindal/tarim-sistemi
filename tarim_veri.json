@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-13T00:17:42.667Z",
+  "tarih": "2026-04-13T05:00:32.195Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 5,
+      "miktar": 25,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 13,
+      "miktar": 80,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -177,7 +177,7 @@
     {
       "id": 1774798729763,
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 5,
+      "miktar": 17,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -186,7 +186,7 @@
     {
       "id": 1774798780355,
       "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 7,
+      "miktar": 22,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -238,48 +238,7 @@
       "kritik": 2
     }
   ],
-  "log": [
-    {
-      "tip": "duz",
-      "ad": "Can % 26 Gübre",
-      "miktar": 20,
-      "once": 25,
-      "sonra": 5,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:16"
-    },
-    {
-      "tip": "duz",
-      "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 15,
-      "once": 22,
-      "sonra": 7,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:15"
-    },
-    {
-      "tip": "duz",
-      "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 12,
-      "once": 17,
-      "sonra": 5,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:15"
-    },
-    {
-      "tip": "duz",
-      "ad": "Fulvera hümik asit",
-      "miktar": 67,
-      "once": 80,
-      "sonra": 13,
-      "birim": "Bidon",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:14"
-    }
-  ],
+  "log": [],
   "araclar": [
     {
       "id": 1775537894045,
@@ -293,17 +252,7 @@
       "muayene": "",
       "not": "MAVİ",
       "yakitlar": [],
-      "bakimlar": [
-        {
-          "id": 1775922663087,
-          "tarih": "2026-04-11",
-          "tur": "Genel Bakım / Servis",
-          "km": 1886,
-          "sonrakiKm": 2210,
-          "tutar": 0,
-          "not": ""
-        }
-      ],
+      "bakimlar": [],
       "kmKayitlar": []
     },
     {
@@ -451,36 +400,6 @@
       "km2": null,
       "surucu": "Oğuz Karaçelik",
       "aciklama": "Tarla Sürme"
-    },
-    {
-      "id": 1775922094112,
-      "tarih": "2026-04-11",
-      "aracId": 1775556513258,
-      "plaka": "25555",
-      "tip": "⚙️ İş Makinesi",
-      "bidon": 1,
-      "hacim": 22,
-      "litre": 22,
-      "saat": null,
-      "km1": null,
-      "km2": null,
-      "surucu": "",
-      "aciklama": "YOL ÇALIŞMASI"
-    },
-    {
-      "id": 1775922161590,
-      "tarih": "2026-04-11",
-      "aracId": 1775556513258,
-      "plaka": "25555",
-      "tip": "⚙️ İş Makinesi",
-      "bidon": 1,
-      "hacim": 22,
-      "litre": 22,
-      "saat": null,
-      "km1": null,
-      "km2": null,
-      "surucu": "Burhan ince",
-      "aciklama": "Hakan Bey'in evine götürüldü"
     }
   ],
   "yakitBakimlar": [],
