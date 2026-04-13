@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-13T00:15:12.581Z",
+  "tarih": "2026-04-13T00:15:19.881Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -186,7 +186,7 @@
     {
       "id": 1774798780355,
       "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 22,
+      "miktar": 7,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "CNPalmira Kalsiyum Nitrat",
+      "miktar": 15,
+      "once": 22,
+      "sonra": 7,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "13.04.2026 03:15"
+    },
     {
       "tip": "duz",
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
