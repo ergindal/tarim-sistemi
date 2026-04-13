@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-13T00:14:16.186Z",
+  "tarih": "2026-04-13T00:15:12.581Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -177,7 +177,7 @@
     {
       "id": 1774798729763,
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 17,
+      "miktar": 5,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
+      "miktar": 12,
+      "once": 17,
+      "sonra": 5,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "13.04.2026 03:15"
+    },
     {
       "tip": "duz",
       "ad": "Fulvera hümik asit",
