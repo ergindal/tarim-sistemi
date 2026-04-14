@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-14T05:02:28.954Z",
+  "tarih": "2026-04-14T05:03:19.907Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -541,6 +541,21 @@
       "km2": null,
       "surucu": "SENCER",
       "aciklama": "Tarla Sürme"
+    },
+    {
+      "id": 1776142996905,
+      "tarih": "2026-04-14",
+      "aracId": 1776142945952,
+      "plaka": "10 ANG 43",
+      "tip": "🚚 Kamyon",
+      "bidon": 1,
+      "hacim": 22,
+      "litre": 22,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "AHMED BEKMURADOV",
+      "aciklama": "İLAÇLAMA"
     }
   ],
   "yakitBakimlar": [],
