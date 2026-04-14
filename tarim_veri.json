@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-14T05:01:18.768Z",
+  "tarih": "2026-04-14T05:02:28.954Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -332,6 +332,21 @@
       "sigorta": "",
       "muayene": "",
       "not": "",
+      "yakitlar": [],
+      "bakimlar": [],
+      "kmKayitlar": []
+    },
+    {
+      "id": 1776142945952,
+      "plaka": "10 ANG 43",
+      "tip": "🚚 Kamyon",
+      "marka": "DODGE",
+      "model": "AS 250",
+      "yil": "",
+      "km": 0,
+      "sigorta": "",
+      "muayene": "",
+      "not": "KIRMIZI",
       "yakitlar": [],
       "bakimlar": [],
       "kmKayitlar": []
