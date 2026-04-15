@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-15T05:03:47.453Z",
+  "tarih": "2026-04-15T05:13:15.099Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -571,6 +571,21 @@
       "km2": null,
       "surucu": "SENCER",
       "aciklama": "Tarla Sürme"
+    },
+    {
+      "id": 1776229992097,
+      "tarih": "2026-04-15",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 2,
+      "hacim": 21,
+      "litre": 42,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan İnce",
+      "aciklama": ""
     }
   ],
   "yakitBakimlar": [],
