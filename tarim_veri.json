@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-16T12:07:15.939Z",
+  "tarih": "2026-04-16T12:08:19.368Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -605,6 +605,21 @@
       "km2": null,
       "surucu": "oğuz karaçelik",
       "aciklama": "Tarla SÜRME"
+    },
+    {
+      "id": 1776341296364,
+      "tarih": "2026-04-07",
+      "aracId": 1775556513258,
+      "plaka": "KUMASU D31",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 3,
+      "hacim": 22,
+      "litre": 66,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan İNCE",
+      "aciklama": "KEPÇE YOL VE TARLA ÇALIŞMASI"
     }
   ],
   "yakitBakimlar": [],
