@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-16T17:09:19.438Z",
+  "tarih": "2026-04-16T17:09:59.168Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -526,6 +526,21 @@
       "km2": null,
       "surucu": "Sancar",
       "aciklama": "Tarla Sürme"
+    },
+    {
+      "id": 1776359396165,
+      "tarih": "2026-04-16",
+      "aracId": 1775556513258,
+      "plaka": "25555",
+      "tip": "⚙️ İş Makinesi",
+      "bidon": 2,
+      "hacim": 21,
+      "litre": 42,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "Burhan ince",
+      "aciklama": "YOL ÇALIŞMASI"
     }
   ],
   "yakitBakimlar": [],
