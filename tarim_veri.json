@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-16T12:06:44.837Z",
+  "tarih": "2026-04-16T12:07:15.939Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -366,19 +366,6 @@
     }
   ],
   "kullanim": [
-    {
-      "id": 1775556562510,
-      "tarih": "2026-04-07",
-      "aracId": 1775556513258,
-      "plaka": "25555",
-      "tip": "⚙️ İş Makinesi",
-      "litre": 65,
-      "saat": null,
-      "km1": null,
-      "km2": null,
-      "surucu": "Burhan İnce",
-      "aciklama": ""
-    },
     {
       "id": 1775810840405,
       "tarih": "2026-04-10",
