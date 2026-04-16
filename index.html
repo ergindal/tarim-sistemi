@@ -1057,7 +1057,19 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <span style="color:#64748b">Mevcut Depo Stoku:</span>
       <strong id="kul-stok-goster" style="color:#f59e0b">0 L</strong>
     </div>
-    <button onclick="kullanımFormAc()" style="width:100%;padding:12px;background:#1c0909;border:1.5px dashed #ef4444;color:#f87171;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:14px">📋 Yakıt Kullanım Kaydı Ekle</button>
+    <button onclick="kullanımFormAc()" style="width:100%;padding:12px;background:#1c0909;border:1.5px dashed #ef4444;color:#f87171;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">📋 Yakıt Kullanım Kaydı Ekle</button>
+
+    <!-- Görünüm seçici -->
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <button id="kul-view-liste" onclick="kulGorunumSec('liste')" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #16a34a;background:#052e16;color:#4ade80;font-size:12px;font-weight:700;cursor:pointer">📋 Liste</button>
+      <button id="kul-view-aylik" onclick="kulGorunumSec('aylik')" style="flex:1;padding:8px;border-radius:9px;border:1.5px solid #334155;background:transparent;color:#64748b;font-size:12px;font-weight:700;cursor:pointer">📅 Aylık</button>
+    </div>
+
+    <!-- Ay filtresi (aylık modda görünür) -->
+    <div id="kul-ay-filtre" style="display:none;margin-bottom:12px">
+      <input id="kul-ay-sec" type="month" class="inp" onchange="mzRenderKullanim()">
+    </div>
+
     <div id="kullanim-liste"><div class="empty">Yakıt kullanım kaydı yok</div></div>
   </div>
 
@@ -3122,39 +3134,49 @@ function kulSil(id){
   setInterval(notifPeriyodikKontrol,5*60*1000);
   ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');toast('Kayıt silindi');
 }
+let kulGorunum='liste';
+
+function kulGorunumSec(mod){
+  kulGorunum=mod;
+  const lBtn=document.getElementById('kul-view-liste');
+  const aBtn=document.getElementById('kul-view-aylik');
+  const ayFil=document.getElementById('kul-ay-filtre');
+  if(mod==='liste'){
+    if(lBtn)lBtn.style.cssText='flex:1;padding:8px;border-radius:9px;border:1.5px solid #16a34a;background:#052e16;color:#4ade80;font-size:12px;font-weight:700;cursor:pointer';
+    if(aBtn)aBtn.style.cssText='flex:1;padding:8px;border-radius:9px;border:1.5px solid #334155;background:transparent;color:#64748b;font-size:12px;font-weight:700;cursor:pointer';
+    if(ayFil)ayFil.style.display='none';
+  }else{
+    if(aBtn)aBtn.style.cssText='flex:1;padding:8px;border-radius:9px;border:1.5px solid #3b82f6;background:#0c1f3f;color:#93c5fd;font-size:12px;font-weight:700;cursor:pointer';
+    if(lBtn)lBtn.style.cssText='flex:1;padding:8px;border-radius:9px;border:1.5px solid #334155;background:transparent;color:#64748b;font-size:12px;font-weight:700;cursor:pointer';
+    if(ayFil){
+      ayFil.style.display='block';
+      const aySec=document.getElementById('kul-ay-sec');
+      if(aySec&&!aySec.value){
+        const now=new Date();
+        aySec.value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+      }
+    }
+  }
+  mzRenderKullanim();
+}
+
 function mzRenderKullanim(){
-  document.getElementById('kul-stok-goster').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+  const stok=getMzStok();
+  const stokEl=document.getElementById('kul-stok-goster');
+  if(stokEl)stokEl.textContent=stok.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
   const liste=document.getElementById('kullanim-liste');
+  if(!liste)return;
   if(!kullanımlar.length){liste.innerHTML='<div class="empty">Yakıt kullanım kaydı yok</div>';return;}
 
-  // Özet satırı
-  const topLitre=kullanımlar.reduce((s,k)=>s+(k.litre||0),0);
-  const topBidon=kullanımlar.reduce((s,k)=>s+(k.bidon||0),0);
-  const ozet=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
-    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
-      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Toplam Kullanım</div>
-      <div style="font-size:18px;font-weight:800;color:#f59e0b">${topLitre.toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
-    </div>
-    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
-      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Toplam Bidon</div>
-      <div style="font-size:18px;font-weight:800;color:#93c5fd">${topBidon.toLocaleString('tr-TR',{maximumFractionDigits:0})}</div>
-    </div>
-    <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
-      <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Kayıt Sayısı</div>
-      <div style="font-size:18px;font-weight:800;color:#4ade80">${kullanımlar.length}</div>
-    </div>
-  </div>`;
+  const tipIco=tip=>tip?.includes('Traktör')?'🚜':tip?.includes('Kamyon')?'🚚':'🚗';
+  const ayAdlari=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
 
-  liste.innerHTML=ozet+[...kullanımlar].reverse().map(k=>{
+  function kartHtml(k){
     const km=k.km1&&k.km2?`${(k.km2-k.km1).toLocaleString('tr-TR')} km`:'—';
     const tarih=k.tarih?new Date(k.tarih).toLocaleDateString('tr-TR'):'—';
-    const bidonStr=k.bidon&&k.hacim?`${k.bidon} × ${k.hacim} L`:'—';
-    const litreStr=k.litre?k.litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L':'—';
-    const saatStr=k.saat?k.saat.toLocaleString('tr-TR')+' saat':'—';
-    const tipIco=k.tip?.includes('Traktör')?'🚜':k.tip?.includes('Kamyon')?'🚚':'🚗';
     return`<div class="yakit-kayit">
       <div class="yk-header">
-        <div class="yk-plaka">${tipIco} ${k.plaka||'—'}
+        <div class="yk-plaka">${tipIco(k.tip)} ${k.plaka||'—'}
           ${k.tip?'<span class="yk-tip-chip">'+k.tip.split(' ').slice(1).join(' ')+'</span>':''}
         </div>
         <div style="display:flex;align-items:center;gap:8px">
@@ -3163,27 +3185,88 @@ function mzRenderKullanim(){
         </div>
       </div>
       <div class="yk-body">
-        <div class="yk-cell">
-          <div class="yk-cell-lbl">⛽ Verilen Litre</div>
-          <div class="yk-cell-val fuel">${litreStr}</div>
-        </div>
-        <div class="yk-cell">
-          <div class="yk-cell-lbl">📦 Bidon</div>
-          <div class="yk-cell-val">${bidonStr}</div>
-        </div>
-        <div class="yk-cell">
-          <div class="yk-cell-lbl">👤 Sürücü</div>
-          <div class="yk-cell-val ${k.surucu?'':'muted'}">${k.surucu||'—'}</div>
-        </div>
-        <div class="yk-cell">
-          <div class="yk-cell-lbl">⏱ Saat / KM</div>
-          <div class="yk-cell-val muted">${k.saat?saatStr:km}</div>
-        </div>
+        <div class="yk-cell"><div class="yk-cell-lbl">⛽ Litre</div><div class="yk-cell-val fuel">${k.litre} L</div></div>
+        <div class="yk-cell"><div class="yk-cell-lbl">📦 Bidon</div><div class="yk-cell-val">${k.bidon&&k.hacim?k.bidon+' × '+k.hacim+'L':'—'}</div></div>
+        <div class="yk-cell"><div class="yk-cell-lbl">👤 Sürücü</div><div class="yk-cell-val ${k.surucu?'':'muted'}">${k.surucu||'—'}</div></div>
+        <div class="yk-cell"><div class="yk-cell-lbl">⏱ Saat/KM</div><div class="yk-cell-val muted">${k.saat?k.saat+' saat':km}</div></div>
       </div>
       ${k.aciklama?`<div class="yk-footer"><span class="yk-aciklama">📍 ${k.aciklama}</span></div>`:''}
     </div>`;
-  }).join('');
+  }
+
+  if(kulGorunum==='aylik'){
+    // Aylara göre grupla
+    const aylar={};
+    kullanımlar.forEach(k=>{
+      if(!k.tarih)return;
+      const ay=k.tarih.slice(0,7);
+      if(!aylar[ay])aylar[ay]={litre:0,bidon:0,kayitlar:[],araclar:{}};
+      aylar[ay].litre+=(k.litre||0);
+      aylar[ay].bidon+=(k.bidon||0);
+      aylar[ay].kayitlar.push(k);
+      const pk=k.plaka||'Bilinmiyor';
+      aylar[ay].araclar[pk]=(aylar[ay].araclar[pk]||0)+(k.litre||0);
+    });
+    const ayKeys=Object.keys(aylar).sort().reverse();
+    const aySec=document.getElementById('kul-ay-sec')?.value||(ayKeys[0]||'');
+    let html='';
+    // Yatay ay seçici kartları
+    html+=`<div style="overflow-x:auto;display:flex;gap:8px;padding-bottom:6px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none">`;
+    ayKeys.forEach(ay=>{
+      const d=aylar[ay];
+      const [yil,m]=ay.split('-');
+      const aktif=ay===aySec;
+      html+=`<div onclick="document.getElementById('kul-ay-sec').value='${ay}';mzRenderKullanim()" style="flex-shrink:0;background:${aktif?'#0c1f3f':'#1e293b'};border:1.5px solid ${aktif?'#3b82f6':'#334155'};border-radius:12px;padding:11px 13px;min-width:105px;cursor:pointer;transition:all .2s">
+        <div style="font-size:11px;font-weight:800;color:${aktif?'#93c5fd':'#64748b'};margin-bottom:5px">${ayAdlari[parseInt(m)-1]} ${yil}</div>
+        <div style="font-size:17px;font-weight:800;color:#f59e0b">${d.litre.toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+        <div style="font-size:10px;color:#475569;margin-top:2px">${d.kayitlar.length} kayıt</div>
+      </div>`;
+    });
+    html+='</div>';
+    // Seçili ay detayı
+    if(aySec&&aylar[aySec]){
+      const d=aylar[aySec];
+      const [yil,m]=aySec.split('-');
+      // Araç dağılımı
+      const aracOzet=Object.entries(d.araclar).sort((a,b)=>b[1]-a[1]);
+      html+=`<div style="background:#1e293b;border-radius:12px;border:1px solid #334155;overflow:hidden;margin-bottom:12px">
+        <div style="padding:12px 14px;background:#0f172a;display:flex;justify-content:space-between;align-items:center">
+          <strong>${ayAdlari[parseInt(m)-1]} ${yil}</strong>
+          <span style="font-size:15px;font-weight:800;color:#f59e0b">${d.litre.toLocaleString('tr-TR',{maximumFractionDigits:0})} L · ${d.bidon} bidon</span>
+        </div>
+        ${aracOzet.map(([plaka,litre])=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-top:1px solid #0f172a">
+            <span style="color:#94a3b8;font-size:13px">${plaka}</span>
+            <span style="font-weight:800;color:#e2e8f0">${litre.toLocaleString('tr-TR',{maximumFractionDigits:1})} L</span>
+          </div>`).join('')}
+      </div>`;
+      // Kayıtlar
+      html+='<div style="font-size:10px;font-weight:800;color:#475569;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">'+d.kayitlar.length+' KAYIT</div>';
+      html+=d.kayitlar.sort((a,b)=>b.id-a.id).map(kartHtml).join('');
+    }
+    liste.innerHTML=html;
+
+  }else{
+    // LİSTE görünüm
+    const topL=kullanımlar.reduce((s,k)=>s+(k.litre||0),0);
+    const topB=kullanımlar.reduce((s,k)=>s+(k.bidon||0),0);
+    liste.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+      <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+        <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Toplam</div>
+        <div style="font-size:18px;font-weight:800;color:#f59e0b">${topL.toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+      </div>
+      <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+        <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Bidon</div>
+        <div style="font-size:18px;font-weight:800;color:#93c5fd">${topB.toLocaleString('tr-TR',{maximumFractionDigits:0})}</div>
+      </div>
+      <div style="background:#1e293b;border-radius:10px;padding:10px;text-align:center;border:1px solid #334155">
+        <div style="font-size:10px;color:#64748b;text-transform:uppercase;font-weight:700;letter-spacing:.4px;margin-bottom:3px">Kayıt</div>
+        <div style="font-size:18px;font-weight:800;color:#4ade80">${kullanımlar.length}</div>
+      </div>
+    </div>`+[...kullanımlar].reverse().map(kartHtml).join('');
+  }
 }
+
 
 /* ── BAKIM FORM ── */
 function bakimFormAcYeni(editId=null){
