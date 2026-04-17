@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-17T13:47:34.555Z",
+  "tarih": "2026-04-17T13:47:59.683Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -150,7 +150,7 @@
     {
       "id": 1774713074890,
       "ad": "Greenleaf 20.20.20",
-      "miktar": 20,
+      "miktar": 8,
       "ambalaj": "Paket",
       "icerik": 2.5,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "Greenleaf 20.20.20",
+      "miktar": 12,
+      "once": 20,
+      "sonra": 8,
+      "birim": "Paket",
+      "not": "Düzeltme",
+      "t": "17.04.2026 16:47"
+    },
     {
       "tip": "duz",
       "ad": "Grenmaz",
