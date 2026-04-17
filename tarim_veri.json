@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-17T13:47:59.683Z",
+  "tarih": "2026-04-17T13:48:28.715Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -168,7 +168,7 @@
     {
       "id": 1774717289773,
       "ad": "MICROLEX",
-      "miktar": 13,
+      "miktar": 14,
       "ambalaj": "Paket",
       "icerik": 2.5,
       "icBirim": "L",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "MICROLEX",
+      "miktar": 1,
+      "once": 13,
+      "sonra": 14,
+      "birim": "Paket",
+      "not": "Düzeltme",
+      "t": "17.04.2026 16:48"
+    },
     {
       "tip": "duz",
       "ad": "Greenleaf 20.20.20",
