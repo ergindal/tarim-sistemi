@@ -1063,16 +1063,16 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div>
       <div style="font-size:15px;font-weight:800">👷 Personel & Maliyet</div>
-      <div style="font-size:11px;color:#64748b;margin-top:1px" id="pm-ozet-lbl">Adam/Gün takibi ve maliyet hesaplama</div>
+      <div style="font-size:11px;color:#64748b;margin-top:1px" id="pm-ozet-lbl">Operasyon takibi ve efor yönetimi</div>
     </div>
     <button onclick="pmKayitFormAc()" style="background:linear-gradient(135deg,#7c3aed,#6d28d9);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer">＋ Kayıt</button>
   </div>
 
   <!-- KPI Kartları -->
   <div class="pm-kpi-row" id="pm-kpi-row">
-    <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-ag" style="color:#a78bfa">0</div><div class="pm-kpi-lbl">Toplam Adam/Gün</div></div>
-    <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-maliyet" style="color:#4ade80">0 ₺</div><div class="pm-kpi-lbl">Toplam Maliyet</div></div>
-    <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-kayit" style="color:#93c5fd">0</div><div class="pm-kpi-lbl">İşlem Kaydı</div></div>
+    <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-kayit" style="color:#3b82f6">0</div><div class="pm-kpi-lbl">Kayıtlı Operasyon</div></div>
+    <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-ag" style="color:#60a5fa">0</div><div class="pm-kpi-lbl">Toplam Adam/Gün</div></div>
+    <div class="pm-kpi" style="display:none"><div class="pm-kpi-val" id="pm-kpi-maliyet">0</div><div class="pm-kpi-lbl"></div></div>
   </div>
 
   <!-- Alt Sekmeler -->
@@ -1168,7 +1168,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 <div class="form-overlay" id="pm-kayit-modal">
   <div class="form-sheet">
     <div class="form-sheet-baslik">
-      <span>👷 <span id="pm-form-baslik">Yeni Kayıt</span></span>
+      <span>👷 <span id="pm-form-baslik">Yeni Operasyon Kaydı</span></span>
       <button class="form-sheet-kapat" onclick="formKapat('pm-kayit-modal')">✕</button>
     </div>
 
@@ -1189,7 +1189,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <!-- Görev -->
     <div class="field">
       <label>Görev Türü *</label>
-      <select id="pm-gorev" class="sel" onchange="pmGorevDegisti()">
+      <select id="pm-gorev" class="sel">
         <option>Hasat</option><option>Budama</option><option>İlaçlama</option>
         <option>Gübreleme</option><option>Sulama Bakım</option>
         <option>Toprak İşleme</option><option>Temizlik</option><option>Çeşitli</option>
@@ -1209,37 +1209,32 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
           <input id="pm-saat-bit" type="time" class="inp" value="17:00" onchange="pmSaattenGunHesapla()">
         </div>
       </div>
-      <div id="pm-saat-ozet" style="font-size:12px;color:#a78bfa;font-weight:700;text-align:center;padding:4px 0">
+      <div id="pm-saat-ozet" style="font-size:12px;color:#3b82f6;font-weight:700;text-align:center;padding:4px 0">
         08:00 → 17:00 · 9 saat (1 gün)
       </div>
     </div>
 
-    <!-- Kişi & Gün & Yevmiye -->
+    <!-- Gün & Kişi Sayısı -->
     <div class="g2">
       <div class="field">
-        <label>Çalışılan Gün *</label>
+        <label>Gün *</label>
         <input id="pm-gun" type="number" class="inp" min="0.5" step="0.5" placeholder="1" inputmode="decimal" oninput="pmHesapla()">
       </div>
       <div class="field">
-        <label>Günlük Yevmiye (₺)</label>
-        <input id="pm-yevmiye" type="number" class="inp" min="0" placeholder="850" inputmode="numeric" oninput="pmHesapla()">
+        <label>Kişi Sayısı *</label>
+        <input id="pm-kisi-sayi" type="number" class="inp" min="1" placeholder="5" inputmode="numeric" oninput="pmHesapla()">
       </div>
     </div>
 
     <!-- Hesap Motoru Sonucu -->
-    <div id="pm-hesap-sonuc" style="background:#1a1040;border:1.5px solid #4c1d95;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:none">
-      <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">⚙ Hesaplama Motoru</div>
+    <div id="pm-hesap-sonuc" style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:12px 14px;margin-bottom:12px;display:none">
+      <div style="font-size:10px;font-weight:800;color:#3b82f6;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">⚙ Efor Hesabı</div>
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
         <span style="color:#94a3b8">Seçili Personel</span><strong id="pm-sonuc-kisi-sayi" style="color:#93c5fd">— kişi</strong>
       </div>
       <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
-        <span style="color:#94a3b8">Adam/Gün</span><strong id="pm-sonuc-ag" style="color:#a78bfa">—</strong>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
-        <span style="color:#94a3b8">Toplam Maliyet</span><strong id="pm-sonuc-maliyet" style="color:#4ade80">—</strong>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px">
-        <span style="color:#94a3b8">Kişi Başı</span><strong id="pm-sonuc-kisi" style="color:#fbbf24">—</strong>
+      <div style="display:flex;justify-content:space-between;font-size:14px">
+        <span style="color:#94a3b8">Toplam Adam/Gün</span><strong id="pm-sonuc-ag" style="color:#60a5fa;font-size:16px">—</strong>
       </div>
     </div>
 
@@ -1261,11 +1256,11 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </div>
     </div>
 
-    <div class="field"><label>Açıklama / Not</label><input id="pm-not" class="inp" placeholder="İşin detayı..."></div>
+    <div class="field"><label>Saha Notu</label><input id="pm-not" class="inp" placeholder="Gözlem, koşul, saha detayı..."></div>
     <input type="hidden" id="pm-edit-id">
     <input type="hidden" id="pm-personel-list">
     <input type="hidden" id="pm-kisi">
-    <button class="btn btn-purple" onclick="pmKayitKaydet()">✓ Kaydet</button>
+    <button class="btn btn-blue" onclick="pmKayitKaydet()">✓ Operasyonu Kaydet</button>
     <button class="btn btn-ghost" onclick="formKapat('pm-kayit-modal')">İptal</button>
   </div>
 </div>
@@ -4618,10 +4613,9 @@ function pmTabSec(tab,btn){
 function pmKpiGun(){
   const topAG=pmKayitlar.reduce((s,k)=>s+(k.adamGun||0),0);
   const topM=pmKayitlar.reduce((s,k)=>s+(k.toplamMaliyet||0),0);
-  document.getElementById('pm-kpi-ag').textContent=fmt(topAG);
-  document.getElementById('pm-kpi-maliyet').textContent=topM.toLocaleString('tr-TR')+' \u20ba';
   document.getElementById('pm-kpi-kayit').textContent=pmKayitlar.length;
-  document.getElementById('pm-ozet-lbl').textContent=pmKayitlar.length+' kayit \u00b7 '+fmt(topAG)+' Adam/Gun \u00b7 '+topM.toLocaleString('tr-TR')+' \u20ba';
+  document.getElementById('pm-kpi-ag').textContent=fmt(topAG);
+  document.getElementById('pm-ozet-lbl').textContent=pmKayitlar.length+' operasyon \u00b7 '+fmt(topAG)+' Adam/G\u00fcn toplam efor';
 }
 function pmAdaFilterGun(){
   const adalar=['ADA1','ADA2','ADA3','GENEL'];
@@ -4641,37 +4635,79 @@ function pmKayitListeGun(){
   let liste=[...pmKayitlar].sort((a,b)=>b.t-a.t);
   if(fAda)liste=liste.filter(k=>k.ada===fAda);
   if(fGorev)liste=liste.filter(k=>k.gorev===fGorev);
-  if(!liste.length){el.innerHTML='<div style="text-align:center;padding:32px 16px;color:#64748b">Filtre ile eslesme yok.</div>';return;}
-  const adaRenk={'ADA1':'#93c5fd','ADA2':'#4ade80','ADA3':'#fbbf24','GENEL':'#a78bfa'};
+  if(!liste.length){
+    el.innerHTML='<div style="text-align:center;padding:40px 16px;color:#64748b"><div style="font-size:28px;margin-bottom:8px">📋</div><div style="font-size:14px;font-weight:600">Kayıtlı operasyon yok</div><div style="font-size:12px;margin-top:4px">＋ Kayıt butonuyla yeni operasyon ekleyin</div></div>';
+    return;
+  }
+  // Ada renk paleti — mavi tonları
+  const adaRenk={'ADA1':'#3b82f6','ADA2':'#60a5fa','ADA3':'#93c5fd','GENEL':'#7c3aed'};
+  const adaBg={'ADA1':'#0c1f3f','ADA2':'#0c1a33','ADA3':'#0a1628','GENEL':'#1a1040'};
+
   el.innerHTML=liste.map(k=>{
-    const tarihStr=new Date(k.t).toLocaleDateString('tr-TR');
-    const pStr=k.personelListesi?k.personelListesi.split(',').map(p=>p.trim()).filter(Boolean).slice(0,4).join(', '):'';
-    const ar=adaRenk[k.ada]||'#94a3b8';
-    const saatStr=(k.saatBas&&k.saatBit)?k.saatBas+' → '+k.saatBit:'';
-    return '<div class="pm-kayit-item">'+
-      '<div class="pm-kayit-header">'+
-        '<div style="flex:1;min-width:0">'+
-          '<div class="pm-kayit-baslik">'+k.gorev+'</div>'+
-          '<div class="pm-kayit-meta">'+tarihStr+(saatStr?' · 🕐 '+saatStr:'')+(k.not?' · '+k.not:'')+'</div>'+
-          (pStr?'<div style="font-size:11px;color:#4ade80;margin-top:3px;font-weight:600">👷 '+pStr+'</div>':'')+
-        '</div>'+
-        '<div style="text-align:right;flex-shrink:0">'+
-          '<div class="pm-kayit-maliyet">'+((k.toplamMaliyet||0).toLocaleString('tr-TR'))+' ₺</div>'+
-          '<div style="font-size:11px;color:#a78bfa;margin-top:2px;font-weight:700">'+fmt(k.adamGun||0)+' Adam/Gün</div>'+
-          '<div style="font-size:10px;color:#64748b;margin-top:1px">'+k.kisiSayisi+' kişi × '+k.calisGun+' gün</div>'+
-        '</div>'+
-      '</div>'+
-      '<div class="pm-kayit-chips">'+
-        '<span class="pm-chip pm-chip-ada" style="color:'+ar+';border-color:'+ar+'33">🌿 '+pmAdaAd(k.ada)+'</span>'+
-        '<span class="pm-chip pm-chip-gorev">🔧 '+k.gorev+'</span>'+
-        (saatStr?'<span class="pm-chip" style="background:#0c1f3f;color:#93c5fd;border:1px solid #1e3a5f">🕐 '+saatStr+'</span>':'')+
-        '<span class="pm-chip" style="background:#1c1007;color:#fbbf24;border:1px solid #92400e">₺'+k.yevmiye+'/kişi/gün</span>'+
-      '</div>'+
-      '<div style="display:flex;gap:6px;margin-top:8px">'+
-        '<button onclick="pmKayitDuzenle('+k.id+')" style="background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;cursor:pointer">✏ Düzenle</button>'+
-        '<button onclick="pmKayitSil('+k.id+')" style="background:#450a0a;border:1px solid #991b1b;color:#f87171;border-radius:7px;padding:5px 11px;font-size:11px;font-weight:700;cursor:pointer">🗑 Sil</button>'+
-      '</div>'+
-    '</div>';
+    const tarih=new Date(k.t);
+    const tarihStr=tarih.toLocaleDateString('tr-TR',{day:'2-digit',month:'short',year:'numeric'});
+    const gunAd=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'][tarih.getDay()];
+    const kisiler=k.personelListesi?k.personelListesi.split(',').map(p=>p.trim()).filter(Boolean):[];
+    const kisiSay=k.kisiSayisi||kisiler.length||0;
+    const saatStr=(k.saatBas&&k.saatBit)?k.saatBas+' – '+k.saatBit:'';
+    const ar=adaRenk[k.ada]||'#3b82f6';
+    const abg=adaBg[k.ada]||'#0c1f3f';
+    const ag=k.adamGun||0;
+
+    // Personel badge'leri (max 5, fazlası +N)
+    const maxBadge=5;
+    const gorunenler=kisiler.slice(0,maxBadge);
+    const kalan=kisiler.length-maxBadge;
+    const personelBadgeler=gorunenler.map(p=>`<span style="background:#1e3a5f;color:#93c5fd;border:1px solid #2563eb33;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">${p}</span>`).join('');
+    const kalanBadge=kalan>0?`<span style="background:#1e293b;color:#64748b;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">+${kalan}</span>`:'';
+
+    return `<div style="background:#0f172a;border:1.5px solid #1e3a5f;border-left:4px solid ${ar};border-radius:12px;padding:0;margin-bottom:10px;overflow:hidden">
+      <!-- Üst: Ada + Tarih -->
+      <div style="background:${abg};padding:8px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="background:${ar}22;color:${ar};border:1px solid ${ar}44;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:800;letter-spacing:.4px">🌿 ${pmAdaAd(k.ada).toUpperCase()}</span>
+          <span style="font-size:12px;font-weight:800;color:${ar}">${k.gorev}</span>
+        </div>
+        <div style="font-size:11px;color:#64748b;text-align:right">
+          <span style="font-weight:700;color:#94a3b8">${gunAd}</span> ${tarihStr}
+        </div>
+      </div>
+      <!-- Orta: Efor metrikleri -->
+      <div style="padding:10px 14px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+          <!-- Kişi Sayısı -->
+          <div style="display:flex;align-items:center;gap:6px">
+            <div style="width:36px;height:36px;border-radius:9px;background:#0c1f3f;border:1.5px solid #2563eb;display:flex;align-items:center;justify-content:center;font-size:16px">👷</div>
+            <div>
+              <div style="font-size:18px;font-weight:800;color:#93c5fd;line-height:1">${kisiSay}</div>
+              <div style="font-size:10px;color:#64748b">kişi</div>
+            </div>
+          </div>
+          <div style="color:#334155;font-size:18px">×</div>
+          <!-- Gün -->
+          <div>
+            <div style="font-size:18px;font-weight:800;color:#60a5fa;line-height:1">${k.calisGun}</div>
+            <div style="font-size:10px;color:#64748b">gün</div>
+          </div>
+          <div style="color:#334155;font-size:18px">=</div>
+          <!-- Adam/Gün sonuç -->
+          <div style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:6px 14px;text-align:center">
+            <div style="font-size:20px;font-weight:800;color:#3b82f6;line-height:1">${fmt(ag)}</div>
+            <div style="font-size:9px;color:#64748b;font-weight:700;letter-spacing:.4px;text-transform:uppercase">Adam/Gün</div>
+          </div>
+          ${saatStr?`<div style="background:#0a1628;border:1px solid #1e3a5f;border-radius:8px;padding:5px 10px;text-align:center;margin-left:auto">
+            <div style="font-size:11px;font-weight:800;color:#93c5fd">🕐 ${saatStr}</div>
+          </div>`:''}
+        </div>
+        ${kisiler.length?`<div style="display:flex;flex-wrap:wrap;gap:4px">${personelBadgeler}${kalanBadge}</div>`:''}
+        ${k.not?`<div style="margin-top:6px;font-size:11px;color:#64748b;font-style:italic">📝 ${k.not}</div>`:''}
+      </div>
+      <!-- Alt: Aksiyonlar -->
+      <div style="padding:8px 14px;border-top:1px solid #1e3a5f;display:flex;gap:6px">
+        <button onclick="pmKayitDuzenle(${k.id})" style="background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">✏ Düzenle</button>
+        <button onclick="pmKayitSil(${k.id})" style="background:#1c0a0a;border:1px solid #7f1d1d;color:#f87171;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">🗑 Sil</button>
+      </div>
+    </div>`;
   }).join('');
 }
 function pmPersonelListeGun(){
@@ -4718,7 +4754,6 @@ function pmKayitFormAc(id){
     document.getElementById('pm-ada').value='ADA1';
     document.getElementById('pm-gorev').value='Hasat';
     document.getElementById('pm-gun').value='';
-    document.getElementById('pm-yevmiye').value=pmYevmiyeler['Hasat']||850;
     document.getElementById('pm-personel-ekstra').value='';
     document.getElementById('pm-not').value='';
     document.getElementById('pm-saat-bas').value='08:00';
@@ -4729,7 +4764,6 @@ function pmKayitFormAc(id){
     document.getElementById('pm-ada').value=k.ada;
     document.getElementById('pm-gorev').value=k.gorev;
     document.getElementById('pm-gun').value=k.calisGun;
-    document.getElementById('pm-yevmiye').value=k.yevmiye;
     document.getElementById('pm-personel-ekstra').value='';
     document.getElementById('pm-not').value=k.not||'';
     document.getElementById('pm-saat-bas').value=k.saatBas||'08:00';
@@ -4793,20 +4827,20 @@ function pmSaattenGunHesapla(){
   if(ozetEl)ozetEl.textContent=`${bas} → ${bit} · ${saat.toFixed(1)} saat (${gun} gün)`;
   pmHesapla();
 }
-function pmGorevDegisti(){const g=document.getElementById('pm-gorev').value;document.getElementById('pm-yevmiye').value=pmYevmiyeler[g]||800;pmHesapla();}
+function pmGorevDegisti(){pmHesapla();}
 function pmHesapla(){
   const secili=pmSeciliPersoneller();
   const kisi=secili.length||0;
+  // pm-kisi-sayi input varsa onu da oku (manuel giriş)
+  const kisiSayiEl=document.getElementById('pm-kisi-sayi');
+  const kisiSon=kisi>0?kisi:(parseInt(kisiSayiEl?.value)||0);
   const gun=parseFloat(document.getElementById('pm-gun').value)||0;
-  const yev=parseFloat(document.getElementById('pm-yevmiye').value)||0;
   const el=document.getElementById('pm-hesap-sonuc');
-  document.getElementById('pm-kisi').value=kisi;
-  if((kisi>0||gun>0)&&gun>0){
-    const ag=Math.max(kisi,1)*gun,mal=ag*yev;
-    document.getElementById('pm-sonuc-kisi-sayi').textContent=(kisi||'?')+' kişi';
+  document.getElementById('pm-kisi').value=kisiSon;
+  if(gun>0){
+    const ag=Math.max(kisiSon,1)*gun;
+    document.getElementById('pm-sonuc-kisi-sayi').textContent=(kisiSon||'?')+' kişi';
     document.getElementById('pm-sonuc-ag').textContent=fmt(ag)+' Adam/Gün';
-    document.getElementById('pm-sonuc-maliyet').textContent=mal.toLocaleString('tr-TR')+' ₺';
-    document.getElementById('pm-sonuc-kisi').textContent=(gun*yev).toLocaleString('tr-TR')+' ₺/kişi';
     el.style.display='block';
   }else{el.style.display='none';}
 }
@@ -4815,18 +4849,19 @@ function pmKayitKaydet(){
   const ada=document.getElementById('pm-ada').value;
   const gorev=document.getElementById('pm-gorev').value;
   const gun=parseFloat(document.getElementById('pm-gun').value);
-  const yev=parseFloat(document.getElementById('pm-yevmiye').value)||0;
   const not=document.getElementById('pm-not').value.trim();
   const editId=parseInt(document.getElementById('pm-edit-id').value)||null;
   const saatBas=document.getElementById('pm-saat-bas').value||'08:00';
   const saatBit=document.getElementById('pm-saat-bit').value||'17:00';
   const seciliPersonel=pmSeciliPersoneller();
   const pList=seciliPersonel.join(', ');
-  const kisi=seciliPersonel.length||1;
+  // Kişi sayısı: checkbox seçimi veya manuel giriş
+  const kisiSayiEl=document.getElementById('pm-kisi-sayi');
+  const kisi=seciliPersonel.length>0?seciliPersonel.length:(parseInt(kisiSayiEl?.value)||1);
   if(!tarihStr)return toast('Tarih giriniz!','err');
   if(!gun||gun<=0)return toast('Çalışılan gün / saat giriniz!','err');
-  const ag=kisi*gun,mal=ag*yev,t=new Date(tarihStr).getTime();
-  const kayit={ada,gorev,kisiSayisi:kisi,calisGun:gun,yevmiye:yev,adamGun:ag,toplamMaliyet:mal,personelListesi:pList,saatBas,saatBit,not,t};
+  const ag=kisi*gun,t=new Date(tarihStr).getTime();
+  const kayit={ada,gorev,kisiSayisi:kisi,calisGun:gun,adamGun:ag,personelListesi:pList,saatBas,saatBit,not,t};
   if(editId){
     const idx=pmKayitlar.findIndex(k=>k.id===editId);
     if(idx>=0)pmKayitlar[idx]={...pmKayitlar[idx],...kayit};
