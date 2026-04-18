@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-17T13:48:28.715Z",
+  "tarih": "2026-04-18T00:25:19.621Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -96,7 +96,7 @@
     {
       "id": 12,
       "ad": "Grenmaz",
-      "miktar": 8,
+      "miktar": 10,
       "ambalaj": "Paket",
       "icerik": 1,
       "icBirim": "kg",
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 13,
+      "miktar": 33,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -150,7 +150,7 @@
     {
       "id": 1774713074890,
       "ad": "Greenleaf 20.20.20",
-      "miktar": 8,
+      "miktar": 20,
       "ambalaj": "Paket",
       "icerik": 2.5,
       "icBirim": "kg",
@@ -168,7 +168,7 @@
     {
       "id": 1774717289773,
       "ad": "MICROLEX",
-      "miktar": 14,
+      "miktar": 13,
       "ambalaj": "Paket",
       "icerik": 2.5,
       "icBirim": "L",
@@ -240,34 +240,14 @@
   ],
   "log": [
     {
-      "tip": "duz",
-      "ad": "MICROLEX",
-      "miktar": 1,
+      "tip": "ekle",
+      "ad": "Fulvera hümik asit",
+      "miktar": 20,
       "once": 13,
-      "sonra": 14,
-      "birim": "Paket",
-      "not": "Düzeltme",
-      "t": "17.04.2026 16:48"
-    },
-    {
-      "tip": "duz",
-      "ad": "Greenleaf 20.20.20",
-      "miktar": 12,
-      "once": 20,
-      "sonra": 8,
-      "birim": "Paket",
-      "not": "Düzeltme",
-      "t": "17.04.2026 16:47"
-    },
-    {
-      "tip": "duz",
-      "ad": "Grenmaz",
-      "miktar": 2,
-      "once": 10,
-      "sonra": 8,
-      "birim": "Paket",
-      "not": "Düzeltme",
-      "t": "17.04.2026 16:47"
+      "sonra": 33,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "16.04.2026 21:19"
     },
     {
       "tip": "duz",
