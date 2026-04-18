@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-18T15:25:06.010Z",
+  "tarih": "2026-04-18T15:26:24.350Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -141,7 +141,7 @@
     {
       "id": 1774711786242,
       "ad": "Fulvera hümik asit",
-      "miktar": 13,
+      "miktar": 87,
       "ambalaj": "Bidon",
       "icerik": 20,
       "icBirim": "L",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "ekle",
+      "ad": "Fulvera hümik asit",
+      "miktar": 74,
+      "once": 13,
+      "sonra": 87,
+      "birim": "Bidon (20 L)",
+      "not": "",
+      "t": "18.04.2026 18:26"
+    },
     {
       "tip": "ekle",
       "ad": "Can % 26 Gübre",
