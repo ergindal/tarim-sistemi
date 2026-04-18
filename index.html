@@ -1091,8 +1091,10 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </select>
       <select id="pm-filtre-gorev" class="sel" style="flex:1;font-size:12px;padding:9px 10px" onchange="pmKayitListeGun()">
         <option value="">Tüm Görevler</option>
+        <option>Hasat</option><option>Budama</option><option>İlaçlama</option>
+        <option>Gübreleme</option><option>Sulama Bakım</option>
+        <option>Toprak İşleme</option><option>Temizlik</option><option>Çeşitli</option>
       </select>
-    </div>
     </div>
     <!-- Gün Sonu Özet Kartı Butonu -->
     <div style="background:linear-gradient(135deg,#1a1040,#0f172a);border:1.5px solid #4c1d95;border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px">
@@ -1116,14 +1118,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     </div>
     <div id="pm-personel-liste"><div style="text-align:center;padding:24px 16px;color:#64748b">Personel eklenmemiş.</div></div>
     <div style="margin-top:12px">
-      <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">🔧 Görev Türleri</div>
-      <!-- Yeni görev ekleme -->
-      <div style="display:flex;gap:6px;margin-bottom:10px">
-        <input id="pm-yeni-gorev-inp" class="inp" placeholder="Yeni görev türü ekle..." style="flex:1;font-size:13px;padding:10px 12px"
-          onkeydown="if(event.key==='Enter')pmGorevEkle()">
-        <button onclick="pmGorevEkle()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0">＋ Ekle</button>
-      </div>
-      <div id="pm-gorev-liste"></div>
+      <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">Görev Türleri & Yevmiyeler</div>
+      <div id="pm-yevmiye-liste"></div>
     </div>
   </div>
 
@@ -1193,9 +1189,12 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <!-- Görev -->
     <div class="field">
       <label>Görev Türü *</label>
-      <select id="pm-gorev" class="sel"><option>Hasat</option></select>
+      <select id="pm-gorev" class="sel">
+        <option>Hasat</option><option>Budama</option><option>İlaçlama</option>
+        <option>Gübreleme</option><option>Sulama Bakım</option>
+        <option>Toprak İşleme</option><option>Temizlik</option><option>Çeşitli</option>
+      </select>
     </div>
-
 
     <!-- SAAT ARALIĞI -->
     <div style="background:#0f172a;border:1.5px solid #334155;border-radius:10px;padding:12px 14px;margin-bottom:12px">
@@ -4575,10 +4574,7 @@ if(localStorage.getItem('jb_key'))setTimeout(()=>setSyncDot('ok'),100);
 const PMK = 'erturan_personel_v1';
 const PM_PERSONEL_K = 'erturan_pm_personel_v1';
 const PM_YEVMIYE_K = 'erturan_pm_yevmiye_v1';
-const PM_GOREV_K = 'erturan_pm_gorevler_v1';
-const PM_VARSAYILAN_GOREVLER = ['Hasat','Budama','İlaçlama','Gübreleme','Sulama Bakım','Toprak İşleme','Temizlik','Çeşitli'];
 let pmKayitlar=[], pmPersoneller=[];
-let pmGorevler=[...PM_VARSAYILAN_GOREVLER];
 let pmYevmiyeler={'Hasat':850,'Budama':900,'İlaçlama':950,'Gübreleme':850,'Sulama Bakım':800,'Toprak İşleme':900,'Temizlik':750,'Çeşitli':800};
 let pmAktifTab='kayitlar';
 
@@ -4586,30 +4582,15 @@ function pmYukle(){
   try{pmKayitlar=JSON.parse(localStorage.getItem(PMK))||[];}catch{pmKayitlar=[];}
   try{pmPersoneller=JSON.parse(localStorage.getItem(PM_PERSONEL_K))||[];}catch{pmPersoneller=[];}
   try{const y=JSON.parse(localStorage.getItem(PM_YEVMIYE_K));if(y)pmYevmiyeler={...pmYevmiyeler,...y};}catch{}
-  try{const g=JSON.parse(localStorage.getItem(PM_GOREV_K));if(g&&g.length)pmGorevler=g;}catch{}
 }
 function pmKaydet(){
   localStorage.setItem(PMK,JSON.stringify(pmKayitlar));
   localStorage.setItem(PM_PERSONEL_K,JSON.stringify(pmPersoneller));
   localStorage.setItem(PM_YEVMIYE_K,JSON.stringify(pmYevmiyeler));
-  localStorage.setItem(PM_GOREV_K,JSON.stringify(pmGorevler));
   ghOtomatikSync();
 }
-function pmGorevSelectDoldur(){
-  // Form seçici
-  const sel=document.getElementById('pm-gorev');
-  const filtre=document.getElementById('pm-filtre-gorev');
-  if(sel){
-    const cur=sel.value;
-    sel.innerHTML=pmGorevler.map(g=>`<option${g===cur?' selected':''}>${g}</option>`).join('');
-  }
-  if(filtre){
-    const cur=filtre.value;
-    filtre.innerHTML='<option value="">Tüm Görevler</option>'+pmGorevler.map(g=>`<option${g===cur?' selected':''}>${g}</option>`).join('');
-  }
-}
 function pmSayfaGun(){
-  pmKpiGun();pmAdaFilterGun();pmGorevSelectDoldur();
+  pmKpiGun();pmAdaFilterGun();
   // Gün sonu tarih alanına bugünü yaz
   const ozetTarihEl=document.getElementById('pm-ozet-tarih');
   if(ozetTarihEl&&!ozetTarihEl.value)ozetTarihEl.value=new Date().toISOString().split('T')[0];
@@ -4751,56 +4732,19 @@ function pmPersonelListeGun(){
       '</div>'+
     '</div>';
   }).join('');}
-  pmGorevListeGun();
-}
-function pmGorevListeGun(){
-  const el=document.getElementById('pm-gorev-liste');if(!el)return;
-  const varsayilan=new Set(PM_VARSAYILAN_GOREVLER);
-  el.innerHTML=pmGorevler.map((g,i)=>{
-    const isVarsayilan=varsayilan.has(g);
-    const kullanimSayisi=pmKayitlar.filter(k=>k.gorev===g).length;
-    return '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#0f172a;border-radius:9px;margin-bottom:6px;border:1px solid '+(isVarsayilan?'#334155':'#2563eb40')+'">'  +
-      '<div style="width:28px;height:28px;border-radius:7px;background:'+(isVarsayilan?'#1e293b':'#0c1f3f')+';border:1px solid '+(isVarsayilan?'#334155':'#2563eb')+';display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">'+(isVarsayilan?'🔒':'✏️')+'</div>'+
-      '<div style="flex:1;min-width:0">'+
-        '<div style="font-size:13px;font-weight:700;color:#e2e8f0">'+g+'</div>'+
-        '<div style="font-size:10px;color:#64748b;margin-top:1px">'+(isVarsayilan?'Sistem görevi':'Özel görev')+' · '+kullanimSayisi+' kayıtta kullanıldı</div>'+
+  const yel=document.getElementById('pm-yevmiye-liste');if(!yel)return;
+  yel.innerHTML=Object.entries(pmYevmiyeler).map(([g,y])=>
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0f172a;border-radius:9px;margin-bottom:6px;border:1px solid #334155">'+
+      '<span style="font-size:13px;color:#94a3b8">'+g+'</span>'+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<input type="number" value="'+y+'" min="0" step="50" style="width:90px;background:#1e293b;border:1.5px solid #334155;border-radius:8px;padding:6px 10px;color:#e2e8f0;font-size:13px;font-weight:700;text-align:right" onchange="pmYevmiyeGun(\''+g+'\',this.value)">'+
+        '<span style="font-size:11px;color:#64748b">\u20ba/gun</span>'+
       '</div>'+
-      (!isVarsayilan?
-        '<button onclick="pmGorevSil(\''+g.replace(/'/g,"\\'")+'\')" style="background:#1c0a0a;border:1px solid #7f1d1d;color:#f87171;border-radius:7px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0">🗑</button>':
-        '<span style="font-size:10px;color:#475569;flex-shrink:0">Silinemez</span>'
-      )+
-    '</div>';
-  }).join('');
-}
-function pmGorevEkle(){
-  const inp=document.getElementById('pm-yeni-gorev-inp');if(!inp)return;
-  const ad=inp.value.trim();
-  if(!ad)return toast('Görev adı giriniz!','err');
-  if(pmGorevler.map(g=>g.toLowerCase()).includes(ad.toLowerCase()))return toast('Bu görev zaten var!','wrn');
-  pmGorevler.push(ad);
-  pmKaydet();
-  pmGorevSelectDoldur();
-  pmGorevListeGun();
-  inp.value='';
-  toast('✓ "'+ad+'" görev türü eklendi');
-}
-function pmGorevSil(g){
-  const kullanimSayisi=pmKayitlar.filter(k=>k.gorev===g).length;
-  if(kullanimSayisi>0){
-    if(!confirm('"'+g+'" görevi '+kullanimSayisi+' kayıtta kullanılıyor.\nYine de silinsin mi? (Kayıtlar etkilenmez, sadece seçenekten kalkar)'))return;
-  }else{
-    if(!confirm('"'+g+'" görev türü silinsin mi?'))return;
-  }
-  pmGorevler=pmGorevler.filter(x=>x!==g);
-  pmKaydet();
-  pmGorevSelectDoldur();
-  pmGorevListeGun();
-  toast('"'+g+'" silindi');
+    '</div>').join('');
 }
 function pmYevmiyeGun(g,d){pmYevmiyeler[g]=parseFloat(d)||0;pmKaydet();toast('\u2713 '+g+' yevmiyesi guncellendi');}
 function pmKayitFormAc(id){
   id=id||null;
-  pmGorevSelectDoldur();
   document.getElementById('pm-edit-id').value=id||'';
   document.getElementById('pm-form-baslik').textContent=id?'Kaydi Duzenle':'Yeni Kayit';
   // Personel checkbox listesini doldur
