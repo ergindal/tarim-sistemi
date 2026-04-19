@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-19T16:40:45.022Z",
+  "tarih": "2026-04-19T16:42:15.997Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -696,6 +696,21 @@
       "km2": null,
       "surucu": "Burhan İnce",
       "aciklama": "KEPÇE"
+    },
+    {
+      "id": 1776616932994,
+      "tarih": "2026-04-18",
+      "aracId": 1775538015129,
+      "plaka": "55 AON 712",
+      "tip": "🚜 Traktör",
+      "bidon": 1,
+      "hacim": 20,
+      "litre": 20,
+      "saat": null,
+      "km1": null,
+      "km2": null,
+      "surucu": "oğuz karaçelik",
+      "aciklama": ""
     }
   ],
   "yakitBakimlar": [],
