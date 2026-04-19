@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-19T16:40:02.746Z",
+  "tarih": "2026-04-19T16:40:45.022Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 28,
+      "miktar": 25,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "Can % 26 Gübre",
+      "miktar": 3,
+      "once": 28,
+      "sonra": 25,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "19.04.2026 19:40"
+    },
     {
       "tip": "duz",
       "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
