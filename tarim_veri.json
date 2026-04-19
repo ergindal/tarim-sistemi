@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-19T16:38:42.457Z",
+  "tarih": "2026-04-19T16:39:36.619Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -186,7 +186,7 @@
     {
       "id": 1774798780355,
       "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 38,
+      "miktar": 33,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -239,6 +239,16 @@
     }
   ],
   "log": [
+    {
+      "tip": "duz",
+      "ad": "CNPalmira Kalsiyum Nitrat",
+      "miktar": 5,
+      "once": 38,
+      "sonra": 33,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "19.04.2026 19:39"
+    },
     {
       "tip": "duz",
       "ad": "Greenleaf 20.20.20",
