@@ -1043,7 +1043,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
       <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
         <button class="btn btn-purple btn-sm" style="flex:1;min-width:130px" onclick="yazdir()">🖨 Yazdır / PDF</button>
-        <button class="btn btn-red btn-sm" style="flex:1;min-width:130px;margin-bottom:0" onclick="stokDus()">▼ Stoktan Düş</button>
+        <button class="btn btn-green btn-sm" style="flex:1;min-width:130px;margin-bottom:0" onclick="receteExcel()">📊 Excel İndir</button>
+        <button class="btn btn-red btn-sm" style="width:100%;margin-bottom:0;margin-top:0" onclick="stokDus()">▼ Stoktan Düş</button>
       </div>
     </div>
   </div>
@@ -2541,34 +2542,251 @@ function yazdir(){
   if(!sonHesap)return toast('Önce reçeteyi hesaplayın!','err');
   const h=sonHesap;
   const tarihStr=h.tarih?new Date(h.tarih).toLocaleDateString('tr-TR'):new Date().toLocaleDateString('tr-TR');
-  document.getElementById('p-baslik-h1').textContent=h.tip.toUpperCase()+' REÇETESİ';
-  document.getElementById('p-alt').innerHTML=`${h.aciklama} · ${tarihStr} · Hazırlayan: ${h.muhendis}`;
-  document.getElementById('p-ozet').innerHTML=[
-    {l:'Vana',v:h.vanaAdet},{l:'Ağaç',v:fmt(h.topAgac)},
-    {l:'Su (L)',v:fmt(h.topSu)},{l:'Ürün',v:h.ilaclar.length},
-  ].map(x=>`<div class="p-ozet-box"><div class="pov">${x.v}</div><div class="pol">${x.l}</div></div>`).join('');
-  const yetersiz=h.ilacSonuc.filter(il=>!il.yeterli);
-  const pu=document.getElementById('p-stok-uyari');
-  if(yetersiz.length){pu.style.display='block';pu.textContent='⚠ Stok Uyarısı: '+yetersiz.map(il=>`${il.ad} (eksik: ${fmt(il.toplam-il.stokMiktar)} ${il.birim})`).join(', ');}
-  else pu.style.display='none';
-  document.getElementById('p-ilac-body').innerHTML=h.ilacSonuc.map((il,i)=>`<tr>
-    <td>${i+1}</td><td><strong>${il.ad}</strong></td><td>${il.birim}</td>
-    <td>${il.doz}/ağaç</td><td>${fmt(h.topAgac)}</td>
-    <td><strong>${fmt(il.toplam)} ${il.birim}</strong></td>
-    <td style="${il.yeterli?'':'color:#c00;font-weight:700'}">${fmt(il.stokMiktar)} ${il.birim}${il.yeterli?'':' ⚠'}</td>
-  </tr>`).join('');
-  const ilacTh=h.ilaclar.map(il=>`<th>${il.ad}(${il.birim})</th>`).join('');
-  document.getElementById('p-vana-thead').innerHTML=`<th>Ada</th><th>Vana</th><th>Sıra</th><th>Ağaç</th><th>Su(L)</th>${ilacTh}`;
-  document.getElementById('p-vana-body').innerHTML=h.vanaSonuc.map(v=>{
+  const dozModu=h.dozMod==='su'?`Su Bazlı · Hedef: ${fmt(h.aktifSuLitre||h.topSu)} L`:'Ağaç Bazlı';
+  const suBilgi=h.dozMod==='su'
+    ?`<tr><td colspan="2"><strong>Doz Modu</strong></td><td colspan="5">${dozModu}</td></tr>`:'';
+
+  // İlaç satırları
+  const ilacSatirlari=h.ilacSonuc.map((il,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td><strong>${il.ad}</strong></td>
+      <td>${il.birim}</td>
+      <td>${il.doz} ${h.dozMod==='su'?'/ ton su':'/ ağaç'}</td>
+      <td>${h.dozMod==='su'?fmt(h.aktifSuTon||0)+' ton':fmt(h.topAgac)}</td>
+      <td><strong>${fmt(il.toplam)} ${il.birim}</strong></td>
+      <td>${il.ambalajGerekli!==null?il.ambalajGerekli+' '+il.ambalaj:'—'}</td>
+      <td style="${il.yeterli?'color:#15803d':'color:#dc2626;font-weight:700'}">${fmt(il.stokMiktar)} ${il.ambalaj} ${il.yeterli?'✓':'⚠'}</td>
+    </tr>`).join('');
+
+  // Vana başlık sütunları
+  const ilacBasliklar=h.ilaclar.map(il=>`<th>${il.ad}<br><small>${il.birim}</small></th>`).join('');
+  // Vana satırları
+  const vanaSatirlari=h.vanaSonuc.map(v=>{
     const itd=v.ilacMiktarlar.map(m=>`<td>${fmt(m)}</td>`).join('');
     return`<tr><td>${v.ada}</td><td>V-${v.no}</td><td>${v.sira}</td><td>${v.agac}</td><td>${fmt(v.su)}</td>${itd}</tr>`;
   }).join('');
   const totTd=h.totIlac.map(m=>`<td><strong>${fmt(m)}</strong></td>`).join('');
-  document.getElementById('p-vana-tfoot').innerHTML=`<tr><td colspan="2"><strong>TOPLAM</strong></td><td>${fmt(h.topSira)}</td><td><strong>${fmt(h.topAgac)}</strong></td><td><strong>${fmt(h.topSu)}</strong></td>${totTd}</tr>`;
-  document.getElementById('p-notlar').innerHTML=`Parametreler: ${h.damlatici} damlatıcı/ağaç · ${h.debi} L/saat · ${h.sure} saat · ${fmt(h.litrePerAgac)} L/ağaç`;
-  document.getElementById('p-imza-muh').textContent=`Ziraat Müh: ${h.muhendis}`;
-  document.getElementById('p-imza-tarih').textContent=`Tarih: ${tarihStr}`;
-  window.print();
+
+  // Stok uyarısı
+  const yetersiz=h.ilacSonuc.filter(il=>!il.yeterli);
+  const stokUyari=yetersiz.length
+    ?`<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:8px 12px;margin-bottom:8mm;font-size:8.5pt;color:#856404">
+        ⚠ <strong>Yetersiz Stok:</strong> ${yetersiz.map(il=>`${il.ad} (eksik: ${fmt(il.toplam-il.stokMiktar)} ${il.birim})`).join(' | ')}
+      </div>`:''
+
+  const html=`<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8">
+<title>${h.tip} Reçetesi — ${tarihStr}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:#111;background:white;padding:12mm 14mm;font-size:9pt}
+  @page{size:A4;margin:0}
+  h1{font-size:16pt;font-weight:800;text-align:center;margin-bottom:2mm}
+  .alt{text-align:center;color:#555;font-size:8.5pt;margin-bottom:5mm;padding-bottom:4mm;border-bottom:1.5pt solid #000}
+  .ozet{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin-bottom:5mm}
+  .oz{border:1pt solid #ccc;border-radius:2mm;padding:2.5mm;text-align:center}
+  .oz-val{font-size:14pt;font-weight:800;color:#15803d}
+  .oz-lbl{font-size:7.5pt;color:#555;margin-top:1mm}
+  .sec{font-size:8pt;font-weight:800;color:#222;text-transform:uppercase;letter-spacing:.5px;
+       margin:5mm 0 2mm;border-bottom:1pt solid #ccc;padding-bottom:1.5mm}
+  table{width:100%;border-collapse:collapse;font-size:8.5pt;margin-bottom:5mm}
+  th{background:#1a1a1a;color:#fff;padding:2mm 2.5mm;text-align:left;font-size:7.5pt;font-weight:700}
+  td{padding:1.8mm 2.5mm;border-bottom:.5pt solid #e5e5e5;vertical-align:top}
+  tr:nth-child(even) td{background:#f9f9f9}
+  tfoot td{background:#e8e8e8!important;font-weight:800;border-top:1pt solid #999}
+  .notlar{background:#f5f5f5;border:1pt solid #ddd;border-radius:2mm;padding:3mm;font-size:8pt;color:#444;margin-bottom:5mm}
+  .imza{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12mm;margin-top:10mm;padding-top:4mm;border-top:1pt solid #000}
+  .imza-kutu{text-align:center}
+  .imza-cizgi{border-top:1pt solid #888;margin-top:12mm;padding-top:2mm;font-size:7.5pt;color:#555}
+  @media print{body{padding:10mm 12mm}}
+</style></head><body>
+
+<h1>🌿 ${h.tip.toUpperCase()} REÇETESİ</h1>
+<div class="alt">
+  ${h.aciklama!=='—'?h.aciklama+' &nbsp;·&nbsp; ':''}
+  Tarih: <strong>${tarihStr}</strong> &nbsp;·&nbsp;
+  Ziraat Müh: <strong>${h.muhendis}</strong>
+  ${h.dozMod==='su'?'&nbsp;·&nbsp; <strong>💧 Su Bazlı Hesaplama</strong>':''}
+</div>
+
+${stokUyari}
+
+<div class="ozet">
+  <div class="oz"><div class="oz-val">${h.vanaAdet}</div><div class="oz-lbl">Vana</div></div>
+  <div class="oz"><div class="oz-val">${fmt(h.topAgac)}</div><div class="oz-lbl">Ağaç</div></div>
+  <div class="oz"><div class="oz-val">${fmt(h.dozMod==='su'?h.aktifSuLitre||h.topSu:h.topSu)}</div><div class="oz-lbl">Su (L)</div></div>
+  <div class="oz"><div class="oz-val">${fmt(h.topSira)}</div><div class="oz-lbl">Toplam Sıra</div></div>
+  <div class="oz"><div class="oz-val">${h.ilaclar.length}</div><div class="oz-lbl">Ürün</div></div>
+</div>
+
+<div class="sec">Ürün / İlaç Miktarları</div>
+<table>
+  <thead><tr>
+    <th>#</th><th>Ürün Adı</th><th>Birim</th>
+    <th>${h.dozMod==='su'?'Doz / ton su':'Doz / Ağaç'}</th>
+    <th>${h.dozMod==='su'?'Hedef Su':'Toplam Ağaç'}</th>
+    <th>Toplam Miktar</th>
+    <th>Açılacak Ambalaj</th>
+    <th>Stok Durumu</th>
+  </tr></thead>
+  <tbody>${ilacSatirlari}</tbody>
+  <tfoot><tr>
+    <td colspan="5"><strong>TOPLAM</strong></td>
+    <td colspan="3"><strong>${h.ilacSonuc.map(il=>fmt(il.toplam)+' '+il.birim).join(' | ')}</strong></td>
+  </tr></tfoot>
+</table>
+
+<div class="sec">Vana Bazında Uygulama Planı</div>
+<table>
+  <thead><tr>
+    <th>Ada</th><th>Vana</th><th>Sıra</th><th>Ağaç</th><th>Su (L)</th>
+    ${ilacBasliklar}
+  </tr></thead>
+  <tbody>${vanaSatirlari}</tbody>
+  <tfoot><tr>
+    <td colspan="2"><strong>TOPLAM</strong></td>
+    <td>${fmt(h.topSira)}</td>
+    <td><strong>${fmt(h.topAgac)}</strong></td>
+    <td><strong>${fmt(h.dozMod==='su'?h.aktifSuLitre||h.topSu:h.topSu)}</strong></td>
+    ${totTd}
+  </tr></tfoot>
+</table>
+
+<div class="notlar">
+  <strong>Sulama Parametreleri:</strong>
+  ${h.damlatici} damlatıcı/ağaç &nbsp;·&nbsp;
+  ${h.debi} L/saat debi &nbsp;·&nbsp;
+  ${h.sure} saat süre &nbsp;·&nbsp;
+  ${fmt(h.litrePerAgac)} L/ağaç
+  ${h.tank>0?'&nbsp;·&nbsp; Tank: '+fmt(h.tank)+' L ('+Math.ceil((h.aktifSuLitre||h.topSu)/h.tank)+' dolum)':''}
+  ${h.dozMod==='su'?'<br><strong>Doz Modu:</strong> Su Bazlı · Hedef: '+fmt(h.aktifSuLitre||h.topSu)+' L ('+fmt(h.aktifSuTon||0)+' ton)':''}
+</div>
+
+<div class="imza">
+  <div class="imza-kutu"><div class="imza-cizgi">Hazırlayan: ${h.muhendis}</div></div>
+  <div class="imza-kutu"><div class="imza-cizgi">Onaylayan İmzası</div></div>
+  <div class="imza-kutu"><div class="imza-cizgi">Tarih: ${tarihStr}</div></div>
+</div>
+
+</body></html>`;
+
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>{w.focus();w.print();},600);
+}
+
+/* ═══ REÇETE EXCEL ═══ */
+function receteExcel(){
+  if(!sonHesap)return toast('Önce reçeteyi hesaplayın!','err');
+  if(typeof XLSX==='undefined')return toast('Excel kütüphanesi yüklenemedi','err');
+  const h=sonHesap;
+  const tarihStr=h.tarih?new Date(h.tarih).toLocaleDateString('tr-TR'):new Date().toLocaleDateString('tr-TR');
+  const dozLbl=h.dozMod==='su'?'Doz / ton su':'Doz / Ağaç';
+  const refLbl=h.dozMod==='su'?'Hedef Su (L)':'Toplam Ağaç';
+  const refVal=h.dozMod==='su'?(h.aktifSuLitre||h.topSu):h.topAgac;
+  const wb=XLSX.utils.book_new();
+
+  // ── SAYFA 1: REÇETE ÖZET ──
+  const s1=[
+    [`ERTURAN TARIM & ZEYTİNCİLİK — ${h.tip.toUpperCase()} REÇETESİ`,'','','','','','',''],
+    [`Tarih: ${tarihStr} | Müh: ${h.muhendis} | ${h.aciklama}`,'','','','','','',''],
+    [`Doz Modu: ${h.dozMod==='su'?'Su Bazlı (Hedef: '+fmt(refVal)+' L)':'Ağaç Bazlı'}`,'','','','','','',''],
+    ['Vana: '+h.vanaAdet,'Ağaç: '+fmt(h.topAgac),'Su: '+fmt(h.topSu)+' L','Sıra: '+fmt(h.topSira),'','','',''],
+    [''],
+    ['#','ÜRÜN ADI','BİRİM',dozLbl,refLbl,'TOPLAM MİKTAR','AÇILACAK AMBALAJ','STOK DURUMU'],
+    ...h.ilacSonuc.map((il,i)=>[
+      i+1, il.ad, il.birim, il.doz,
+      fmt(refVal),
+      fmt(il.toplam)+' '+il.birim,
+      il.ambalajGerekli!==null?il.ambalajGerekli+' '+il.ambalaj:'—',
+      il.yeterli?'YETERLİ ✓':'YETERSİZ ⚠ (Stok: '+fmt(il.stokMiktar)+')'
+    ]),
+    ['','','','','','TOPLAM:','',''],
+    ...h.ilacSonuc.map(il=>['','','','','',fmt(il.toplam)+' '+il.birim,'','']),
+  ];
+  const ws1=XLSX.utils.aoa_to_sheet(s1);
+  ws1['!cols']=[{wch:5},{wch:36},{wch:8},{wch:14},{wch:14},{wch:18},{wch:20},{wch:22}];
+  ws1['!merges']=[
+    {s:{r:0,c:0},e:{r:0,c:7}},
+    {s:{r:1,c:0},e:{r:1,c:7}},
+    {s:{r:2,c:0},e:{r:2,c:7}},
+  ];
+  XLSX.utils.book_append_sheet(wb,ws1,'REÇETE ÖZET');
+
+  // ── SAYFA 2: VANA BAZINDA PLAN ──
+  const ilacBasliklar=h.ilaclar.map(il=>il.ad+' ('+il.birim+')');
+  const s2=[
+    [`${h.tip.toUpperCase()} — VANA BAZINDA UYGULAMA PLANI`,'','','',''],
+    [`Tarih: ${tarihStr}`,'','','',''],
+    [''],
+    ['ADA','VANA NO','SIRA','AĞAÇ SAYISI','SU (L)',...ilacBasliklar],
+    ...h.vanaSonuc.map(v=>[
+      v.ada,'V-'+v.no,v.sira,v.agac,fmt(v.su),
+      ...v.ilacMiktarlar.map(m=>fmt(m))
+    ]),
+    [''],
+    ['TOPLAM','',fmt(h.topSira),fmt(h.topAgac),fmt(h.dozMod==='su'?h.aktifSuLitre||h.topSu:h.topSu),...h.totIlac.map(m=>fmt(m))],
+  ];
+  const ws2=XLSX.utils.aoa_to_sheet(s2);
+  const ws2cols=[{wch:16},{wch:10},{wch:10},{wch:12},{wch:10},...h.ilaclar.map(()=>({wch:18}))];
+  ws2['!cols']=ws2cols;
+  ws2['!merges']=[{s:{r:0,c:0},e:{r:0,c:4+h.ilaclar.length}},{s:{r:1,c:0},e:{r:1,c:4}}];
+  XLSX.utils.book_append_sheet(wb,ws2,'VANA PLANI');
+
+  // ── SAYFA 3: STOK KONTROL ──
+  const s3=[
+    ['STOK KONTROL — '+h.tip.toUpperCase(),'','','','',''],
+    [`Tarih: ${tarihStr}`,'','','','',''],
+    [''],
+    ['ÜRÜN','GEREKLİ MİKTAR','GEREKLİ AMBALAJ','MEVCUT STOK','FARK','DURUM'],
+    ...h.ilacSonuc.map(il=>{
+      const fark=il.ambalajGerekli!==null?il.stokMiktar-il.ambalajGerekli:null;
+      return[
+        il.ad,
+        fmt(il.toplam)+' '+il.birim,
+        il.ambalajGerekli!==null?il.ambalajGerekli+' '+il.ambalaj:'—',
+        fmt(il.stokMiktar)+' '+il.ambalaj,
+        fark!==null?(fark>=0?'+'+fark:fark)+'  '+il.ambalaj:'—',
+        il.yeterli?'YETERLİ ✓':'⚠ YETERSİZ'
+      ];
+    })
+  ];
+  const ws3=XLSX.utils.aoa_to_sheet(s3);
+  ws3['!cols']=[{wch:36},{wch:16},{wch:16},{wch:14},{wch:14},{wch:14}];
+  ws3['!merges']=[{s:{r:0,c:0},e:{r:0,c:5}},{s:{r:1,c:0},e:{r:1,c:5}}];
+  XLSX.utils.book_append_sheet(wb,ws3,'STOK KONTROL');
+
+  // ── SAYFA 4: SULAMA PARAMETRELERİ ──
+  const s4=[
+    ['SULAMA & UYGULAMA PARAMETRELERİ',''],
+    [`Tarih: ${tarihStr} | Tip: ${h.tip}`,''],
+    [''],
+    ['Parametre','Değer'],
+    ['Damlatıcı / Ağaç',h.damlatici],
+    ['Debi (L/saat)',h.debi],
+    ['Süre (saat)',h.sure],
+    ['Su / Ağaç (L)',fmt(h.litrePerAgac)],
+    ['Toplam Ağaç',fmt(h.topAgac)],
+    ['Toplam Su (L)',fmt(h.topSu)],
+    ['Doz Modu',h.dozMod==='su'?'Su Bazlı':'Ağaç Bazlı'],
+    ...(h.dozMod==='su'?[['Hedef Su (L)',fmt(h.aktifSuLitre||h.topSu)],['Hedef Su (ton)',fmt(h.aktifSuTon||0)]]:[] ),
+    ...(h.tank>0?[['Tank (L)',fmt(h.tank)],['Tank Dolum Sayısı',Math.ceil((h.aktifSuLitre||h.topSu)/h.tank)]]:[] ),
+    [''],
+    ['Vana Sayısı',h.vanaAdet],
+    ['Toplam Sıra',fmt(h.topSira)],
+    ['Ziraat Müh.',h.muhendis],
+    ['Açıklama',h.aciklama],
+  ];
+  const ws4=XLSX.utils.aoa_to_sheet(s4);
+  ws4['!cols']=[{wch:28},{wch:22}];
+  ws4['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}},{s:{r:1,c:0},e:{r:1,c:1}}];
+  XLSX.utils.book_append_sheet(wb,ws4,'PARAMETRELER');
+
+  const dosyaAd=`Erturan_${h.tip}_Recete_${tarihStr.replace(/\./g,'-')}.xlsx`;
+  XLSX.writeFile(wb,dosyaAd);
+  toast(`⬇ Reçete Excel indirildi — 4 sayfa`);
 }
 
 /* ═══ EXCEL ═══ */
