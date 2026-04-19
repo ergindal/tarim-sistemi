@@ -51,7 +51,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── ALT NAVİGASYON ── */
 .bottom-nav{flex-shrink:0;background:#1e293b;border-top:1px solid #334155;
-  display:grid;grid-template-columns:repeat(8,1fr);
+  display:grid;grid-template-columns:repeat(9,1fr);
   padding-bottom:env(safe-area-inset-bottom)}
 .bnav-btn{background:transparent;border:none;cursor:pointer;color:#64748b;
   padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;
@@ -476,7 +476,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   .content{overflow:visible !important;min-height:auto !important;height:auto !important}
 
   .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:40;
-    max-width:100%;grid-template-columns:repeat(8,1fr)}
+    max-width:100%;grid-template-columns:repeat(9,1fr)}
 
   /* Ana içerik ortalanmış, nav için boşluk */
   .page{max-width:900px;margin:0 auto;padding:20px 24px 80px}
@@ -756,6 +756,42 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
     <div class="card">
       <div class="ctit">🧪 Ürün Programı</div>
+
+      <!-- Doz Modu Seçici -->
+      <div style="background:#0f172a;border-radius:10px;padding:10px 12px;margin-bottom:12px;border:1px solid #334155">
+        <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">Doz Hesaplama Modu</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
+          <button id="doz-mod-agac" onclick="dozModSec('agac')"
+            style="padding:10px 8px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#16a34a,#15803d);color:white;transition:all .2s">
+            🌳 Ağaç Bazlı<br><span style="font-size:10px;font-weight:400;opacity:.85">mL veya gr / ağaç</span>
+          </button>
+          <button id="doz-mod-su" onclick="dozModSec('su')"
+            style="padding:10px 8px;border-radius:9px;border:1.5px solid #334155;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#64748b;transition:all .2s">
+            💧 Su Bazlı<br><span style="font-size:10px;font-weight:400;opacity:.85">kg veya L / ton su</span>
+          </button>
+        </div>
+
+        <!-- Su Bazlı: Hedef Su Miktarı -->
+        <div id="su-bazli-alan" style="display:none">
+          <div style="display:flex;align-items:center;gap:8px;background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:10px 12px;margin-bottom:4px">
+            <span style="font-size:20px">💧</span>
+            <div style="flex:1">
+              <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.4px;text-transform:uppercase;margin-bottom:4px">Uygulanacak Toplam Su</div>
+              <div style="display:flex;align-items:center;gap:6px">
+                <input id="r-hedef-su" type="number" class="inp" min="0" step="0.5" placeholder="11"
+                  inputmode="decimal" style="flex:1;font-size:18px;font-weight:800;color:#60a5fa;padding:8px 12px"
+                  oninput="suBazliHesapla()">
+                <select id="r-hedef-su-birim" class="sel" style="width:80px;padding:9px 6px" onchange="suBazliHesapla()">
+                  <option value="ton">ton</option>
+                  <option value="litre">litre</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div id="su-bazli-ozet" style="font-size:11px;color:#64748b;padding:2px 4px"></div>
+        </div>
+      </div>
+
       <div id="ilac-listesi"></div>
       <button class="btn-add-row" onclick="ilacEkle()">＋ Stoktan Ürün Ekle</button>
     </div>
@@ -1016,7 +1052,10 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 <!-- ALT NAVİGASYON -->
 <nav class="bottom-nav">
-  <button class="bnav-btn active" id="bnav-stok" onclick="sayfaGit('stok')">
+  <button class="bnav-btn" id="bnav-dash" onclick="sayfaGit('dash')">
+    <span class="bico">🏠</span><span class="blbl">Özet</span>
+  </button>
+  <button class="bnav-btn" id="bnav-stok" onclick="sayfaGit('stok')">
     <span class="bico">＋</span><span class="blbl">Stok Giriş</span>
   </button>
   <button class="bnav-btn" id="bnav-liste" onclick="sayfaGit('liste')">
@@ -1182,6 +1221,11 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <input type="hidden" id="pm-p-id">
     <button class="btn btn-blue" onclick="pmPKaydet()">✓ Kaydet</button>
   </div>
+</div>
+
+<!-- ════ DASHBOARD ════ -->
+<div class="page" id="pg-dash">
+  <div id="db-wrap" style="padding-bottom:4px"></div>
 </div>
 
 <!-- ══ SAYFA: ARAÇLAR ══ -->
@@ -1692,6 +1736,7 @@ function sayfaGit(id){
   if(id==='arac'){aracListeGun();mzSayfaGecisGun();}
   if(id==='envanter')envListeGun();
   if(id==='personel')pmSayfaGun();
+  if(id==='dash')dbGun();
 }
 
 /* ═══ YEDEKLEME ═══ */
@@ -2022,11 +2067,62 @@ function stokListeGun(){
 
 /* ═══ REÇETE İLAÇ SATIRLARI ═══ */
 let rSayac=0;
+let dozMod='agac'; // 'agac' | 'su'
+
+function dozModSec(mod){
+  dozMod=mod;
+  const btnA=document.getElementById('doz-mod-agac');
+  const btnS=document.getElementById('doz-mod-su');
+  const suAlan=document.getElementById('su-bazli-alan');
+  if(mod==='su'){
+    btnS.style.background='linear-gradient(135deg,#2563eb,#1d4ed8)';
+    btnS.style.color='white';btnS.style.border='none';
+    btnA.style.background='transparent';btnA.style.color='#64748b';
+    btnA.style.border='1.5px solid #334155';
+    suAlan.style.display='block';
+  }else{
+    btnA.style.background='linear-gradient(135deg,#16a34a,#15803d)';
+    btnA.style.color='white';btnA.style.border='none';
+    btnS.style.background='transparent';btnS.style.color='#64748b';
+    btnS.style.border='1.5px solid #334155';
+    suAlan.style.display='none';
+  }
+  // İlac satırlarındaki etiketleri güncelle
+  document.querySelectorAll('.ilac-row').forEach(r=>{
+    const lbl=r.querySelector('.doz-lbl');
+    if(lbl)lbl.textContent=mod==='su'?'Doz / ton su':'Doz / Ağaç';
+  });
+  suBazliHesapla();
+}
+
+function suBazliHesapla(){
+  if(dozMod!=='su')return;
+  const hedef=parseFloat(document.getElementById('r-hedef-su').value)||0;
+  const birim=document.getElementById('r-hedef-su-birim').value;
+  const hedefLitre=birim==='ton'?hedef*1000:hedef;
+  const oz=document.getElementById('su-bazli-ozet');
+  if(!hedef){oz.textContent='Hedef su miktarını giriniz.';return;}
+  // Hesaplanan toplam su
+  const damlatici=parseFloat(document.getElementById('r-damlatici').value)||4;
+  const debi=parseFloat(document.getElementById('r-debi').value)||4;
+  const sure=parseFloat(document.getElementById('r-sure').value)||1;
+  const topAgac=secilenToplamAgac();
+  const hesaplananSu=topAgac>0?topAgac*damlatici*debi*sure:0;
+  let msg='Hedef: '+fmt(hedefLitre)+' L';
+  if(hesaplananSu>0)msg+=' · Hesaplanan su: '+fmt(hesaplananSu)+' L';
+  oz.textContent=msg;
+  // Her ilac satırındaki önizlemeyi güncelle
+  document.querySelectorAll('.ilac-row').forEach(r=>{
+    ilacDozGun(r.id);
+  });
+}
+
 function ilacEkle(){
   rSayac++;
   const id='rr'+rSayac;
   const div=document.createElement('div');
   div.className='ilac-row';div.id=id;
+  const dozLbl=dozMod==='su'?'Doz / ton su':'Doz / Ağaç';
   div.innerHTML=`
     <div class="field" style="margin-bottom:8px">
       <label>Stoktan Ürün Seç *</label>
@@ -2037,7 +2133,7 @@ function ilacEkle(){
     </div>
     <div class="g2">
       <div class="field" style="margin-bottom:8px">
-        <label>Doz / Ağaç</label>
+        <label class="doz-lbl">${dozLbl}</label>
         <input class="inp" id="${id}-doz" type="number" placeholder="0.5" min="0" step="0.001" inputmode="decimal" oninput="ilacDozGun('${id}')">
       </div>
       <div class="field" style="margin-bottom:8px">
@@ -2071,28 +2167,55 @@ function ilacSecildi(id){
 }
 
 function ilacDozGun(id){
-  // Canlı önizleme: seçili vanalar + doz → kaç ambalaj açılacak
   const sid=parseInt(document.getElementById(id+'-sel').value);
   const doz=parseFloat(document.getElementById(id+'-doz').value)||0;
   const dozBirim=document.getElementById(id+'-brim').value;
   if(!sid||!doz)return;
-  const s=stok.find(x=>x.id===sid);if(!s||!s.icerik||s.icerik<=0)return;
-  const topAgac=secilenToplamAgac();
-  if(!topAgac)return;
-  const toplamMiktar=doz*topAgac; // doz birimi cinsinden
-  // Ambalajı aynı birime çevir
-  const top=toplamIcerik(s); // {miktar: icerik, birim: icBirim} per ambalaj
-  if(!top)return;
-  // Birim dönüşümü (basit)
-  // icerik'i dozBirim cinsine çevir (cc=mL dahil)
-  const icerikMiktarDozBiriminde=icerikDozBiriminde(s,dozBirim);
-  const ambalajSayisi=icerikMiktarDozBiriminde>0?Math.ceil(toplamMiktar/icerikMiktarDozBiriminde):'-';
+  const s=stok.find(x=>x.id===sid);if(!s)return;
   const info=document.getElementById(id+'-sinfo');
+
+  let toplamMiktar=0;
+  let prevTxt='';
+
+  if(dozMod==='su'){
+    // Su bazlı: doz * hedef su (ton veya litre)
+    const hedef=parseFloat(document.getElementById('r-hedef-su')?.value)||0;
+    const birim=document.getElementById('r-hedef-su-birim')?.value||'ton';
+    if(!hedef){
+      let prev=document.getElementById(id+'-prev');
+      if(prev)prev.textContent='Hedef su miktarını girin.';
+      return;
+    }
+    const hedefTon=birim==='ton'?hedef:hedef/1000;
+    // Doz birimi: genelde kg/ton veya L/ton
+    // Normalleştir: gr veya mL bazında
+    const dozNorm=toBirimML(doz,dozBirim); // doz per ton → gram/mL per ton
+    toplamMiktar=hedefTon*doz; // hedefTon ton su × doz/ton
+    // Stok yeterliliği
+    if(s.icerik&&s.icerik>0){
+      const icInDoz=icerikDozBiriminde(s,dozBirim);
+      const ambalajGerekli=icInDoz>0?Math.ceil(toplamMiktar/icInDoz):null;
+      const yeterli=ambalajGerekli!==null?s.miktar>=ambalajGerekli:true;
+      prevTxt=`→ ${hedef} ${birim} su için: ${fmt(toplamMiktar)} ${dozBirim}`;
+      if(ambalajGerekli!==null)prevTxt+=` ≈ ${ambalajGerekli} ${s.ambalaj||'ambalaj'} (stok: ${s.miktar}) ${yeterli?'✓':'⚠ YETERSİZ'}`;
+    }else{
+      prevTxt=`→ ${hedef} ${birim} su için: ${fmt(toplamMiktar)} ${dozBirim}`;
+    }
+  }else{
+    // Ağaç bazlı (orijinal mantık)
+    if(!s.icerik||s.icerik<=0)return;
+    const topAgac=secilenToplamAgac();
+    if(!topAgac)return;
+    toplamMiktar=doz*topAgac;
+    const icInDoz=icerikDozBiriminde(s,dozBirim);
+    const ambalajSayisi=icInDoz>0?Math.ceil(toplamMiktar/icInDoz):'-';
+    prevTxt=`→ Toplam: ${fmt(toplamMiktar)} ${dozBirim} ≈ ${ambalajSayisi} ${s.ambalaj||'ambalaj'} açılacak`;
+  }
+
   if(info&&info.classList.contains('show')){
-    // Önizleme satırını güncelle veya ekle
     let prev=document.getElementById(id+'-prev');
     if(!prev){prev=document.createElement('div');prev.id=id+'-prev';prev.style.cssText='margin-top:6px;padding-top:6px;border-top:1px solid #334155;font-size:11px;color:#4ade80;font-weight:700';info.appendChild(prev);}
-    prev.textContent=`→ Toplam: ${fmt(toplamMiktar)} ${dozBirim} ≈ ${ambalajSayisi} ${s.ambalaj||'ambalaj'} açılacak`;
+    prev.textContent=prevTxt;
   }
 }
 
@@ -2242,44 +2365,44 @@ function hesapla(){
   const topSu=list.reduce((a,v)=>a+v.agac*litrePerAgac,0);
   const topSira=list.reduce((a,v)=>a+v.sira,0);
 
-  // Birim dönüşüm yardımcısı: dozBirim cinsinden icerik miktarını döndür
-  // Birim dönüşüm — cc=mL eşdeğer, tüm kombinasyonlar
+  // Su bazlı mod
+  const hedefSuRaw=parseFloat(document.getElementById('r-hedef-su')?.value)||0;
+  const hedefSuBirim=document.getElementById('r-hedef-su-birim')?.value||'ton';
+  const hedefSuLitre=hedefSuBirim==='ton'?hedefSuRaw*1000:hedefSuRaw;
+  const aktifSuLitre=dozMod==='su'&&hedefSuLitre>0?hedefSuLitre:topSu;
+  const aktifSuTon=aktifSuLitre/1000;
+
   function toBirimML(val,birim){
-    // Her birimi mL/cc cinsine çevirir
     const b=(birim||'').toLowerCase().trim();
     if(b==='l')return val*1000;
     if(b==='ml'||b==='cc')return val;
-    if(b==='kg')return val*1000; // 1kg=1000gr referans
+    if(b==='kg')return val*1000;
     if(b==='gr'||b==='g')return val;
-    return val; // bilinmeyen birim: aynen döndür
+    return val;
   }
   function icerikDozBiriminde(s,dozBirim){
     if(!s.icerik||s.icerik<=0)return 0;
-    // Her ikisini de ortak birime çevir (mL veya gr bazlı)
     const ib=(s.icBirim||'').toLowerCase().trim();
     const db=(dozBirim||'').toLowerCase().trim();
-    // Hacim grubu: L, mL, cc
     const hacimGrup=['l','ml','cc'];
-    // Kütle grubu: kg, gr, g
     const kütleGrup=['kg','gr','g'];
-    const ibHacim=hacimGrup.includes(ib);
-    const ibKütle=kütleGrup.includes(ib);
-    const dbHacim=hacimGrup.includes(db);
-    const dbKütle=kütleGrup.includes(db);
-    // Aynı grupta → mL veya gr cinsine normalize edip oranla
+    const ibHacim=hacimGrup.includes(ib),ibKütle=kütleGrup.includes(ib);
+    const dbHacim=hacimGrup.includes(db),dbKütle=kütleGrup.includes(db);
     if((ibHacim&&dbHacim)||(ibKütle&&dbKütle)){
       const icNorm=toBirimML(s.icerik,ib);
-      const dozNorm=1; // dozBirim cinsinden 1 birim
       const dozNormBase=toBirimML(1,db);
-      // icerik içindeki dozBirim cinsinden kaç birim var
       return icNorm/dozNormBase;
     }
-    // Farklı grup → dönüşüm yapılamaz, 0 döndür
     return 0;
   }
 
   const ilacSonuc=ilaclar.map(il=>{
-    const toplamMiktar=+(il.doz*topAgac).toFixed(4);
+    let toplamMiktar;
+    if(dozMod==='su'){
+      toplamMiktar=+(il.doz*aktifSuTon).toFixed(4);
+    }else{
+      toplamMiktar=+(il.doz*topAgac).toFixed(4);
+    }
     const icInDoz=icerikDozBiriminde(il,il.birim);
     const ambalajGerekli=icInDoz>0?Math.ceil(toplamMiktar/icInDoz):null;
     const yeterli=ambalajGerekli!==null?il.stokMiktar>=ambalajGerekli:true;
@@ -2288,14 +2411,20 @@ function hesapla(){
       toplam:toplamMiktar,
       ambalajGerekli,
       yeterli,
-      tankSayisi:tank>0?Math.ceil(topSu/tank):'-'
+      tankSayisi:tank>0?Math.ceil(aktifSuLitre/tank):'-'
     };
   });
   const vanaSonuc=list.map(v=>({
     ...v,su:+(v.agac*litrePerAgac).toFixed(1),
-    ilacMiktarlar:ilaclar.map(il=>+(il.doz*v.agac).toFixed(4))
+    ilacMiktarlar:ilaclar.map(il=>{
+      if(dozMod==='su'){
+        const oran=(v.agac*litrePerAgac)/Math.max(topSu,1);
+        return+(il.doz*aktifSuTon*oran).toFixed(4);
+      }
+      return+(il.doz*v.agac).toFixed(4);
+    })
   }));
-  const totIlac=ilaclar.map(il=>+(il.doz*topAgac).toFixed(4));
+  const totIlac=ilaclar.map(il=>dozMod==='su'?+(il.doz*aktifSuTon).toFixed(4):+(il.doz*topAgac).toFixed(4));
 
   sonHesap={
     tip:document.getElementById('r-tip').value,
@@ -2304,11 +2433,13 @@ function hesapla(){
     isletme:document.getElementById('r-isletme')?.value||'—',
     aciklama:document.getElementById('r-aciklama').value||'—',
     topAgac,topSu,topSira,vanaAdet:list.length,
-    ilacSonuc,vanaSonuc,ilaclar,damlatici,debi,sure,tank,litrePerAgac,totIlac,list
+    ilacSonuc,vanaSonuc,ilaclar,damlatici,debi,sure,tank,litrePerAgac,totIlac,list,
+    dozMod,aktifSuLitre,aktifSuTon,hedefSuRaw,hedefSuBirim
   };
 
   sayfaGit('sonuc');
-  toast(`✓ Reçete hazır — ${list.length} vana · ${fmt(topAgac)} ağaç`);
+  const modStr=dozMod==='su'?`${fmt(aktifSuLitre)} L su bazlı`:`${fmt(topAgac)} ağaç bazlı`;
+  toast(`✓ Reçete hazır — ${list.length} vana · ${modStr}`);
 }
 
 function sonucGoster(){
@@ -2326,13 +2457,33 @@ function sonucGoster(){
     ).join('<br>');
   }else ub.className='warn-box';
 
+  // Su bazlı mod banner
+  const suBanner=h.dozMod==='su'&&h.aktifSuLitre>0?`
+    <div style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px">
+      <span style="color:#60a5fa;font-weight:800">💧 Su Bazlı Hesaplama</span>
+      <span style="color:#94a3b8;margin-left:8px">Hedef: <strong style="color:#e2e8f0">${fmt(h.aktifSuLitre)} L (${fmt(h.aktifSuTon)} ton)</strong> su için dozlar hesaplandı</span>
+    </div>`:''
+
   // Özet
+  const suGoster=h.dozMod==='su'?fmt(h.aktifSuLitre):fmt(h.topSu);
   document.getElementById('ozet-kartlar').innerHTML=[
     {i:'🚿',l:'Vana',v:h.vanaAdet,c:'#3b82f6'},
     {i:'🌳',l:'Ağaç',v:fmt(h.topAgac),c:'#22c55e'},
-    {i:'💧',l:'Su (L)',v:fmt(h.topSu),c:'#0ea5e9'},
+    {i:'💧',l:'Su (L)',v:suGoster,c:'#0ea5e9'},
     {i:'🧪',l:'Ürün',v:h.ilaclar.length,c:'#a78bfa'},
   ].map(x=>`<div class="stat-box"><div class="stat-num" style="color:${x.c};font-size:18px">${x.v}</div><div class="stat-lbl">${x.l}</div></div>`).join('');
+
+  // Su banner'ı ozet-kartlar'ın önüne ekle
+  const ilacListEl=document.getElementById('ilac-sonuc-liste');
+  if(ilacListEl&&suBanner){
+    ilacListEl.previousElementSibling?.previousElementSibling?.insertAdjacentHTML('beforebegin',suBanner);
+  }
+
+  // Doz etiketi
+  const dozEtiketi=h.dozMod==='su'?'Doz / ton su':'Doz / Ağaç';
+  const dozRef=h.dozMod==='su'
+    ?`<div class="sonuc-ilac-row"><span style="color:#64748b">Hedef Su</span><span>${fmt(h.aktifSuLitre)} L</span></div>`
+    :`<div class="sonuc-ilac-row"><span style="color:#64748b">Toplam Ağaç</span><span>${fmt(h.topAgac)}</span></div>`;
 
   // İlaç sonuçları
   document.getElementById('ilac-sonuc-liste').innerHTML=h.ilacSonuc.map(il=>{
@@ -2340,8 +2491,8 @@ function sonucGoster(){
       ?`<div class="sonuc-ilac-row"><span style="color:#64748b">Açılacak Ambalaj</span><span style="font-weight:800;color:#f59e0b">📦 ${il.ambalajGerekli} ${il.ambalaj}</span></div>`:'';
     return`<div class="sonuc-ilac-item">
       <div class="sonuc-ilac-ad">${il.ad}</div>
-      <div class="sonuc-ilac-row"><span style="color:#64748b">Doz / Ağaç</span><span>${il.doz} ${il.birim}</span></div>
-      <div class="sonuc-ilac-row"><span style="color:#64748b">Toplam Ağaç</span><span>${fmt(h.topAgac)}</span></div>
+      <div class="sonuc-ilac-row"><span style="color:#64748b">${dozEtiketi}</span><span>${il.doz} ${il.birim}</span></div>
+      ${dozRef}
       ${ambalajStr}
       <div class="sonuc-ilac-row"><span style="color:#64748b">Stok (ambalaj)</span><span style="color:${il.yeterli?'#22c55e':'#ef4444'}">${fmt(il.stokMiktar)} ${il.ambalaj} ${il.yeterli?'✓':'✕'}</span></div>
       <div class="sonuc-ilac-toplam">${fmt(il.toplam)} ${il.birim}</div>
@@ -2912,7 +3063,7 @@ function girisYap(){
   uygulamaBaslat();
 }
 
-function uygulamaBaslat(){
+function uygulamaBaslat(){setTimeout(()=>sayfaGit('dash'),80);
   const ub=document.getElementById('user-badge-wrap');
   const ubAdi=document.getElementById('ub-adi');
   if(ub)ub.style.display='flex';
@@ -4450,6 +4601,155 @@ ghConfigYukle();
 pmYukle();
 loginEkraniGoster();
 if(localStorage.getItem('jb_key'))setTimeout(()=>setSyncDot('ok'),100);
+
+
+/* ════ DASHBOARD ════ */
+function dbGun(){
+  var el=document.getElementById('db-wrap');
+  if(!el)return;
+  var bugun=new Date();
+  var tarihStr=bugun.toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  var saatStr=bugun.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  var topUrn=stok.length;
+  var kritikUrn=stok.filter(function(s){return s.miktar>0&&s.miktar<=s.kritik;}).length;
+  var tukenUrn=stok.filter(function(s){return s.miktar===0;}).length;
+  var saglikliUrn=topUrn-kritikUrn-tukenUrn;
+  var stokPct=topUrn>0?Math.round(saglikliUrn/topUrn*100):100;
+  var topAgac=adalarToplamAgac();
+  var adaOzet=[];
+  Object.values(ADALAR).forEach(function(ada){
+    var ag=ada.vanalar.reduce(function(s,v){return s+v.agac;},0);
+    adaOzet.push({ad:ada.ad,kisa:ada.kisa,ag:ag,vana:ada.vanalar.length});
+  });
+  var sonIslemler=slog.slice(0,5);
+  var topArac=typeof araclar!=='undefined'?araclar.length:0;
+  var bakimGereken=typeof araclar!=='undefined'?araclar.filter(function(a){return a.sonBakim&&a.bakimKm&&(a.kmGuncel-a.sonBakim)>=(a.bakimKm*0.9);}).length:0;
+  var mazotStok=typeof mazotlar!=='undefined'?mazotlar.reduce(function(s,m){return s+(m.miktar||0);},0):0;
+  var bugunT0=new Date();bugunT0.setHours(0,0,0,0);
+  var pmBugun=typeof _pmK!=='undefined'?_pmK.filter(function(k){return k.t>=bugunT0.getTime()&&k.t<bugunT0.getTime()+86400000;}).length:0;
+  var pmTopAG=typeof _pmK!=='undefined'?_pmK.reduce(function(s,k){return s+(k.ag||0);},0):0;
+  var haftaOnce=Date.now()-7*86400000;
+  var haftaHareket=slog.filter(function(l){return new Date(l.t).getTime()>haftaOnce;}).length;
+  var kulAdi=aktifKullanici?aktifKullanici.adi:'';
+  var h=bugun.getHours();
+  var selamlama=h<12?'G\xfcnayd\u0131n':h<18?'\u0130yi g\xfcnler':'\u0130yi ak\u015famlar';
+  var stokColor=stokPct>=80?'#22c55e':stokPct>=50?'#f59e0b':'#ef4444';
+  var stokBg=stokPct>=80?'#052e16':stokPct>=50?'#1c1007':'#1c0505';
+  var stokBorder=stokPct>=80?'#16a34a':stokPct>=50?'#92400e':'#991b1b';
+  var aracColor=bakimGereken>0?'#f59e0b':'#22c55e';
+  var aracBg=bakimGereken>0?'#1c1007':'#052e16';
+  var mazotColor=mazotStok>200?'#f59e0b':mazotStok>50?'#fbbf24':'#ef4444';
+  var adaRenkler=['#3b82f6','#22c55e','#f59e0b'];
+  var tipRenk={ekle:'#4ade80',yeni:'#60a5fa',dus:'#f87171',sil:'#f87171',duz:'#fbbf24'};
+  var tipEtiket={ekle:'Ekleme',yeni:'Yeni',dus:'D\xfc\u015fme',sil:'Silme',duz:'D\xfczeltme'};
+  var o='';
+  o+='<div style="padding:4px 0 14px">';
+  o+='<div style="font-size:11px;color:#64748b;margin-bottom:2px">'+tarihStr+' \xb7 '+saatStr+'</div>';
+  o+='<div style="font-size:20px;font-weight:800;color:#e2e8f0;line-height:1.3">'+selamlama+', '+kulAdi+' \ud83d\udc4b</div>';
+  o+='<div style="font-size:12px;color:#64748b;margin-top:3px">Erturan Tar\u0131m &amp; Zeytincilik \u2014 G\xfcnl\xfck \xd6zet</div>';
+  o+='</div>';
+  // Ana KPI grid
+  o+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">';
+  // Stok kart
+  o+='<div onclick="sayfaGit(\'liste\')" style="background:'+stokBg+';border:1.5px solid '+stokBorder+';border-radius:14px;padding:14px;cursor:pointer">';
+  o+='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">';
+  o+='<div style="font-size:26px">\ud83d\udce6</div>';
+  o+='<div style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;background:'+stokBorder+'33;color:'+stokColor+'">%'+stokPct+'</div>';
+  o+='</div>';
+  o+='<div style="font-size:26px;font-weight:800;color:'+stokColor+';line-height:1">'+topUrn+'</div>';
+  o+='<div style="font-size:11px;color:#64748b;margin-top:2px">Stok \xdcr\xfcn</div>';
+  o+='<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">';
+  if(tukenUrn>0)o+='<span style="font-size:10px;font-weight:700;color:#f87171;background:#450a0a;padding:2px 7px;border-radius:20px">\u2715 '+tukenUrn+' t\xfckendi</span>';
+  if(kritikUrn>0)o+='<span style="font-size:10px;font-weight:700;color:#fbbf24;background:#451a03;padding:2px 7px;border-radius:20px">\u26a0 '+kritikUrn+' kritik</span>';
+  if(tukenUrn===0&&kritikUrn===0)o+='<span style="font-size:10px;font-weight:700;color:#4ade80;background:#052e16;padding:2px 7px;border-radius:20px">\u2713 Sa\u011fl\u0131kl\u0131</span>';
+  o+='</div>';
+  o+='<div style="height:3px;background:#1e293b;border-radius:3px;margin-top:10px;overflow:hidden"><div style="height:100%;width:'+stokPct+'%;background:'+stokColor+';border-radius:3px"></div></div>';
+  o+='</div>';
+  // Ağaç kart
+  o+='<div style="background:#0f172a;border:1.5px solid #16a34a33;border-radius:14px;padding:14px">';
+  o+='<div style="font-size:26px;margin-bottom:8px">\ud83c\udf3f</div>';
+  o+='<div style="font-size:26px;font-weight:800;color:#4ade80;line-height:1">'+fmt(topAgac)+'</div>';
+  o+='<div style="font-size:11px;color:#64748b;margin-top:2px">Toplam A\u011fa\xe7</div>';
+  o+='<div style="margin-top:8px">';
+  adaOzet.forEach(function(a){
+    o+='<div style="display:flex;justify-content:space-between;font-size:10px;margin-top:4px">';
+    o+='<span style="color:#64748b">'+a.kisa+'</span><span style="color:#94a3b8;font-weight:700">'+a.ag.toLocaleString('tr-TR')+'</span>';
+    o+='</div>';
+  });
+  o+='</div></div>';
+  o+='</div>';
+  // Orta satır 3 kart
+  o+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">';
+  o+='<div onclick="sayfaGit(\'personel\')" style="background:#0c1a33;border:1.5px solid #2563eb44;border-radius:12px;padding:12px;cursor:pointer">';
+  o+='<div style="font-size:20px;margin-bottom:6px">\ud83d\udc77</div>';
+  o+='<div style="font-size:20px;font-weight:800;color:#60a5fa;line-height:1">'+pmBugun+'</div>';
+  o+='<div style="font-size:10px;color:#64748b;margin-top:2px">Bug\xfcn Op.</div>';
+  o+='<div style="font-size:10px;color:#3b82f6;margin-top:4px;font-weight:700">'+Number(pmTopAG).toLocaleString('tr-TR',{maximumFractionDigits:1})+' A/G</div>';
+  o+='</div>';
+  o+='<div onclick="sayfaGit(\'arac\')" style="background:'+aracBg+';border:1.5px solid '+aracColor+'44;border-radius:12px;padding:12px;cursor:pointer">';
+  o+='<div style="font-size:20px;margin-bottom:6px">\ud83d\ude97</div>';
+  o+='<div style="font-size:20px;font-weight:800;color:'+aracColor+';line-height:1">'+topArac+'</div>';
+  o+='<div style="font-size:10px;color:#64748b;margin-top:2px">Ara\xe7</div>';
+  o+='<div style="font-size:10px;color:'+aracColor+';margin-top:4px;font-weight:700">'+(bakimGereken>0?bakimGereken+' bak\u0131m':'Tamam')+'</div>';
+  o+='</div>';
+  o+='<div onclick="sayfaGit(\'arac\')" style="background:#1c1007;border:1.5px solid #92400e44;border-radius:12px;padding:12px;cursor:pointer">';
+  o+='<div style="font-size:20px;margin-bottom:6px">\u26fd</div>';
+  o+='<div style="font-size:20px;font-weight:800;color:'+mazotColor+';line-height:1">'+fmt(mazotStok)+'</div>';
+  o+='<div style="font-size:10px;color:#64748b;margin-top:2px">Mazot (L)</div>';
+  o+='<div style="font-size:10px;color:'+mazotColor+';margin-top:4px;font-weight:700">'+(mazotStok<50?'\u26a0 D\xfc\u015f\xfck':'Depo')+'</div>';
+  o+='</div>';
+  o+='</div>';
+  // Hızlı erişim
+  o+='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #334155">';
+  o+='<div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px">\u26a1 H\u0131zl\u0131 Eri\u015fim</div>';
+  o+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">';
+  var sc=[
+    {ico:'\uff0b',lbl:'Stok',pg:'stok',c:'#3b82f6',bg:'#0c1f3f'},
+    {ico:'\ud83c\udf3f',lbl:'Re\xe7ete',pg:'recete',c:'#22c55e',bg:'#052e16'},
+    {ico:'\ud83d\udc77',lbl:'Personel',pg:'personel',c:'#60a5fa',bg:'#0a1628'},
+    {ico:'\ud83d\udce6',lbl:'Envanter',pg:'envanter',c:'#a78bfa',bg:'#1a1040'},
+  ];
+  sc.forEach(function(s){
+    o+='<div onclick="sayfaGit(\''+s.pg+'\')" style="background:'+s.bg+';border:1.5px solid '+s.c+'33;border-radius:10px;padding:10px 4px;text-align:center;cursor:pointer">';
+    o+='<div style="font-size:22px;margin-bottom:4px">'+s.ico+'</div>';
+    o+='<div style="font-size:10px;font-weight:700;color:'+s.c+'">'+s.lbl+'</div>';
+    o+='</div>';
+  });
+  o+='</div></div>';
+  // Son işlemler
+  if(sonIslemler.length){
+    o+='<div style="background:#1e293b;border-radius:14px;padding:14px;margin-bottom:10px;border:1px solid #334155">';
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+    o+='<div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase">\ud83d\udd51 Son Hareketler</div>';
+    o+='<button onclick="sayfaGit(\'liste\')" style="background:transparent;border:none;color:#3b82f6;font-size:11px;font-weight:700;cursor:pointer">T\xfcm\xfc \u2192</button>';
+    o+='</div>';
+    sonIslemler.forEach(function(l){
+      var renk=tipRenk[l.tip]||'#94a3b8';
+      o+='<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #0f172a">';
+      o+='<div style="width:6px;height:6px;border-radius:50%;background:'+renk+';flex-shrink:0"></div>';
+      o+='<div style="flex:1;min-width:0">';
+      o+='<div style="font-size:12px;font-weight:700;color:#e2e8f0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+l.ad+'</div>';
+      o+='<div style="font-size:10px;color:#64748b">'+(tipEtiket[l.tip]||l.tip)+' \xb7 '+l.t+'</div>';
+      o+='</div>';
+      o+='<div style="font-size:12px;font-weight:800;color:'+renk+';flex-shrink:0">'+(l.sonra||'')+'</div>';
+      o+='</div>';
+    });
+    o+='</div>';
+  }
+  // Ada özet
+  o+='<div style="background:#1e293b;border-radius:14px;padding:14px;border:1px solid #334155">';
+  o+='<div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px">\ud83c\udf3f Ada &amp; Vana</div>';
+  adaOzet.forEach(function(a,i){
+    var renk=adaRenkler[i]||'#94a3b8';
+    o+='<div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid #0f172a">';
+    o+='<div style="width:36px;height:36px;border-radius:9px;background:'+renk+'22;border:1.5px solid '+renk+'44;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:'+renk+';flex-shrink:0">'+a.kisa.replace('Ada ','')+'</div>';
+    o+='<div style="flex:1"><div style="font-size:13px;font-weight:700;color:#e2e8f0">'+a.ad+'</div><div style="font-size:10px;color:#64748b;margin-top:2px">'+a.vana+' vana</div></div>';
+    o+='<div style="text-align:right"><div style="font-size:16px;font-weight:800;color:'+renk+'">'+a.ag.toLocaleString('tr-TR')+'</div><div style="font-size:10px;color:#64748b">a\u011fa\xe7</div></div>';
+    o+='</div>';
+  });
+  o+='</div>';
+  el.innerHTML=o;
+}
 
 /* ═══ PERSONEL MODÜLÜ ═══ */
 var _PMK='et_pm_v1',_PPK='et_pp_v1',_PGK='et_pg_v1';
