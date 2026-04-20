@@ -1008,6 +1008,72 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <span id="sync-dot" style="display:none"></span>
     <span id="sync-lbl" style="display:none"></span>
 
+    <!-- BÖLÜM 2.5: SUPABASE -->
+    <div class="card" style="border-color:#22c55e44">
+      <div class="ctit" style="color:#4ade80">🗄 Supabase Veritabanı</div>
+
+      <!-- Durum -->
+      <div class="gh-durum-bar" id="sb-durum-bar" style="margin-bottom:12px">
+        <span class="gh-dot off" id="sb-dot"></span>
+        <span class="gh-lbl" id="sb-durum-lbl">Bağlantı kontrol ediliyor...</span>
+      </div>
+
+      <!-- SQL Kurulum Rehberi -->
+      <div id="sb-sql-rehber" style="background:#0a1a0a;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid #16a34a44">
+        <div style="font-size:11px;font-weight:800;color:#4ade80;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px">📋 İlk Kurulum — Tabloları Oluştur</div>
+        <p style="font-size:12px;color:#64748b;line-height:1.7;margin-bottom:10px">
+          Supabase Dashboard → <strong style="color:#e2e8f0">SQL Editor</strong> → <strong style="color:#e2e8f0">New Query</strong> →
+          aşağıdaki SQL'i yapıştırın → <strong style="color:#4ade80">Run</strong>
+        </p>
+        <div style="background:#0f172a;border-radius:8px;padding:10px 12px;font-size:10px;font-family:monospace;color:#4ade80;line-height:1.8;overflow-x:auto;white-space:pre;border:1px solid #334155">create table if not exists stok(id bigint primary key,ad text,miktar numeric,ambalaj text,icerik numeric,ic_birim text,kritik numeric);
+create table if not exists stok_log(id bigint primary key,tip text,ad text,miktar numeric,once numeric,sonra numeric,birim text,not_ text,t text);
+create table if not exists araclar(id bigint primary key,veri jsonb);
+create table if not exists mazotlar(id bigint primary key,tarih text,miktar numeric,fiyat numeric,toplam numeric,not_ text);
+create table if not exists yakit_kullanim(id bigint primary key,arac_id bigint,arac_adi text,tarih text,km numeric,litre numeric,not_ text);
+create table if not exists envanter(id bigint primary key,veri jsonb);
+create table if not exists vana_adalar(id text primary key,veri jsonb);
+create table if not exists pm_kayitlar(id bigint primary key,ada text,gorev text,gun numeric,kisi_sayi int,ag numeric,personel text,saat_bas text,saat_bit text,not_ text,t bigint);
+create table if not exists pm_personeller(id bigint primary key,ad text,uzm text);
+create table if not exists pm_gorevler(id int primary key,liste jsonb);
+
+alter table stok enable row level security;
+alter table stok_log enable row level security;
+alter table araclar enable row level security;
+alter table mazotlar enable row level security;
+alter table yakit_kullanim enable row level security;
+alter table envanter enable row level security;
+alter table vana_adalar enable row level security;
+alter table pm_kayitlar enable row level security;
+alter table pm_personeller enable row level security;
+alter table pm_gorevler enable row level security;
+
+create policy "anon_all" on stok for all using(true) with check(true);
+create policy "anon_all" on stok_log for all using(true) with check(true);
+create policy "anon_all" on araclar for all using(true) with check(true);
+create policy "anon_all" on mazotlar for all using(true) with check(true);
+create policy "anon_all" on yakit_kullanim for all using(true) with check(true);
+create policy "anon_all" on envanter for all using(true) with check(true);
+create policy "anon_all" on vana_adalar for all using(true) with check(true);
+create policy "anon_all" on pm_kayitlar for all using(true) with check(true);
+create policy "anon_all" on pm_personeller for all using(true) with check(true);
+create policy "anon_all" on pm_gorevler for all using(true) with check(true);</div>
+        <button onclick="sbSqlKopyala()" style="margin-top:8px;background:#16a34a;border:none;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">📋 SQL'i Kopyala</button>
+      </div>
+
+      <!-- Aksiyon Butonları -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn btn-green btn-sm" style="flex:1" onclick="sbBaglan()">🔗 Bağlan & Test Et</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="sbdenYukle()">⬇ Supabase'den Yükle</button>
+      </div>
+      <button class="btn btn-green" style="margin-bottom:0" onclick="sbTumunuYukle()">☁ Tüm Veriyi Supabase'e Gönder</button>
+
+      <div style="margin-top:10px;font-size:11px;color:#475569;line-height:1.7">
+        🔄 Her kayıt işleminde otomatik sync çalışır<br>
+        💾 İnternet yoksa localStorage'dan çalışır (çevrimdışı mod)<br>
+        🔒 Veriler şifrelenmiş bağlantı ile gönderilir
+      </div>
+    </div>
+
     <!-- BÖLÜM 3: EXCEL -->
     <div class="card">
       <div class="ctit">📊 Excel Raporu</div>
@@ -1695,7 +1761,7 @@ const BAZ=[
   {id:1774820000005,ad:'BLUE-GUARD Likit (Aşı ve Budama Macunu)',miktar:4,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2}
 ];
 let stok=[],slog=[],sMod='ekle';
-function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));ghOtomatikSync();}
+function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));sbSync('stok');}
 function yukle(){
   try{stok=JSON.parse(localStorage.getItem(SK))||JSON.parse(JSON.stringify(BAZ));}catch{stok=JSON.parse(JSON.stringify(BAZ));}
   try{slog=JSON.parse(localStorage.getItem(LK))||[];}catch{slog=[];}
@@ -2280,7 +2346,7 @@ function adalarYukle(){
 }
 function adalarKaydet(){
   localStorage.setItem(ADALAR_KEY,JSON.stringify(ADALAR));
-  ghOtomatikSync();
+  sbSync('misc');
 }
 function adalarToplamAgac(){
   return Object.values(ADALAR).reduce((t,ada)=>t+ada.vanalar.reduce((s,v)=>s+v.agac,0),0);
@@ -2892,7 +2958,7 @@ let araclar=[];
 function aracYukle(){
   try{araclar=JSON.parse(localStorage.getItem(AK))||[];}catch{araclar=[];}
 }
-function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));ghOtomatikSync();}
+function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));sbSync('araclar');}
 
 function gunFarki(ts){
   if(!ts)return null;
@@ -3306,7 +3372,7 @@ function girisYap(){
   uygulamaBaslat();
 }
 
-function uygulamaBaslat(){setTimeout(()=>sayfaGit('dash'),80);
+function uygulamaBaslat(){setTimeout(()=>sayfaGit('dash'),80);sbIlkYukle();
   const ub=document.getElementById('user-badge-wrap');
   const ubAdi=document.getElementById('ub-adi');
   if(ub)ub.style.display='flex';
@@ -3484,7 +3550,7 @@ function mzKaydetLS(){
   localStorage.setItem(MZK,JSON.stringify(mazotlar));
   localStorage.setItem(KULK,JSON.stringify(kullanımlar));
   localStorage.setItem(BAKK,JSON.stringify(yakitBakimlar));
-  ghOtomatikSync();
+  sbSync('misc');
 }
 
 function getMzStok(){
@@ -4638,7 +4704,7 @@ let envAktifId=null;
 function envYukle(){
   try{envanter=JSON.parse(localStorage.getItem(ENV_KEY))||[];}catch{envanter=[];}
 }
-function envKaydetLS(){localStorage.setItem(ENV_KEY,JSON.stringify(envanter));ghOtomatikSync();}
+function envKaydetLS(){localStorage.setItem(ENV_KEY,JSON.stringify(envanter));sbSync('envanter');}
 
 const KAT_ADI={ekipman:'🚜 Ekipman',sulama:'💧 Sulama',depo:'🏚 Depo',diger:'📌 Diğer'};
 const KAT_CLS={ekipman:'kat-ekipman',sulama:'kat-sulama',depo:'kat-depo',diger:'kat-diger'};
@@ -5020,7 +5086,7 @@ function _pmSave(){
   localStorage.setItem(_PMK,JSON.stringify(_pmK));
   localStorage.setItem(_PPK,JSON.stringify(_pmP));
   localStorage.setItem(_PGK,JSON.stringify(_pmG));
-  if(typeof ghOtomatikSync==='function')ghOtomatikSync();
+  sbSync('pm');
 }
 function _f(n){return Number(n).toLocaleString('tr-TR',{maximumFractionDigits:2});}
 
@@ -5446,6 +5512,358 @@ function pmGunsonYazdir(){
 }
 
 pmYukle();
+
+/* ════════════════════════════════════════════════════════
+   SUPABASE ENTEGRASYONU
+   URL: https://qzgypemxcmulticztnvh.supabase.co
+════════════════════════════════════════════════════════ */
+const SB_URL = 'https://qzgypemxcmulticztnvh.supabase.co';
+const SB_KEY = 'sb_publishable_j2Vfr-3l7-HqsE5W3woagA_B-KT1pja';
+let sbSyncTimer = null;
+let sbHazir = false;
+let sbSyncing = false;
+
+/* ─ REST yardımcısı ─ */
+async function sbReq(method, table, body=null, query=''){
+  const url = `${SB_URL}/rest/v1/${table}${query}`;
+  const opts = {
+    method,
+    headers:{
+      'apikey': SB_KEY,
+      'Authorization': `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': method==='POST'?'resolution=merge-duplicates':'return=minimal'
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch(url, opts);
+  if(!r.ok){
+    const err = await r.text();
+    throw new Error(`${table} ${method}: ${r.status} ${err.substring(0,120)}`);
+  }
+  if(method==='GET'){
+    const txt = await r.text();
+    return txt ? JSON.parse(txt) : [];
+  }
+  return true;
+}
+
+/* ─ Durum göstergesi ─ */
+function sbDurum(msg, ok=true){
+  const el = document.getElementById('sb-durum-lbl');
+  const dot = document.getElementById('sb-dot');
+  if(el) el.textContent = msg;
+  if(dot){
+    dot.className = 'gh-dot';
+    dot.classList.add(ok?'ok':'err');
+  }
+}
+function sbLoading(){ const d=document.getElementById('sb-dot');if(d){d.className='gh-dot ing';} }
+
+/* ─ Tablo oluşturma (ilk kurulum) ─ */
+async function sbTabloKur(){
+  // Tabloları tek tek upsert ile test et — yoksa Supabase dashboard'dan SQL çalıştırılmalı
+  try{
+    await sbReq('GET','stok','','?limit=1');
+    sbHazir = true;
+    sbDurum('Bağlantı başarılı ✓');
+    return true;
+  }catch(e){
+    sbDurum('Tablolar bulunamadı — SQL çalıştırılmalı',false);
+    return false;
+  }
+}
+
+/* ─ Bağlan & Test ─ */
+async function sbBaglan(){
+  sbLoading();
+  sbDurum('Test ediliyor...');
+  try{
+    const r = await sbReq('GET','stok','','?limit=1');
+    sbHazir = true;
+    sbDurum('✓ Bağlantı başarılı — veritabanı hazır');
+    toast('✓ Supabase bağlandı!');
+    // Mevcut yerel veriyi Supabase'e yükle
+    if(confirm('Yerel verileri Supabase\'e yükleyelim mi?\n(İlk kurulumda bir kez yapılır)')) await sbTumunuYukle();
+  }catch(e){
+    sbHazir = false;
+    sbDurum('✕ Hata: '+e.message, false);
+    toast('Supabase bağlantı hatası!','err');
+  }
+}
+
+/* ─ Tüm veriyi bir kerede Supabase'e yükle ─ */
+async function sbTumunuYukle(){
+  sbLoading();
+  try{
+    // Stok
+    if(stok.length){
+      const stokRows = stok.map(s=>({id:s.id,ad:s.ad,miktar:s.miktar,ambalaj:s.ambalaj||null,icerik:s.icerik||0,ic_birim:s.icBirim||null,kritik:s.kritik||2}));
+      await sbReq('POST','stok',stokRows);
+    }
+    // Stok log (son 200)
+    if(slog.length){
+      const logRows = slog.slice(0,200).map((l,i)=>({id:Date.now()+i,tip:l.tip,ad:l.ad,miktar:l.miktar||0,once:l.once||0,sonra:l.sonra||0,birim:l.birim||'',not_:l.not||'',t:l.t||''}));
+      await sbReq('POST','stok_log',logRows);
+    }
+    // Araçlar
+    if(typeof araclar!=='undefined'&&araclar.length){
+      const aracRows = araclar.map(a=>({id:a.id,veri:a}));
+      await sbReq('POST','araclar',aracRows);
+    }
+    // Mazot
+    if(typeof mazotlar!=='undefined'&&mazotlar.length){
+      const mzRows = mazotlar.map(m=>({id:m.id,tarih:m.tarih||'',miktar:m.miktar||0,fiyat:m.fiyat||0,toplam:m.toplam||0,not_:m.not||''}));
+      await sbReq('POST','mazotlar',mzRows);
+    }
+    // Yakıt kullanım
+    if(typeof kullanımlar!=='undefined'&&kullanımlar.length){
+      const kulRows = kullanımlar.map(k=>({id:k.id,arac_id:k.aracId||0,arac_adi:k.aracAdi||'',tarih:k.tarih||'',km:k.km||0,litre:k.litre||0,not_:k.not||''}));
+      await sbReq('POST','yakit_kullanim',kulRows);
+    }
+    // Envanter
+    if(typeof envanter!=='undefined'&&envanter.length){
+      const envRows = envanter.map(e=>({id:e.id,veri:e}));
+      await sbReq('POST','envanter',envRows);
+    }
+    // Vana/Ada yapısı
+    await sbReq('POST','vana_adalar',[{id:'main',veri:ADALAR}]);
+    // PM Kayıtlar
+    if(typeof _pmK!=='undefined'&&_pmK.length){
+      const pmRows = _pmK.map(k=>({id:k.id,ada:k.ada,gorev:k.gorev,gun:k.gun,kisi_sayi:k.kisiSayi,ag:k.ag,personel:k.personel||'',saat_bas:k.saatBas||'',saat_bit:k.saatBit||'',not_:k.not||'',t:k.t}));
+      await sbReq('POST','pm_kayitlar',pmRows);
+    }
+    // PM Personeller
+    if(typeof _pmP!=='undefined'&&_pmP.length){
+      const pRows = _pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+      await sbReq('POST','pm_personeller',pRows);
+    }
+    // PM Görevler
+    if(typeof _pmG!=='undefined'){
+      await sbReq('POST','pm_gorevler',[{id:1,liste:_pmG}]);
+    }
+    sbDurum('✓ Tüm veriler Supabase\'e yüklendi');
+    toast('✓ Supabase senkronizasyonu tamamlandı!');
+  }catch(e){
+    sbDurum('✕ Yükleme hatası: '+e.message,false);
+    toast('Supabase yükleme hatası!','err');
+    console.error('sbTumunuYukle error:',e);
+  }
+}
+
+/* ─ Supabase'den tüm veriyi çek ─ */
+async function sbdenYukle(){
+  sbLoading();
+  if(!confirm('Supabase\'den veri çekilsin mi?\n⚠ Yerel değişiklikler silinecek!'))return;
+  try{
+    // Stok
+    const stokData = await sbReq('GET','stok','','?order=id');
+    if(stokData.length){
+      stok = stokData.map(s=>({id:s.id,ad:s.ad,miktar:parseFloat(s.miktar)||0,ambalaj:s.ambalaj||'Adet',icerik:parseFloat(s.icerik)||0,icBirim:s.ic_birim||'',kritik:parseFloat(s.kritik)||2}));
+      localStorage.setItem(SK,JSON.stringify(stok));
+    }
+    // Stok log
+    const logData = await sbReq('GET','stok_log','','?order=id.desc&limit=300');
+    if(logData.length){
+      slog = logData.map(l=>({tip:l.tip,ad:l.ad,miktar:l.miktar,once:l.once,sonra:l.sonra,birim:l.birim,not:l.not_||'',t:l.t}));
+      localStorage.setItem(LK,JSON.stringify(slog));
+    }
+    // Araçlar
+    const aracData = await sbReq('GET','araclar','','?order=id');
+    if(aracData.length){ araclar=aracData.map(a=>a.veri); localStorage.setItem(AK,JSON.stringify(araclar)); }
+    // Mazot
+    const mzData = await sbReq('GET','mazotlar','','?order=id.desc');
+    if(mzData.length){ mazotlar=mzData.map(m=>({id:m.id,tarih:m.tarih,miktar:parseFloat(m.miktar),fiyat:parseFloat(m.fiyat),toplam:parseFloat(m.toplam),not:m.not_||''})); localStorage.setItem(MZK,JSON.stringify(mazotlar)); }
+    // Yakıt kullanım
+    const kulData = await sbReq('GET','yakit_kullanim','','?order=id.desc');
+    if(kulData.length){ kullanımlar=kulData.map(k=>({id:k.id,aracId:k.arac_id,aracAdi:k.arac_adi,tarih:k.tarih,km:parseFloat(k.km),litre:parseFloat(k.litre),not:k.not_||''})); localStorage.setItem(KULK,JSON.stringify(kullanımlar)); }
+    // Envanter
+    const envData = await sbReq('GET','envanter','','?order=id');
+    if(envData.length){ envanter=envData.map(e=>e.veri); localStorage.setItem(ENV_KEY,JSON.stringify(envanter)); }
+    // Vana/Ada
+    const vanaData = await sbReq('GET','vana_adalar','','?id=eq.main');
+    if(vanaData.length&&vanaData[0].veri){ ADALAR=vanaData[0].veri; adalarKaydet(); gridCiz(); }
+    // PM Kayıtlar
+    const pmData = await sbReq('GET','pm_kayitlar','','?order=t.desc');
+    if(typeof _pmK!=='undefined'){
+      _pmK = pmData.map(k=>({id:k.id,ada:k.ada,gorev:k.gorev,gun:parseFloat(k.gun),kisiSayi:k.kisi_sayi,ag:parseFloat(k.ag),personel:k.personel||'',saatBas:k.saat_bas||'',saatBit:k.saat_bit||'',not:k.not_||'',t:k.t}));
+      localStorage.setItem(_PMK,JSON.stringify(_pmK));
+    }
+    // PM Personeller
+    const ppData = await sbReq('GET','pm_personeller','','?order=id');
+    if(typeof _pmP!=='undefined'){
+      _pmP = ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+      localStorage.setItem(_PPK,JSON.stringify(_pmP));
+    }
+    // PM Görevler
+    const pgData = await sbReq('GET','pm_gorevler','','?id=eq.1');
+    if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){
+      _pmG = pgData[0].liste;
+      localStorage.setItem(_PGK,JSON.stringify(_pmG));
+    }
+    // UI güncelle
+    stokStatsGun();stokDlGun();receteSelectGun();
+    if(typeof aracListeGun==='function')aracListeGun();
+    if(typeof mzSayfaGecisGun==='function')mzSayfaGecisGun();
+    if(typeof envListeGun==='function')envListeGun();
+    sbDurum('✓ Supabase\'den yüklendi — '+stok.length+' ürün');
+    toast('✓ Supabase\'den veri yüklendi!');
+  }catch(e){
+    sbDurum('✕ Hata: '+e.message,false);
+    toast('Supabase yükleme hatası: '+e.message,'err');
+    console.error('sbdenYukle error:',e);
+  }
+}
+
+/* ─ Debounce sync ─ */
+function sbSync(kaynakHint){
+  if(!sbHazir) return;
+  clearTimeout(sbSyncTimer);
+  sbSyncTimer = setTimeout(()=>sbKaydet(kaynakHint), 1500);
+}
+
+/* ─ Ana sync fonksiyonu (değişen veriyi gönder) ─ */
+async function sbKaydet(hint='all'){
+  if(!sbHazir||sbSyncing) return;
+  sbSyncing = true;
+  sbLoading();
+  try{
+    if(hint==='stok'||hint==='all'){
+      if(stok.length){
+        const rows=stok.map(s=>({id:s.id,ad:s.ad,miktar:s.miktar,ambalaj:s.ambalaj||null,icerik:s.icerik||0,ic_birim:s.icBirim||null,kritik:s.kritik||2}));
+        await sbReq('POST','stok',rows);
+      }
+      // Son log kaydı
+      if(slog.length){
+        const l=slog[0];
+        await sbReq('POST','stok_log',[{id:Date.now(),tip:l.tip,ad:l.ad,miktar:l.miktar||0,once:l.once||0,sonra:l.sonra||0,birim:l.birim||'',not_:l.not||'',t:l.t||''}]);
+      }
+    }
+    if(hint==='araclar'||hint==='all'){
+      if(typeof araclar!=='undefined'&&araclar.length){
+        const rows=araclar.map(a=>({id:a.id,veri:a}));
+        await sbReq('POST','araclar',rows);
+      }
+    }
+    if(hint==='envanter'||hint==='all'){
+      if(typeof envanter!=='undefined'&&envanter.length){
+        const rows=envanter.map(e=>({id:e.id,veri:e}));
+        await sbReq('POST','envanter',rows);
+      }
+    }
+    if(hint==='pm'||hint==='all'){
+      if(typeof _pmK!=='undefined'&&_pmK.length){
+        const r=_pmK.map(k=>({id:k.id,ada:k.ada,gorev:k.gorev,gun:k.gun,kisi_sayi:k.kisiSayi,ag:k.ag,personel:k.personel||'',saat_bas:k.saatBas||'',saat_bit:k.saatBit||'',not_:k.not||'',t:k.t}));
+        await sbReq('POST','pm_kayitlar',r);
+      }
+      if(typeof _pmP!=='undefined'&&_pmP.length){
+        const r=_pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+        await sbReq('POST','pm_personeller',r);
+      }
+      if(typeof _pmG!=='undefined'){
+        await sbReq('POST','pm_gorevler',[{id:1,liste:_pmG}]);
+      }
+    }
+    if(hint==='misc'||hint==='all'){
+      if(typeof mazotlar!=='undefined'&&mazotlar.length){
+        const r=mazotlar.map(m=>({id:m.id,tarih:m.tarih||'',miktar:m.miktar||0,fiyat:m.fiyat||0,toplam:m.toplam||0,not_:m.not||''}));
+        await sbReq('POST','mazotlar',r);
+      }
+      if(typeof kullanımlar!=='undefined'&&kullanımlar.length){
+        const r=kullanımlar.map(k=>({id:k.id,arac_id:k.aracId||0,arac_adi:k.aracAdi||'',tarih:k.tarih||'',km:k.km||0,litre:k.litre||0,not_:k.not||''}));
+        await sbReq('POST','yakit_kullanim',r);
+      }
+      // Vana
+      await sbReq('POST','vana_adalar',[{id:'main',veri:ADALAR}]);
+    }
+    const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+    sbDurum('✓ Kaydedildi '+zaman);
+  }catch(e){
+    sbDurum('✕ Sync hatası: '+e.message,false);
+    console.warn('Supabase sync error (yerel kayıt devam ediyor):',e.message);
+  }finally{
+    sbSyncing=false;
+  }
+}
+
+/* ─ Silme işlemleri ─ */
+async function sbSil(table, id){
+  if(!sbHazir)return;
+  try{ await sbReq('DELETE',table,null,`?id=eq.${id}`); }
+  catch(e){ console.warn('sbSil error:',e.message); }
+}
+
+/* ─ SQL kopyala ─ */
+function sbSqlKopyala(){
+  const sql=document.querySelector('#sb-sql-rehber pre, #sb-sql-rehber div[style*="monospace"]');
+  const txt=sql?sql.textContent:'';
+  navigator.clipboard.writeText(txt).then(()=>toast('✓ SQL kopyalandı — Supabase SQL Editor\'e yapıştırın')).catch(()=>toast('Lütfen metni elle seçip kopyalayın','wrn'));
+}
+
+/* ─ İlk yükleme: Supabase varsa oradan, yoksa localStorage ─ */
+async function sbIlkYukle(){
+  const bar=document.getElementById('sb-durum-bar');
+  const dot=document.getElementById('sb-dot');
+  if(dot){dot.className='gh-dot ing';}
+  try{
+    const test = await sbReq('GET','stok','','?limit=1');
+    sbHazir = true;
+    if(test.length > 0){
+      sbDurum('✓ Supabase bağlı — veriler bulut\'tan geliyor');
+      if(dot)dot.className='gh-dot ok';
+      // Sessiz arka plan sync — localStorage'ı bulutla güncelle
+      _sbSessizYukle();
+    } else {
+      sbDurum('✓ Bağlı — tablolar boş, veri gönderilebilir');
+      if(dot)dot.className='gh-dot ok';
+    }
+  }catch(e){
+    sbHazir = false;
+    if(dot)dot.className='gh-dot off';
+    sbDurum('Çevrimdışı — localStorage aktif');
+  }
+}
+
+/* ─ Sessiz arka plan yükleme (UI dondurmadan) ─ */
+async function _sbSessizYukle(){
+  try{
+    const stokData=await sbReq('GET','stok','','?order=id');
+    if(stokData.length){
+      stok=stokData.map(s=>({id:s.id,ad:s.ad,miktar:parseFloat(s.miktar)||0,ambalaj:s.ambalaj||'Adet',icerik:parseFloat(s.icerik)||0,icBirim:s.ic_birim||'',kritik:parseFloat(s.kritik)||2}));
+      localStorage.setItem(SK,JSON.stringify(stok));
+      stokStatsGun();stokDlGun();receteSelectGun();
+    }
+    const logData=await sbReq('GET','stok_log','','?order=id.desc&limit=300');
+    if(logData.length){slog=logData.map(l=>({tip:l.tip,ad:l.ad,miktar:l.miktar,once:l.once,sonra:l.sonra,birim:l.birim,not:l.not_||'',t:l.t}));localStorage.setItem(LK,JSON.stringify(slog));}
+    const aracData=await sbReq('GET','araclar','','?order=id');
+    if(aracData.length){araclar=aracData.map(a=>a.veri);localStorage.setItem(AK,JSON.stringify(araclar));}
+    const mzData=await sbReq('GET','mazotlar','','?order=id.desc');
+    if(mzData.length){mazotlar=mzData.map(m=>({id:m.id,tarih:m.tarih,miktar:parseFloat(m.miktar),fiyat:parseFloat(m.fiyat),toplam:parseFloat(m.toplam),not:m.not_||''}));localStorage.setItem(MZK,JSON.stringify(mazotlar));}
+    const kulData=await sbReq('GET','yakit_kullanim','','?order=id.desc');
+    if(kulData.length){kullanımlar=kulData.map(k=>({id:k.id,aracId:k.arac_id,aracAdi:k.arac_adi,tarih:k.tarih,km:parseFloat(k.km),litre:parseFloat(k.litre),not:k.not_||''}));localStorage.setItem(KULK,JSON.stringify(kullanımlar));}
+    const envData=await sbReq('GET','envanter','','?order=id');
+    if(envData.length){envanter=envData.map(e=>e.veri);localStorage.setItem(ENV_KEY,JSON.stringify(envanter));}
+    const vanaData=await sbReq('GET','vana_adalar','','?id=eq.main');
+    if(vanaData.length&&vanaData[0].veri){ADALAR=vanaData[0].veri;adalarKaydet();if(typeof gridCiz==='function')gridCiz();}
+    const pmData=await sbReq('GET','pm_kayitlar','','?order=t.desc');
+    if(typeof _pmK!=='undefined'&&pmData.length){_pmK=pmData.map(k=>({id:k.id,ada:k.ada,gorev:k.gorev,gun:parseFloat(k.gun),kisiSayi:k.kisi_sayi,ag:parseFloat(k.ag),personel:k.personel||'',saatBas:k.saat_bas||'',saatBit:k.saat_bit||'',not:k.not_||'',t:k.t}));localStorage.setItem(_PMK,JSON.stringify(_pmK));}
+    const ppData=await sbReq('GET','pm_personeller','','?order=id');
+    if(typeof _pmP!=='undefined'&&ppData.length){_pmP=ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));localStorage.setItem(_PPK,JSON.stringify(_pmP));}
+    const pgData=await sbReq('GET','pm_gorevler','','?id=eq.1');
+    if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){_pmG=pgData[0].liste;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
+    // Dashboard güncelle
+    if(typeof dbGun==='function')setTimeout(dbGun,500);
+    const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+    sbDurum('✓ Senkronize edildi '+zaman);
+  }catch(e){
+    console.warn('Sessiz sync hatası:',e.message);
+  }
+}
+
+/* Eski ghOtomatikSync stub — uyumluluk için boş bırakıldı */
+function ghOtomatikSync(){}
+
+
 </script>
 
 <script>
