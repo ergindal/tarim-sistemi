@@ -3153,14 +3153,25 @@ function aracListeGun(){
 
 /* ── YEDEK (araçlar dahil) ── */
 function yedekAl(){
-  const veri={versiyon:3,tarih:new Date().toISOString(),stok,log:slog,araclar,mazotlar,kullanim:kullanımlar,yakitBakimlar,adalar:ADALAR};
+  const veri={
+    versiyon:4,tarih:new Date().toISOString(),
+    stok,log:slog,araclar,mazotlar,
+    kullanim:kullanımlar,yakitBakimlar,adalar:ADALAR,
+    envanter:typeof envanter!=='undefined'?envanter:[],
+    pmKayitlar:typeof _pmK!=='undefined'?_pmK:[],
+    pmPersoneller:typeof _pmP!=='undefined'?_pmP:[],
+    pmGorevler:typeof _pmG!=='undefined'?_pmG:[]
+  };
   const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download=`tarim_yedek_${new Date().toLocaleDateString('tr-TR').replace(/\./g,'-')}.json`;
   a.click();URL.revokeObjectURL(a.href);
-  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün, ${araclar.length} araç`,true);ghKaydet(false);
-  toast('⬇ Yedek indirildi!');
+  const pmSay=typeof _pmK!=='undefined'?_pmK.length:0;
+  const envSay=typeof envanter!=='undefined'?envanter.length:0;
+  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
+  ghKaydet(false);
+  toast('⬇ Tam yedek indirildi!');
 }
 function yedekYukle(e){
   const f=e.target.files[0];if(!f)return;
@@ -3170,14 +3181,28 @@ function yedekYukle(e){
       const d=JSON.parse(ev.target.result);
       if(!d.stok||!Array.isArray(d.stok))throw new Error('Geçersiz yedek dosyası');
       const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
-      if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
-      stok=d.stok;slog=d.log||[];araclar=d.araclar||[];mazotlar=d.mazotlar||[];kullanımlar=d.kullanim||d.kullanımlar||[];yakitBakimlar=d.yakitBakimlar||[];if(d.adalar){ADALAR=d.adalar;adalarKaydet();}if(d.envanter)envanter=d.envanter;envKaydetLS();gridCiz();
+      const pmSay=(d.pmKayitlar||[]).length;
+      const envSay=(d.envanter||[]).length;
+      if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n👷 ${pmSay} personel kaydı\n📦 ${envSay} envanter\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
+      stok=d.stok;slog=d.log||[];
+      araclar=d.araclar||[];mazotlar=d.mazotlar||[];
+      kullanımlar=d.kullanim||d.kullanımlar||[];
+      yakitBakimlar=d.yakitBakimlar||[];
+      if(d.adalar){ADALAR=d.adalar;adalarKaydet();}
+      // Envanter
+      if(d.envanter){envanter=d.envanter;envKaydetLS();}
+      // Personel modülü
+      if(typeof _pmK!=='undefined'){
+        if(d.pmKayitlar){_pmK=d.pmKayitlar;localStorage.setItem(_PMK,JSON.stringify(_pmK));}
+        if(d.pmPersoneller){_pmP=d.pmPersoneller;localStorage.setItem(_PPK,JSON.stringify(_pmP));}
+        if(d.pmGorevler&&d.pmGorevler.length){_pmG=d.pmGorevler;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
+      }
       localStorage.setItem(SK,JSON.stringify(stok));
       localStorage.setItem(LK,JSON.stringify(slog));
-      aracKaydetLS();
-      stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
-      yedekDurum(`✓ Yüklendi — ${stok.length} ürün, ${araclar.length} araç`,true);
-      toast('⬆ Yedek yüklendi!');
+      aracKaydetLS();mzKaydetLS();
+      gridCiz();stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
+      yedekDurum(`✓ Yüklendi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
+      toast('⬆ Tam yedek yüklendi!');
     }catch(err){yedekDurum(`✕ ${err.message}`,false);toast('Geçersiz yedek!','err');}
   };
   r.readAsText(f);e.target.value='';
@@ -4403,7 +4428,10 @@ async function ghKaydet(manuel=false){
     kaydeden:aktifKullanici?.adi||'sistem',
     stok,log:slog,araclar,mazotlar,
     kullanim:kullanımlar,
-    yakitBakimlar,adalar:ADALAR,envanter
+    yakitBakimlar,adalar:ADALAR,envanter,
+    pmKayitlar:typeof _pmK!=='undefined'?_pmK:[],
+    pmPersoneller:typeof _pmP!=='undefined'?_pmP:[],
+    pmGorevler:typeof _pmG!=='undefined'?_pmG:[]
   };
   const icerik=btoa(unescape(encodeURIComponent(JSON.stringify(veri,null,2))));
   const tarihStr=new Date().toLocaleString('tr-TR');
@@ -4471,6 +4499,14 @@ async function ghYukle(){
     mazotlar=json.mazotlar||[];
     kullanımlar=json.kullanim||json.kullanımlar||[];
     yakitBakimlar=json.yakitBakimlar||[];
+    // Envanter
+    if(json.envanter){envanter=json.envanter;envKaydetLS();}
+    // Personel modülü
+    if(typeof _pmK!=='undefined'){
+      if(json.pmKayitlar){_pmK=json.pmKayitlar;localStorage.setItem(_PMK,JSON.stringify(_pmK));}
+      if(json.pmPersoneller){_pmP=json.pmPersoneller;localStorage.setItem(_PPK,JSON.stringify(_pmP));}
+      if(json.pmGorevler&&json.pmGorevler.length){_pmG=json.pmGorevler;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
+    }
     localStorage.setItem(SK,JSON.stringify(stok));
     localStorage.setItem(LK,JSON.stringify(slog));
     aracKaydetLS();mzKaydetLS();
@@ -4816,7 +4852,6 @@ yukle();
 adalarYukle();
 notifOkunanlariYukle();
 ghConfigYukle();
-pmYukle();
 loginEkraniGoster();
 if(localStorage.getItem('jb_key'))setTimeout(()=>setSyncDot('ok'),100);
 
@@ -5410,6 +5445,7 @@ function pmGunsonYazdir(){
   w.document.close();setTimeout(function(){w.print();},400);
 }
 
+pmYukle();
 </script>
 
 <script>
