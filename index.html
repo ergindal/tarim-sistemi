@@ -219,7 +219,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .uyari-ikon{font-size:16px;margin-right:6px}
 .form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;display:none;align-items:flex-end;justify-content:center;pointer-events:none}
 .form-overlay.acik{display:flex;pointer-events:all}
-.form-sheet{background:#1e293b;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.form-sheet{background:#1e293b;border-radius:20px 20px 0 0;padding:20px 18px 32px;width:100%;max-height:85vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
 .form-sheet-baslik{font-size:15px;font-weight:800;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
 .form-sheet-kapat{background:transparent;border:none;color:#64748b;font-size:22px;cursor:pointer;padding:0 4px}
 .durum-pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block}
@@ -1035,6 +1035,7 @@ create table if not exists vana_adalar(id text primary key,veri jsonb);
 create table if not exists pm_kayitlar(id bigint primary key,ada text,gorev text,gun numeric,kisi_sayi int,ag numeric,personel text,saat_bas text,saat_bit text,not_ text,t bigint);
 create table if not exists pm_personeller(id bigint primary key,ad text,uzm text);
 create table if not exists pm_gorevler(id int primary key,liste jsonb);
+create table if not exists kullaniciler(id bigint primary key,adi text,rol text,sifre text);
 
 alter table stok enable row level security;
 alter table stok_log enable row level security;
@@ -1046,6 +1047,7 @@ alter table vana_adalar enable row level security;
 alter table pm_kayitlar enable row level security;
 alter table pm_personeller enable row level security;
 alter table pm_gorevler enable row level security;
+alter table kullaniciler enable row level security;
 
 create policy "anon_all" on stok for all using(true) with check(true);
 create policy "anon_all" on stok_log for all using(true) with check(true);
@@ -1056,7 +1058,8 @@ create policy "anon_all" on envanter for all using(true) with check(true);
 create policy "anon_all" on vana_adalar for all using(true) with check(true);
 create policy "anon_all" on pm_kayitlar for all using(true) with check(true);
 create policy "anon_all" on pm_personeller for all using(true) with check(true);
-create policy "anon_all" on pm_gorevler for all using(true) with check(true);</div>
+create policy "anon_all" on pm_gorevler for all using(true) with check(true);
+create policy "anon_all" on kullaniciler for all using(true) with check(true);</div>
         <button onclick="sbSqlKopyala()" style="margin-top:8px;background:#16a34a;border:none;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">📋 SQL'i Kopyala</button>
       </div>
 
@@ -1732,6 +1735,16 @@ create policy "anon_all" on pm_gorevler for all using(true) with check(true);</d
 <script>
 /* ═══ VERİ ═══ */
 const SK='tarim_stok_v6',LK='tarim_log_v6';
+
+/* ─ Supabase globals — erken tanımla ─ */
+const SB_URL='https://qzgypemxcmulticztnvh.supabase.co';
+const SB_KEY='sb_publishable_j2Vfr-3l7-HqsE5W3woagA_B-KT1pja';
+let sbSyncTimer=null,sbHazir=false,sbSyncing=false;
+function sbSync(hint){
+  if(typeof sbHazir==='undefined'||!sbHazir)return;
+  clearTimeout(sbSyncTimer);
+  sbSyncTimer=setTimeout(()=>sbKaydet(hint),1500);
+}
 const BAZ=[
   {id:1,ad:'Zodiac',miktar:17,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
   {id:2,ad:'Quadris',miktar:7,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
@@ -3319,11 +3332,37 @@ function kullanicilariYukle(){
   }
   return users;
 }
-function kullanicilariKaydetLS(u){localStorage.setItem(UK,JSON.stringify(u));}
+async function kullanicilarSbdenYukle(){
+  if(typeof sbHazir==='undefined'||!sbHazir)return;
+  try{
+    const data=await sbReq('GET','kullaniciler','','?order=id');
+    if(data&&data.length){
+      localStorage.setItem(UK,JSON.stringify(data));
+      // Login ekranı açıksa listeyi güncelle
+      const list=document.getElementById('login-ku-list');
+      if(list&&document.getElementById('login-overlay').style.display!=='none')_loginListeGoster();
+    }
+  }catch(e){console.warn('Kullanıcı yükleme hatası:',e.message);}
+}
+function kullanicilariKaydetLS(u){
+  localStorage.setItem(UK,JSON.stringify(u));
+  if(typeof sbHazir!=='undefined'&&sbHazir){
+    const rows=u.map(x=>({id:x.id,adi:x.adi,rol:x.rol,sifre:x.sifre||''}));
+    sbReq('POST','kullaniciler',rows).catch(e=>console.warn('Kullanıcı sync hatası:',e.message));
+  }
+}
 
 function loginEkraniGoster(){
   const ov=document.getElementById('login-overlay');
   if(ov){ov.style.display='flex';ov.style.pointerEvents='all';}
+  // Supabase bağlıysa kullanıcıları oradan yükle, sonra göster
+  if(typeof sbHazir!=='undefined'&&sbHazir){
+    kullanicilarSbdenYukle().finally(()=>_loginListeGoster());
+  } else {
+    _loginListeGoster();
+  }
+}
+function _loginListeGoster(){
   const users=kullanicilariYukle();
   const list=document.getElementById('login-ku-list');
   if(!list)return;
@@ -5517,11 +5556,7 @@ pmYukle();
    SUPABASE ENTEGRASYONU
    URL: https://qzgypemxcmulticztnvh.supabase.co
 ════════════════════════════════════════════════════════ */
-const SB_URL = 'https://qzgypemxcmulticztnvh.supabase.co';
-const SB_KEY = 'sb_publishable_j2Vfr-3l7-HqsE5W3woagA_B-KT1pja';
-let sbSyncTimer = null;
-let sbHazir = false;
-let sbSyncing = false;
+/* SB globals yukarıda tanımlandı */
 
 /* ─ REST yardımcısı ─ */
 async function sbReq(method, table, body=null, query=''){
@@ -5642,6 +5677,11 @@ async function sbTumunuYukle(){
     if(typeof _pmG!=='undefined'){
       await sbReq('POST','pm_gorevler',[{id:1,liste:_pmG}]);
     }
+    // Kullanıcılar
+    const users=kullanicilariYukle();
+    if(users.length){
+      await sbReq('POST','kullaniciler',users.map(u=>({id:u.id,adi:u.adi,rol:u.rol,sifre:u.sifre||''})));
+    }
     sbDurum('✓ Tüm veriler Supabase\'e yüklendi');
     toast('✓ Supabase senkronizasyonu tamamlandı!');
   }catch(e){
@@ -5715,12 +5755,7 @@ async function sbdenYukle(){
   }
 }
 
-/* ─ Debounce sync ─ */
-function sbSync(kaynakHint){
-  if(!sbHazir) return;
-  clearTimeout(sbSyncTimer);
-  sbSyncTimer = setTimeout(()=>sbKaydet(kaynakHint), 1500);
-}
+/* sbSync yukarıda tanımlandı */
 
 /* ─ Ana sync fonksiyonu (değişen veriyi gönder) ─ */
 async function sbKaydet(hint='all'){
@@ -5851,6 +5886,8 @@ async function _sbSessizYukle(){
     if(typeof _pmP!=='undefined'&&ppData.length){_pmP=ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));localStorage.setItem(_PPK,JSON.stringify(_pmP));}
     const pgData=await sbReq('GET','pm_gorevler','','?id=eq.1');
     if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){_pmG=pgData[0].liste;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
+    // Kullanıcılar
+    await kullanicilarSbdenYukle();
     // Dashboard güncelle
     if(typeof dbGun==='function')setTimeout(dbGun,500);
     const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
@@ -5861,7 +5898,7 @@ async function _sbSessizYukle(){
 }
 
 /* Eski ghOtomatikSync stub — uyumluluk için boş bırakıldı */
-function ghOtomatikSync(){}
+function ghOtomatikSync(){if(typeof sbSync==="function")sbSync("all");}
 
 
 </script>
