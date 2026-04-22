@@ -47,6 +47,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;min-height:0;position:relative}
 .page{display:none;padding:14px 14px 80px}
+.page.active{display:block;position:relative;top:0}
 .page.active{display:block}
 
 /* ── ALT NAVİGASYON ── */
@@ -1809,7 +1810,10 @@ function sayfaGit(id){
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');
   document.getElementById('bnav-'+id).classList.add('active');
-  document.querySelector('.content').scrollTop=0;
+  // content içindeki sayfalar için scrollTop, dışındakiler için window.scrollTo
+  try{document.querySelector('.content').scrollTop=0;}catch(e){}
+  window.scrollTo(0,0);
+  document.body.scrollTop=0;
   if(id==='liste')stokListeGun();
   if(id==='sonuc'&&sonHesap)sonucGoster();
   if(id==='ayar')ayarSayfasiGun();
@@ -1820,41 +1824,7 @@ function sayfaGit(id){
 }
 
 /* ═══ YEDEKLEME ═══ */
-function yedekAl(){
-  const veri={versiyon:2,tarih:new Date().toISOString(),stok,log:slog};
-  const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  const d=new Date().toLocaleDateString('tr-TR').replace(/\./g,'-');
-  a.download=`tarim_yedek_${d}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün, ${slog.length} işlem kaydı`,true);
-  toast('⬇ Yedek indirildi!');
-}
-
-function yedekYukle(e){
-  const f=e.target.files[0]; if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{
-    try{
-      const d=JSON.parse(ev.target.result);
-      if(!d.stok||!Array.isArray(d.stok))throw new Error('Geçersiz yedek dosyası');
-      const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
-      if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n📋 ${(d.log||[]).length} işlem kaydı\n🕑 Tarih: ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
-      stok=d.stok;
-      slog=d.log||[];
-      kaydet();stokStatsGun();stokDlGun();receteSelectGun();
-      yedekDurum(`✓ Yedek yüklendi — ${stok.length} ürün, ${slog.length} kayıt aktarıldı`,true);
-      toast('⬆ Yedek yüklendi!');
-    }catch(err){
-      yedekDurum(`✕ Hata: ${err.message}`,false);
-      toast('Geçersiz yedek dosyası!','err');
-    }
-  };
-  r.readAsText(f);
-  e.target.value='';
-}
+/* eski yedekAl/yedekYukle kaldırıldı — v4 aşağıda */
 
 function yedekDurum(msg,ok){
   const el=document.getElementById('yedek-durum');
@@ -3239,7 +3209,8 @@ function yedekAl(){
     envanter:typeof envanter!=='undefined'?envanter:[],
     pmKayitlar:typeof _pmK!=='undefined'?_pmK:[],
     pmPersoneller:typeof _pmP!=='undefined'?_pmP:[],
-    pmGorevler:typeof _pmG!=='undefined'?_pmG:[]
+    pmGorevler:typeof _pmG!=='undefined'?_pmG:[],
+    kullaniciler:(()=>{try{return JSON.parse(localStorage.getItem('erturan_users_v1'))||[];}catch{return [];}})()
   };
   const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
   const a=document.createElement('a');
@@ -3249,7 +3220,7 @@ function yedekAl(){
   const pmSay=typeof _pmK!=='undefined'?_pmK.length:0;
   const envSay=typeof envanter!=='undefined'?envanter.length:0;
   yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
-  ghKaydet(false);
+  if(typeof sbSync==='function')sbSync('all');
   toast('⬇ Tam yedek indirildi!');
 }
 function yedekYukle(e){
@@ -3280,6 +3251,13 @@ function yedekYukle(e){
       localStorage.setItem(LK,JSON.stringify(slog));
       aracKaydetLS();mzKaydetLS();
       gridCiz();stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
+      // Supabase sync
+      if(typeof sbSync==='function')sbSync('all');
+      // Kullanıcılar yedekte varsa yükle
+      if(d.kullaniciler&&Array.isArray(d.kullaniciler)&&d.kullaniciler.length){
+        localStorage.setItem('erturan_users_v1',JSON.stringify(d.kullaniciler));
+        if(typeof kullanicilariKaydetLS==='function')kullanicilariKaydetLS(d.kullaniciler);
+      }
       yedekDurum(`✓ Yüklendi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
       toast('⬆ Tam yedek yüklendi!');
     }catch(err){yedekDurum(`✕ ${err.message}`,false);toast('Geçersiz yedek!','err');}
@@ -3687,11 +3665,11 @@ function mzRenderMazot(){
       <div class="yk-body">
         <div class="yk-cell">
           <div class="yk-cell-lbl">📦 Bidon</div>
-          <div class="yk-cell-val">${m.bidon} × ${parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})} L</div>
+          <div class="yk-cell-val">${m.bidon&&m.hacim?m.bidon+' × '+parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})+' L':m.miktar?m.miktar+' L alındı':'—'}</div>
         </div>
         <div class="yk-cell">
           <div class="yk-cell-lbl">⛽ Toplam Litre</div>
-          <div class="yk-cell-val fuel">${parseFloat(m.toplam).toLocaleString('tr-TR',{maximumFractionDigits:1})} L</div>
+          <div class="yk-cell-val fuel">${parseFloat(m.toplam||m.miktar||0).toLocaleString('tr-TR',{maximumFractionDigits:1})} L</div>
         </div>
         <div class="yk-cell">
           <div class="yk-cell-lbl">💰 Birim Fiyat</div>
@@ -5138,7 +5116,7 @@ function pmSayfaGun(){
   if(_pmTab==='kayitlar')pmKayitListeGun();
   else if(_pmTab==='personel')_pmPListe();
   else if(_pmTab==='analiz')_pmAnalizGun();
-  else if(_pmTab==='gunson'){var e=document.getElementById('pm-gs-tarih');if(e&&!e.value)e.value=new Date().toISOString().split('T')[0];}
+  else if(_pmTab==='gunson'){var e=document.getElementById('pm-gs-tarih');if(e&&!e.value){var dn=new Date();e.value=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');}}
 }
 
 function pmTabSec(tab,btn){
@@ -5150,7 +5128,7 @@ function pmTabSec(tab,btn){
   if(tab==='kayitlar')pmKayitListeGun();
   else if(tab==='personel')_pmPListe();
   else if(tab==='analiz')_pmAnalizGun();
-  else if(tab==='gunson'){var e=document.getElementById('pm-gs-tarih');if(e&&!e.value)e.value=new Date().toISOString().split('T')[0];}
+  else if(tab==='gunson'){var e=document.getElementById('pm-gs-tarih');if(e&&!e.value){var dn=new Date();e.value=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');}}
 }
 
 function _pmGSel(){
@@ -5476,8 +5454,11 @@ function _pmAnalizGun(){
 
 function pmGunsonOlustur(){
   var tarih=document.getElementById('pm-gs-tarih').value;
-  if(!tarih)return toast('Tarih se\xe7iniz!','err');
-  var t0=new Date(tarih).getTime(),t1=t0+86400000;
+  if(!tarih)return toast('Tarih seçiniz!','err');
+  // iOS UTC farkı düzeltmesi: tarih string'i doğrudan parse et
+  var parts=tarih.split('-');
+  var t0=new Date(parseInt(parts[0]),parseInt(parts[1])-1,parseInt(parts[2]),0,0,0,0).getTime();
+  var t1=t0+86400000;
   var liste=[];for(var i=0;i<_pmK.length;i++){if(_pmK[i].t>=t0&&_pmK[i].t<t1)liste.push(_pmK[i]);}
   var tarihStr=new Date(tarih).toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   var el=document.getElementById('pm-gs-icerik');
