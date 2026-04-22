@@ -47,7 +47,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
   overscroll-behavior:contain;min-height:0;position:relative}
 .page{display:none;padding:14px 14px 80px}
-.page.active{display:block;position:relative;top:0}
 .page.active{display:block}
 
 /* ── ALT NAVİGASYON ── */
@@ -1119,38 +1118,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
     </div>
   </div>
 
-</div><!-- /content -->
-
-<!-- ALT NAVİGASYON -->
-<nav class="bottom-nav">
-  <button class="bnav-btn" id="bnav-dash" onclick="sayfaGit('dash')">
-    <span class="bico">🏠</span><span class="blbl">Özet</span>
-  </button>
-  <button class="bnav-btn" id="bnav-stok" onclick="sayfaGit('stok')">
-    <span class="bico">＋</span><span class="blbl">Stok Giriş</span>
-  </button>
-  <button class="bnav-btn" id="bnav-liste" onclick="sayfaGit('liste')">
-    <span class="bico">📋</span><span class="blbl">Stok Liste</span>
-  </button>
-  <button class="bnav-btn" id="bnav-recete" onclick="sayfaGit('recete')">
-    <span class="bico">🌿</span><span class="blbl">Reçete</span>
-  </button>
-  <button class="bnav-btn" id="bnav-sonuc" onclick="sayfaGit('sonuc')">
-    <span class="bico">📊</span><span class="blbl">Sonuç</span>
-  </button>
-  <button class="bnav-btn" id="bnav-arac" onclick="sayfaGit('arac')">
-    <span class="bico">🚗</span><span class="blbl">Araçlar</span>
-  </button>
-  <button class="bnav-btn" id="bnav-envanter" onclick="sayfaGit('envanter')">
-    <span class="bico">📦</span><span class="blbl">Envanter</span>
-  </button>
-  <button class="bnav-btn" id="bnav-personel" onclick="sayfaGit('personel')">
-    <span class="bico">👷</span><span class="blbl">Personel</span>
-  </button>
-  <button class="bnav-btn" id="bnav-ayar" onclick="sayfaGit('ayar')">
-    <span class="bico">⚙️</span><span class="blbl">Ayarlar</span>
-  </button>
-</nav>
 
 <!-- ════ PERSONEL SAYFASI ════ -->
 <div class="page" id="pg-personel">
@@ -1730,6 +1697,39 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
   </div>
 </div>
 
+</div><!-- /content -->
+
+<!-- ALT NAVİGASYON -->
+<nav class="bottom-nav">
+  <button class="bnav-btn" id="bnav-dash" onclick="sayfaGit('dash')">
+    <span class="bico">🏠</span><span class="blbl">Özet</span>
+  </button>
+  <button class="bnav-btn" id="bnav-stok" onclick="sayfaGit('stok')">
+    <span class="bico">＋</span><span class="blbl">Stok Giriş</span>
+  </button>
+  <button class="bnav-btn" id="bnav-liste" onclick="sayfaGit('liste')">
+    <span class="bico">📋</span><span class="blbl">Stok Liste</span>
+  </button>
+  <button class="bnav-btn" id="bnav-recete" onclick="sayfaGit('recete')">
+    <span class="bico">🌿</span><span class="blbl">Reçete</span>
+  </button>
+  <button class="bnav-btn" id="bnav-sonuc" onclick="sayfaGit('sonuc')">
+    <span class="bico">📊</span><span class="blbl">Sonuç</span>
+  </button>
+  <button class="bnav-btn" id="bnav-arac" onclick="sayfaGit('arac')">
+    <span class="bico">🚗</span><span class="blbl">Araçlar</span>
+  </button>
+  <button class="bnav-btn" id="bnav-envanter" onclick="sayfaGit('envanter')">
+    <span class="bico">📦</span><span class="blbl">Envanter</span>
+  </button>
+  <button class="bnav-btn" id="bnav-personel" onclick="sayfaGit('personel')">
+    <span class="bico">👷</span><span class="blbl">Personel</span>
+  </button>
+  <button class="bnav-btn" id="bnav-ayar" onclick="sayfaGit('ayar')">
+    <span class="bico">⚙️</span><span class="blbl">Ayarlar</span>
+  </button>
+</nav>
+
 <div class="toast" id="tst"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -1810,10 +1810,8 @@ function sayfaGit(id){
   document.querySelectorAll('.bnav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('pg-'+id).classList.add('active');
   document.getElementById('bnav-'+id).classList.add('active');
-  // content içindeki sayfalar için scrollTop, dışındakiler için window.scrollTo
-  try{document.querySelector('.content').scrollTop=0;}catch(e){}
-  window.scrollTo(0,0);
-  document.body.scrollTop=0;
+  const c=document.querySelector('.content');
+  if(c)c.scrollTop=0;
   if(id==='liste')stokListeGun();
   if(id==='sonuc'&&sonHesap)sonucGoster();
   if(id==='ayar')ayarSayfasiGun();
