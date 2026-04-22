@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-21T19:42:21.341Z",
+  "tarih": "2026-04-22T18:53:42.598Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -132,7 +132,7 @@
     {
       "id": 1774711345264,
       "ad": "Can % 26 Gübre",
-      "miktar": 24,
+      "miktar": 21,
       "ambalaj": "Çuval",
       "icerik": 50,
       "icBirim": "kg",
@@ -186,7 +186,7 @@
     {
       "id": 1774798780355,
       "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 32,
+      "miktar": 27,
       "ambalaj": "Çuval",
       "icerik": 25,
       "icBirim": "kg",
@@ -257,6 +257,26 @@
     }
   ],
   "log": [
+    {
+      "tip": "dus",
+      "ad": "CNPalmira Kalsiyum Nitrat",
+      "miktar": 5,
+      "once": 32,
+      "sonra": 27,
+      "birim": "Çuval (105.075 gr)",
+      "not": "Reçete: Gübreleme",
+      "t": "22.04.2026 18:55"
+    },
+    {
+      "tip": "dus",
+      "ad": "Can % 26 Gübre",
+      "miktar": 3,
+      "once": 24,
+      "sonra": 21,
+      "birim": "Çuval (140.100 gr)",
+      "not": "Reçete: Gübreleme",
+      "t": "22.04.2026 18:55"
+    },
     {
       "tip": "ekle",
       "ad": "CNPalmira Kalsiyum Nitrat",
@@ -3236,26 +3256,6 @@
       "birim": "Çuval",
       "not": "Düzeltme",
       "t": "13.04.2026 03:16"
-    },
-    {
-      "tip": "duz",
-      "ad": "CNPalmira Kalsiyum Nitrat",
-      "miktar": 15,
-      "once": 22,
-      "sonra": 7,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:15"
-    },
-    {
-      "tip": "duz",
-      "ad": "DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi",
-      "miktar": 12,
-      "once": 17,
-      "sonra": 5,
-      "birim": "Çuval",
-      "not": "Düzeltme",
-      "t": "13.04.2026 03:15"
     }
   ],
   "araclar": [
@@ -3939,6 +3939,84 @@
   ],
   "pmKayitlar": [
     {
+      "id": 1776840418978,
+      "ada": "ADA1",
+      "gorev": "Gübreleme",
+      "gun": 0.5,
+      "kisiSayi": 3,
+      "ag": 1.5,
+      "personel": "oğuz, ergin, Burhan BEY",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "Dip Gübresi",
+      "t": 1776816000000
+    },
+    {
+      "id": 1776800926254,
+      "ada": "ADA1",
+      "gorev": "İlaçlama",
+      "gun": 0.5,
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "Ümit, sancar, ahmet, Azamet",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "ilaçlama",
+      "t": 1776729600000
+    },
+    {
+      "id": 1776801078861,
+      "ada": "GENEL",
+      "gorev": "Çeşitli",
+      "gun": 0.5,
+      "kisiSayi": 2,
+      "ag": 1,
+      "personel": "abdullah, Burhan BEY",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "",
+      "t": 1776729600000
+    },
+    {
+      "id": 1776801037942,
+      "ada": "ADA1",
+      "gorev": "İlaçlama",
+      "gun": 0.5,
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "Ümit, sancar, ahmet, Azamet",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "",
+      "t": 1776729600000
+    },
+    {
+      "id": 1776801003917,
+      "ada": "ADA3",
+      "gorev": "İlaçlama",
+      "gun": 0.5,
+      "kisiSayi": 2,
+      "ag": 1,
+      "personel": "oğuz, ergin",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "",
+      "t": 1776729600000
+    },
+    {
+      "id": 1776800961510,
+      "ada": "ADA1",
+      "gorev": "İlaçlama",
+      "gun": 0.25,
+      "kisiSayi": 4,
+      "ag": 1,
+      "personel": "oğuz, ergin, abdullah, Burhan BEY",
+      "saatBas": "10:00",
+      "saatBit": "12:00",
+      "not": "",
+      "t": 1776729600000
+    },
+    {
       "id": 1776703400991,
       "ada": "GENEL",
       "gorev": "Çeşitli",
@@ -3949,19 +4027,6 @@
       "saatBas": "13:00",
       "saatBit": "17:00",
       "not": "2 TONLUK DEPOYU TAMİRİ",
-      "t": 1776643200000
-    },
-    {
-      "id": 1776703342175,
-      "ada": "ADA1",
-      "gorev": "Elle Çapalama",
-      "gun": 0.5,
-      "kisiSayi": 4,
-      "ag": 2,
-      "personel": "Ümit, ahmet, abdullah, Azamet",
-      "saatBas": "13:00",
-      "saatBit": "17:00",
-      "not": "Çapa",
       "t": 1776643200000
     },
     {
@@ -4004,6 +4069,19 @@
       "t": 1776643200000
     },
     {
+      "id": 1776703342175,
+      "ada": "ADA1",
+      "gorev": "Elle Çapalama",
+      "gun": 0.5,
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "Ümit, ahmet, abdullah, Azamet",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "Çapa",
+      "t": 1776643200000
+    },
+    {
       "id": 1776617787360,
       "ada": "GENEL",
       "gorev": "Sulama Bakım",
@@ -4014,19 +4092,6 @@
       "saatBas": "13:00",
       "saatBit": "17:00",
       "not": "SULAMA SİSİTEMİ GÖBRELEME SONRASI GENEL KONTROL",
-      "t": 1776470400000
-    },
-    {
-      "id": 1776617676984,
-      "ada": "ADA1",
-      "gorev": "Traktör İle Çapa",
-      "gun": 0.5,
-      "kisiSayi": 1,
-      "ag": 0.5,
-      "personel": "sancar",
-      "saatBas": "13:00",
-      "saatBit": "17:00",
-      "not": "Çapa",
       "t": 1776470400000
     },
     {
@@ -4077,6 +4142,19 @@
       "ag": 4,
       "personel": "Eğrar, Ümit, ahmet, Azamet",
       "saatBas": "08:00",
+      "saatBit": "17:00",
+      "not": "Çapa",
+      "t": 1776470400000
+    },
+    {
+      "id": 1776617676984,
+      "ada": "ADA1",
+      "gorev": "Traktör İle Çapa",
+      "gun": 0.5,
+      "kisiSayi": 1,
+      "ag": 0.5,
+      "personel": "sancar",
+      "saatBas": "13:00",
       "saatBit": "17:00",
       "not": "Çapa",
       "t": 1776470400000
