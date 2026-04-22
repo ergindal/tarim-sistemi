@@ -1,6 +1,6 @@
 {
   "versiyon": 3,
-  "tarih": "2026-04-22T18:53:42.598Z",
+  "tarih": "2026-04-22T19:02:42.067Z",
   "kaydeden": "Admin",
   "stok": [
     {
@@ -264,16 +264,6 @@
       "once": 32,
       "sonra": 27,
       "birim": "Çuval (105.075 gr)",
-      "not": "Reçete: Gübreleme",
-      "t": "22.04.2026 18:55"
-    },
-    {
-      "tip": "dus",
-      "ad": "Can % 26 Gübre",
-      "miktar": 3,
-      "once": 24,
-      "sonra": 21,
-      "birim": "Çuval (140.100 gr)",
       "not": "Reçete: Gübreleme",
       "t": "22.04.2026 18:55"
     },
@@ -3256,6 +3246,16 @@
       "birim": "Çuval",
       "not": "Düzeltme",
       "t": "13.04.2026 03:16"
+    },
+    {
+      "tip": "duz",
+      "ad": "CNPalmira Kalsiyum Nitrat",
+      "miktar": 15,
+      "once": 22,
+      "sonra": 7,
+      "birim": "Çuval",
+      "not": "Düzeltme",
+      "t": "13.04.2026 03:15"
     }
   ],
   "araclar": [
@@ -3939,6 +3939,19 @@
   ],
   "pmKayitlar": [
     {
+      "id": 1776884240213,
+      "ada": "ADA1",
+      "gorev": "Gübreleme",
+      "gun": 0.5,
+      "kisiSayi": 3,
+      "ag": 1.5,
+      "personel": "oğuz, ergin, Burhan BEY",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "Dip Gübresi",
+      "t": 1776816000000
+    },
+    {
       "id": 1776840418978,
       "ada": "ADA1",
       "gorev": "Gübreleme",
@@ -3952,16 +3965,55 @@
       "t": 1776816000000
     },
     {
-      "id": 1776800926254,
+      "id": 1776884128157,
+      "ada": "ADA1",
+      "gorev": "Gübreleme",
+      "gun": 0.5,
+      "kisiSayi": 3,
+      "ag": 1.5,
+      "personel": "oğuz, ergin, Burhan BEY",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "dip gübresi",
+      "t": 1776816000000
+    },
+    {
+      "id": 1776884161373,
+      "ada": "ADA1",
+      "gorev": "Elle Çapalama",
+      "gun": 0.5,
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "sancar, ahmet, abdullah, Azamet",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "",
+      "t": 1776816000000
+    },
+    {
+      "id": 1776884199140,
+      "ada": "ADA1",
+      "gorev": "Elle Çapalama",
+      "gun": 0.5,
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "sancar, ahmet, abdullah, Azamet",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "",
+      "t": 1776816000000
+    },
+    {
+      "id": 1776801037942,
       "ada": "ADA1",
       "gorev": "İlaçlama",
       "gun": 0.5,
       "kisiSayi": 4,
       "ag": 2,
       "personel": "Ümit, sancar, ahmet, Azamet",
-      "saatBas": "08:00",
-      "saatBit": "12:00",
-      "not": "ilaçlama",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "",
       "t": 1776729600000
     },
     {
@@ -3972,19 +4024,6 @@
       "kisiSayi": 2,
       "ag": 1,
       "personel": "abdullah, Burhan BEY",
-      "saatBas": "13:00",
-      "saatBit": "17:00",
-      "not": "",
-      "t": 1776729600000
-    },
-    {
-      "id": 1776801037942,
-      "ada": "ADA1",
-      "gorev": "İlaçlama",
-      "gun": 0.5,
-      "kisiSayi": 4,
-      "ag": 2,
-      "personel": "Ümit, sancar, ahmet, Azamet",
       "saatBas": "13:00",
       "saatBit": "17:00",
       "not": "",
@@ -4017,42 +4056,29 @@
       "t": 1776729600000
     },
     {
-      "id": 1776703400991,
-      "ada": "GENEL",
-      "gorev": "Çeşitli",
-      "gun": 0.5,
-      "kisiSayi": 2,
-      "ag": 1,
-      "personel": "oğuz, Burhan BEY",
-      "saatBas": "13:00",
-      "saatBit": "17:00",
-      "not": "2 TONLUK DEPOYU TAMİRİ",
-      "t": 1776643200000
-    },
-    {
-      "id": 1776703305247,
-      "ada": "ADA3",
+      "id": 1776800926254,
+      "ada": "ADA1",
       "gorev": "İlaçlama",
       "gun": 0.5,
-      "kisiSayi": 2,
-      "ag": 1,
-      "personel": "ergin, sancar",
-      "saatBas": "13:00",
-      "saatBit": "17:00",
-      "not": "Yaprak Gübresi",
-      "t": 1776643200000
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "Ümit, sancar, ahmet, Azamet",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "ilaçlama",
+      "t": 1776729600000
     },
     {
-      "id": 1776702483135,
+      "id": 1776703342175,
       "ada": "ADA1",
       "gorev": "Elle Çapalama",
       "gun": 0.5,
-      "kisiSayi": 3,
-      "ag": 1.5,
-      "personel": "Ümit, ahmet, Azamet",
-      "saatBas": "08:00",
-      "saatBit": "12:00",
-      "not": "el ile Çapa",
+      "kisiSayi": 4,
+      "ag": 2,
+      "personel": "Ümit, ahmet, abdullah, Azamet",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "Çapa",
       "t": 1776643200000
     },
     {
@@ -4069,16 +4095,42 @@
       "t": 1776643200000
     },
     {
-      "id": 1776703342175,
+      "id": 1776703400991,
+      "ada": "GENEL",
+      "gorev": "Çeşitli",
+      "gun": 0.5,
+      "kisiSayi": 2,
+      "ag": 1,
+      "personel": "oğuz, Burhan BEY",
+      "saatBas": "13:00",
+      "saatBit": "17:00",
+      "not": "2 TONLUK DEPOYU TAMİRİ",
+      "t": 1776643200000
+    },
+    {
+      "id": 1776702483135,
       "ada": "ADA1",
       "gorev": "Elle Çapalama",
       "gun": 0.5,
-      "kisiSayi": 4,
-      "ag": 2,
-      "personel": "Ümit, ahmet, abdullah, Azamet",
+      "kisiSayi": 3,
+      "ag": 1.5,
+      "personel": "Ümit, ahmet, Azamet",
+      "saatBas": "08:00",
+      "saatBit": "12:00",
+      "not": "el ile Çapa",
+      "t": 1776643200000
+    },
+    {
+      "id": 1776703305247,
+      "ada": "ADA3",
+      "gorev": "İlaçlama",
+      "gun": 0.5,
+      "kisiSayi": 2,
+      "ag": 1,
+      "personel": "ergin, sancar",
       "saatBas": "13:00",
       "saatBit": "17:00",
-      "not": "Çapa",
+      "not": "Yaprak Gübresi",
       "t": 1776643200000
     },
     {
