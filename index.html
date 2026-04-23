@@ -1514,7 +1514,7 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
           <input id="kul-bidon" class="inp" type="number" min="1" step="1" placeholder="3" inputmode="numeric" oninput="kulBidonHesapla()">
         </div>
         <div class="field" style="margin-bottom:0">
-          <label>Bidon Hacmi (L)</label>
+          <label>Bidon Hacmi (L) <span id="kul-hacim-hint" style="font-size:10px;color:#f59e0b;font-weight:600"></span></label>
           <input id="kul-hacim" class="inp" type="number" min="1" step="any" placeholder="200" inputmode="decimal" oninput="kulBidonHesapla()">
         </div>
       </div>
@@ -3710,13 +3710,14 @@ function kulBidonHesapla(){
   document.getElementById('kul-litre').value=litre;
   const goster=document.getElementById('kul-litre-goster');
   if(b>0&&h>0){
-    goster.textContent=litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
-    goster.style.color='#f59e0b';
-    // Stok kontrolü
     const stok=getMzStok();
+    const kalan=+(stok-litre).toFixed(1);
     if(litre>stok){
       goster.textContent=litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L ⚠ Yetersiz!';
       goster.style.color='#f87171';
+    }else{
+      goster.textContent=litre.toLocaleString('tr-TR',{maximumFractionDigits:1})+' L  →  Kalan: '+kalan.toLocaleString('tr-TR')+' L';
+      goster.style.color='#f59e0b';
     }
   }else{
     goster.textContent='— L';
@@ -3740,6 +3741,21 @@ function kullanımFormAc(){
   document.getElementById('kul-litre-goster').textContent='— L';
   document.getElementById('kul-litre-goster').style.color='#f59e0b';
   document.getElementById('kul-form-stok').textContent=getMzStok().toLocaleString('tr-TR',{maximumFractionDigits:1})+' L';
+
+  // Son mazot alımından bidon hacmini otomatik doldur
+  if(mazotlar.length){
+    const sonAl=[...mazotlar].sort((a,b)=>(b.id||0)-(a.id||0))[0];
+    if(sonAl&&sonAl.hacim){
+      const hacimEl=document.getElementById('kul-hacim');
+      if(hacimEl){
+        hacimEl.value=sonAl.hacim;
+        // Hint göster
+        const hint=document.getElementById('kul-hacim-hint');
+        if(hint)hint.textContent='Son alımdan: '+sonAl.hacim+' L/bidon';
+      }
+    }
+  }
+
   kulSelectGun();
   formAc('kullanim-form-overlay');
 }
