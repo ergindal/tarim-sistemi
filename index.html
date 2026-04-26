@@ -294,7 +294,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .pwa-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:13px;color:#94a3b8;line-height:1.6}
 .pwa-step-no{width:22px;height:22px;border-radius:50%;background:#2563eb;color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 
-
 /* ── MAZOT/YAKIT MODÜLÜ ── */
 .arac-page-tabs{display:flex;gap:4px;background:#0f172a;border-radius:12px;padding:4px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .arac-page-tabs::-webkit-scrollbar{display:none}
@@ -347,7 +346,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .dai-plaka{font-size:13px;font-weight:700}
 .dai-litre{font-size:14px;font-weight:800;color:#f59e0b}
 
-
 /* ════════════ AKILLI UYARI SİSTEMİ ════════════ */
 .notif-btn{position:relative;background:transparent;border:none;cursor:pointer;padding:6px;border-radius:10px;transition:background .2s;flex-shrink:0}
 .notif-btn:active{background:#1e293b}
@@ -392,7 +390,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .notif-footer{padding:12px;border-top:1px solid #334155;flex-shrink:0}
 .notif-tumu-temizle{width:100%;padding:10px;background:transparent;border:1px solid #334155;border-radius:10px;color:#64748b;font-size:13px;font-weight:700;cursor:pointer}
 
-
 /* ── GITHUB SYNC ── */
 .gh-durum-bar{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;background:#0f172a;border:1px solid #334155;margin-top:12px}
 .gh-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;transition:background .3s}
@@ -406,7 +403,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .gh-adim:last-child{border:none}
 .gh-adim-no{width:22px;height:22px;border-radius:50%;background:#1e3a5f;color:#93c5fd;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .gh-adim code{background:#0f172a;color:#4ade80;padding:1px 6px;border-radius:4px;font-size:12px;font-family:monospace}
-
 
 /* ── VANA DÜZENLEME ── */
 .vana-card{position:relative}
@@ -424,7 +420,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .vana-satir-agac{flex:1;color:#4ade80;font-weight:700}
 .vana-satir-sira{color:#64748b;font-size:12px;width:55px;text-align:right;flex-shrink:0}
 .vana-satir-edit{background:#1e3a5f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0}
-
 
 /* ════════ ENVANTER MODÜLÜ ════════ */
 .env-filtre-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -464,7 +459,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .kat-sulama{background:#0c2e2e;color:#34d399}
 .kat-depo{background:#2d1b69;color:#c4b5fd}
 .kat-diger{background:#1e293b;color:#94a3b8}
-
 
 /* ════════ MASAÜSTÜ MODU ════════ */
 @media (min-width: 768px) {
@@ -544,7 +538,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 </style>
 </head>
 <body>
-
 
 <!-- ════ BİLDİRİM PANELİ ════ -->
 <div class="notif-panel" id="notif-panel">
@@ -742,13 +735,28 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
   <!-- ══ SAYFA: STOK LİSTE ══ -->
   <div class="page" id="pg-liste">
-    <input class="search-inp" id="stok-ara" placeholder="🔍  Ürün ara..." oninput="stokListeGun()">
+    <div style="display:flex;gap:8px;margin-bottom:10px;align-items:center">
+      <input class="search-inp" id="stok-ara" placeholder="🔍  Ürün ara..." oninput="stokListeGun()" style="flex:1;margin-bottom:0">
+      <button onclick="stokListeYazdir()" style="background:#1e293b;border:1.5px solid #334155;color:#94a3b8;padding:10px 13px;border-radius:10px;font-size:13px;cursor:pointer;flex-shrink:0;white-space:nowrap">🖨 Yazdır</button>
+    </div>
     <div id="stok-liste-body"></div>
     <button class="btn btn-ghost" style="margin-top:8px" onclick="excelIndir()">⬇ Excel İndir</button>
   </div>
 
   <!-- ══ SAYFA: REÇETE ══ -->
   <div class="page" id="pg-recete">
+
+    <!-- Şablon Bar -->
+    <div style="background:#0f172a;border-radius:12px;padding:10px 12px;margin-bottom:10px;border:1px solid #334155">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase">📋 Şablonlar</div>
+        <button onclick="sablonKaydet()" style="background:#0c1f3f;border:1.5px solid #2563eb;color:#93c5fd;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer">＋ Şablon Kaydet</button>
+      </div>
+      <div id="sablon-listesi" style="display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+        <div style="font-size:11px;color:#475569;white-space:nowrap;padding:6px 0">Henüz şablon yok — reçete hazırlayıp kaydedin.</div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="ctit">🗓 Uygulama Bilgileri</div>
       <div class="g2">
@@ -845,8 +853,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     </div>
   </div>
 
-
-  <!-- ══ SAYFA: ENVANTER ══ -->
+<!-- ══ SAYFA: ENVANTER ══ -->
   <div class="page" id="pg-envanter">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div>
@@ -869,8 +876,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   <!-- ══ SAYFA: AYARLAR & YEDEK ══ -->
   <div class="page" id="pg-ayar">
 
-
-    <div class="card" id="ku-yonetim-card" style="display:none">
+<div class="card" id="ku-yonetim-card" style="display:none">
       <div class="ctit">👥 Kullanıcı Yönetimi</div>
       <p style="font-size:13px;color:#64748b;margin-bottom:14px">Kullanıcı ekle, sil ve rol belirle.</p>
       <button class="btn btn-blue" onclick="formAc('kullanici-modal');kuListeGun()">👥 Kullanıcıları Yönet</button>
@@ -899,8 +905,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <button class="btn btn-ghost" onclick="cikisYap()">🚪 Çıkış Yap</button>
     </div>
 
-
-    <!-- VANA & AĞAÇ YÖNETİMİ -->
+<!-- VANA & AĞAÇ YÖNETİMİ -->
     <div class="card" id="vana-yonetim-card">
       <div class="ctit">🌿 Vana & Ağaç Yönetimi</div>
       <div style="font-size:13px;color:#64748b;margin-bottom:12px;line-height:1.6">
@@ -909,6 +914,19 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </div>
       <div id="vana-yonetim-liste"></div>
       <button class="btn btn-ghost" style="margin-top:8px;font-size:12px" onclick="adalarSifirla()">↩ Fabrika Ayarlarına Dön</button>
+    </div>
+
+    <!-- BÖLÜM 0: BİLDİRİM -->
+    <div class="card" style="border-color:#f59e0b44">
+      <div class="ctit" style="color:#fbbf24">🔔 Bildirimler</div>
+      <p style="font-size:13px;color:#64748b;line-height:1.7;margin-bottom:12px">
+        Stok kritik seviyeye düştüğünde veya ürün tükendiğinde <strong style="color:#e2e8f0">telefon bildirimi</strong> alın.
+      </p>
+      <div id="bildirim-durum" style="background:#0f172a;border-radius:9px;padding:10px 13px;margin-bottom:12px;font-size:12px;color:#64748b">
+        Yükleniyor...
+      </div>
+      <button class="btn btn-blue" onclick="bildirimIzniAl()">🔔 Bildirimleri Etkinleştir</button>
+      <button class="btn btn-ghost" onclick="bildirimKontrol()">🔍 Şimdi Kontrol Et</button>
     </div>
 
     <!-- BÖLÜM 1: JSON YEDEK -->
@@ -921,167 +939,6 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <button class="btn btn-ghost" onclick="document.getElementById('yedek-input').click()">⬆ Yedeği Geri Yükle</button>
       <input type="file" id="yedek-input" accept=".json" style="display:none" onchange="yedekYukle(event)">
       <div id="yedek-durum" style="margin-top:10px;font-size:13px;display:none"></div>
-    </div>
-
-    <!-- BÖLÜM 2: GITHUB SYNC -->
-    <div class="card" style="border-color:#1e3a5f">
-      <div class="ctit" style="color:#93c5fd">🐙 GitHub Sync & Hosting</div>
-      <p style="font-size:13px;color:#64748b;line-height:1.7;margin-bottom:14px">
-        Veriler otomatik olarak <strong style="color:#e2e8f0">GitHub'a</strong> kaydedilir. Uygulama <strong style="color:#e2e8f0">GitHub Pages</strong> üzerinde çalışır — her cihazdan erişilir.
-      </p>
-
-      <!-- Durum göstergesi -->
-      <div class="gh-durum-bar" id="gh-durum-bar">
-        <span class="gh-dot off" id="gh-dot"></span>
-        <span class="gh-lbl" id="gh-lbl">GitHub bağlantısı yapılandırılmadı</span>
-        <span class="gh-zaman" id="gh-zaman"></span>
-      </div>
-
-      <!-- Kurulum adımları -->
-      <div style="background:#0a0f1a;border-radius:10px;padding:14px;margin:14px 0;border:1px solid #1e293b">
-        <div style="font-size:11px;font-weight:800;color:#3b82f6;letter-spacing:.6px;text-transform:uppercase;margin-bottom:12px">📋 Kurulum Rehberi (5 dakika)</div>
-
-        <div class="gh-adim">
-          <div class="gh-adim-no">1</div>
-          <div><strong style="color:#e2e8f0">GitHub'da repo oluştur</strong><br>
-          github.com → New repository → İsim: <code>tarim-sistemi</code> → <strong>Public</strong> → Create</div>
-        </div>
-
-        <div class="gh-adim">
-          <div class="gh-adim-no">2</div>
-          <div><strong style="color:#e2e8f0">HTML dosyasını yükle</strong><br>
-          Repo sayfasında <code>Add file → Upload files</code> → <code>tarim_sistemi.html</code> dosyasını sürükle → Commit</div>
-        </div>
-
-        <div class="gh-adim">
-          <div class="gh-adim-no">3</div>
-          <div><strong style="color:#e2e8f0">GitHub Pages aktifleştir</strong><br>
-          Repo → Settings → Pages → Branch: <code>main</code> → Save<br>
-          <span style="color:#4ade80">Adres: https://KULLANICI.github.io/tarim-sistemi</span></div>
-        </div>
-
-        <div class="gh-adim">
-          <div class="gh-adim-no">4</div>
-          <div><strong style="color:#e2e8f0">Personal Access Token al</strong><br>
-          github.com → Profil → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token<br>
-          Seç: <code>repo</code> (tüm repo izinleri) → Generate → Kopyala</div>
-        </div>
-
-        <div class="gh-adim">
-          <div class="gh-adim-no">5</div>
-          <div><strong style="color:#e2e8f0">Aşağıya bilgileri gir → Bağlan</strong></div>
-        </div>
-      </div>
-
-      <!-- Bağlantı bilgileri -->
-      <div class="field">
-        <label>GitHub Kullanıcı Adı</label>
-        <input id="gh-user" class="inp" placeholder="kullanici_adi" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>Repository Adı</label>
-        <input id="gh-repo" class="inp" placeholder="tarim-sistemi" autocomplete="off">
-      </div>
-      <div class="field">
-        <label>Personal Access Token</label>
-        <div style="display:flex;gap:8px">
-          <input id="gh-token" class="inp" type="password" placeholder="ghp_xxxxxxxxxxxx" style="flex:1" autocomplete="off">
-          <button onclick="togglePw('gh-token')" style="background:#334155;border:none;color:#94a3b8;padding:0 14px;border-radius:10px;font-size:16px;cursor:pointer;flex-shrink:0">👁</button>
-        </div>
-        <div style="font-size:11px;color:#475569;margin-top:4px">⚠ Token cihazda şifreli saklanır, hiçbir yere gönderilmez</div>
-      </div>
-      <div class="field">
-        <label>Veri Dosyası Adı <span style="color:#475569;font-weight:400;font-size:10px">(değiştirmenize gerek yok)</span></label>
-        <input id="gh-file" class="inp" placeholder="tarim_veri.json" value="tarim_veri.json">
-      </div>
-
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <button class="btn btn-blue" style="flex:1" onclick="ghBaglan()">🔗 Bağlan & Test Et</button>
-        <button class="btn btn-ghost" style="flex:1" onclick="ghYukle()">⬇ GitHub'dan Yükle</button>
-      </div>
-      <button class="btn btn-green" style="width:100%;margin-bottom:10px" onclick="ghKaydet(true)">☁ Şimdi GitHub'a Kaydet</button>
-
-      <div id="gh-durum-mesaj" style="font-size:12px;padding:10px 12px;border-radius:9px;display:none;line-height:1.5;margin-top:4px"></div>
-
-      <div style="background:#0f172a;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:11px;color:#475569;line-height:1.6">
-        🔒 Token yalnızca bu cihazın localStorage'ında saklanır.<br>
-        🔄 Her kayıt işleminde otomatik sync çalışır.<br>
-        📜 GitHub'da her commit geçmişi görülür — eski verilere dönülebilir.
-      </div>
-    </div>
-
-    <!-- JSONBin (eski, gizli ama kodda kalıyor) -->
-    <div id="bulut-durum" style="display:none"></div>
-    <span id="sync-dot" style="display:none"></span>
-    <span id="sync-lbl" style="display:none"></span>
-
-    <!-- BÖLÜM 2.5: SUPABASE -->
-    <div class="card" style="border-color:#22c55e44">
-      <div class="ctit" style="color:#4ade80">🗄 Supabase Veritabanı</div>
-
-      <!-- Durum -->
-      <div class="gh-durum-bar" id="sb-durum-bar" style="margin-bottom:12px">
-        <span class="gh-dot off" id="sb-dot"></span>
-        <span class="gh-lbl" id="sb-durum-lbl">Bağlantı kontrol ediliyor...</span>
-      </div>
-
-      <!-- SQL Kurulum Rehberi -->
-      <div id="sb-sql-rehber" style="background:#0a1a0a;border-radius:10px;padding:14px;margin-bottom:12px;border:1px solid #16a34a44">
-        <div style="font-size:11px;font-weight:800;color:#4ade80;letter-spacing:.6px;text-transform:uppercase;margin-bottom:10px">📋 İlk Kurulum — Tabloları Oluştur</div>
-        <p style="font-size:12px;color:#64748b;line-height:1.7;margin-bottom:10px">
-          Supabase Dashboard → <strong style="color:#e2e8f0">SQL Editor</strong> → <strong style="color:#e2e8f0">New Query</strong> →
-          aşağıdaki SQL'i yapıştırın → <strong style="color:#4ade80">Run</strong>
-        </p>
-        <div style="background:#0f172a;border-radius:8px;padding:10px 12px;font-size:10px;font-family:monospace;color:#4ade80;line-height:1.8;overflow-x:auto;white-space:pre;border:1px solid #334155">create table if not exists stok(id bigint primary key,ad text,miktar numeric,ambalaj text,icerik numeric,ic_birim text,kritik numeric);
-create table if not exists stok_log(id bigint primary key,tip text,ad text,miktar numeric,once numeric,sonra numeric,birim text,not_ text,t text);
-create table if not exists araclar(id bigint primary key,veri jsonb);
-create table if not exists mazotlar(id bigint primary key,tarih text,miktar numeric,fiyat numeric,toplam numeric,not_ text);
-create table if not exists yakit_kullanim(id bigint primary key,arac_id bigint,arac_adi text,tarih text,km numeric,litre numeric,not_ text);
-create table if not exists envanter(id bigint primary key,veri jsonb);
-create table if not exists vana_adalar(id text primary key,veri jsonb);
-create table if not exists pm_kayitlar(id bigint primary key,ada text,gorev text,gun numeric,kisi_sayi int,ag numeric,personel text,saat_bas text,saat_bit text,not_ text,t bigint);
-create table if not exists pm_personeller(id bigint primary key,ad text,uzm text);
-create table if not exists pm_gorevler(id int primary key,liste jsonb);
-create table if not exists kullaniciler(id bigint primary key,adi text,rol text,sifre text);
-
-alter table stok enable row level security;
-alter table stok_log enable row level security;
-alter table araclar enable row level security;
-alter table mazotlar enable row level security;
-alter table yakit_kullanim enable row level security;
-alter table envanter enable row level security;
-alter table vana_adalar enable row level security;
-alter table pm_kayitlar enable row level security;
-alter table pm_personeller enable row level security;
-alter table pm_gorevler enable row level security;
-alter table kullaniciler enable row level security;
-
-create policy "anon_all" on stok for all using(true) with check(true);
-create policy "anon_all" on stok_log for all using(true) with check(true);
-create policy "anon_all" on araclar for all using(true) with check(true);
-create policy "anon_all" on mazotlar for all using(true) with check(true);
-create policy "anon_all" on yakit_kullanim for all using(true) with check(true);
-create policy "anon_all" on envanter for all using(true) with check(true);
-create policy "anon_all" on vana_adalar for all using(true) with check(true);
-create policy "anon_all" on pm_kayitlar for all using(true) with check(true);
-create policy "anon_all" on pm_personeller for all using(true) with check(true);
-create policy "anon_all" on pm_gorevler for all using(true) with check(true);
-create policy "anon_all" on kullaniciler for all using(true) with check(true);</div>
-        <button onclick="sbSqlKopyala()" style="margin-top:8px;background:#16a34a;border:none;color:white;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">📋 SQL'i Kopyala</button>
-      </div>
-
-      <!-- Aksiyon Butonları -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
-        <button class="btn btn-green btn-sm" style="flex:1" onclick="sbBaglan()">🔗 Bağlan & Test Et</button>
-        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="sbdenYukle()">⬇ Supabase'den Yükle</button>
-      </div>
-      <button class="btn btn-green" style="margin-bottom:0" onclick="sbTumunuYukle()">☁ Tüm Veriyi Supabase'e Gönder</button>
-
-      <div style="margin-top:10px;font-size:11px;color:#475569;line-height:1.7">
-        🔄 Her kayıt işleminde otomatik sync çalışır<br>
-        💾 İnternet yoksa localStorage'dan çalışır (çevrimdışı mod)<br>
-        🔒 Veriler şifrelenmiş bağlantı ile gönderilir
-      </div>
     </div>
 
     <!-- BÖLÜM 3: EXCEL -->
@@ -1101,30 +958,49 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
 
   <!-- ══ SAYFA: SONUÇ ══ -->
   <div class="page" id="pg-sonuc">
-    <div id="sonuc-bos" class="empty">Henüz hesaplama yapılmadı.<br>Reçete sekmesinden hesaplayın.</div>
-    <div id="sonuc-icerik" style="display:none">
-      <div class="warn-box" id="stok-uyari"></div>
 
-      <div class="stat-row" id="ozet-kartlar" style="grid-template-columns:repeat(4,1fr)"></div>
+    <!-- Sekme barı -->
+    <div style="display:flex;gap:4px;background:#0f172a;border-radius:12px;padding:4px;margin-bottom:12px">
+      <button id="sonuc-tab-aktif" onclick="sonucTabSec('aktif',this)"
+        style="flex:1;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white">
+        🌿 Mevcut Reçete
+      </button>
+      <button id="sonuc-tab-gecmis" onclick="sonucTabSec('gecmis',this)"
+        style="flex:1;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:#64748b">
+        📋 Geçmiş
+      </button>
+    </div>
 
-      <div style="margin-bottom:14px">
-        <div class="ctit">Ürün / İlaç Miktarları</div>
-        <div id="ilac-sonuc-liste"></div>
-      </div>
-
-      <div>
-        <div class="ctit">Vana Bazında Döküm</div>
-        <div id="vana-sonuc-liste"></div>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
-        <button class="btn btn-purple btn-sm" style="flex:1;min-width:130px" onclick="yazdir()">🖨 Yazdır / PDF</button>
-        <button class="btn btn-green btn-sm" style="flex:1;min-width:130px;margin-bottom:0" onclick="receteExcel()">📊 Excel İndir</button>
-        <button class="btn btn-red btn-sm" style="width:100%;margin-bottom:0;margin-top:0" onclick="stokDus()">▼ Stoktan Düş</button>
+    <!-- Mevcut reçete -->
+    <div id="sonuc-panel-aktif">
+      <div id="sonuc-bos" class="empty">Henüz hesaplama yapılmadı.<br>Reçete sekmesinden hesaplayın.</div>
+      <div id="sonuc-icerik" style="display:none">
+        <div class="warn-box" id="stok-uyari"></div>
+        <div class="stat-row" id="ozet-kartlar" style="grid-template-columns:repeat(4,1fr)"></div>
+        <div style="margin-bottom:14px">
+          <div class="ctit">Ürün / İlaç Miktarları</div>
+          <div id="ilac-sonuc-liste"></div>
+        </div>
+        <div>
+          <div class="ctit">Vana Bazında Döküm</div>
+          <div id="vana-sonuc-liste"></div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+          <button class="btn btn-purple btn-sm" style="flex:1;min-width:130px" onclick="yazdir()">🖨 Yazdır / PDF</button>
+          <button class="btn btn-green btn-sm" style="flex:1;min-width:130px;margin-bottom:0" onclick="receteExcel()">📊 Excel İndir</button>
+          <button class="btn btn-red btn-sm" style="width:100%;margin-bottom:0;margin-top:0" onclick="stokDus()">▼ Stoktan Düş</button>
+        </div>
       </div>
     </div>
-  </div>
 
+    <!-- Geçmiş reçeteler -->
+    <div id="sonuc-panel-gecmis" style="display:none">
+      <div id="recete-gecmis-liste">
+        <div class="empty">Henüz kaydedilmiş reçete yok.<br>Stoktan Düş butonuna basınca otomatik kaydedilir.</div>
+      </div>
+    </div>
+
+  </div>
 
 <!-- ════ PERSONEL SAYFASI ════ -->
 <div class="page" id="pg-personel">
@@ -1198,7 +1074,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
   </div>
 </div>
 
-<!-- PM: Kayıt Modal -->
 <div class="form-overlay" id="pm-kayit-modal">
   <div class="form-sheet">
     <div class="form-sheet-baslik">
@@ -1254,7 +1129,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
   </div>
 </div>
 
-<!-- PM: Personel Modal -->
 <div class="form-overlay" id="pm-p-modal">
   <div class="form-sheet">
     <div class="form-sheet-baslik">
@@ -1263,6 +1137,7 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
     </div>
     <div class="field"><label>İsim *</label><input id="pm-p-ad" class="inp" placeholder="Ali Yılmaz"></div>
     <div class="field"><label>Görev / Uzmanlık</label><input id="pm-p-uzm" class="inp" placeholder="Hasat Ustası"></div>
+    <div class="field"><label>İşe Giriş Tarihi</label><input id="pm-p-giris" type="date" class="inp"></div>
     <input type="hidden" id="pm-p-id">
     <button class="btn btn-blue" onclick="pmPKaydet()">✓ Kaydet</button>
   </div>
@@ -1466,7 +1341,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
   </div>
 </div>
 
-
 <!-- ══ MAZOT ALIM FORMU ══ -->
 <div class="form-overlay" id="mazot-form-overlay">
   <div class="form-sheet" style="max-height:90vh">
@@ -1587,7 +1461,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
   </div>
 </div>
 
-
 <!-- ══ VANA DÜZENLEME FORMU ══ -->
 <div class="form-overlay" id="vana-duz-overlay">
   <div class="form-sheet">
@@ -1615,7 +1488,6 @@ create policy "anon_all" on kullaniciler for all using(true) with check(true);</
     <button class="btn btn-ghost" style="margin-top:6px" onclick="formKapat('vana-duz-overlay')">İptal</button>
   </div>
 </div>
-
 
 <!-- ══ ENVANTER DETAY OVERLAY ══ -->
 <div class="env-detay-overlay" id="env-detay-overlay">
@@ -1753,38 +1625,11 @@ function sbSync(hint){
   clearTimeout(sbSyncTimer);
   sbSyncTimer=setTimeout(()=>sbKaydet(hint),1500);
 }
-const BAZ=[
-  {id:1,ad:'Zodiac',miktar:17,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
-  {id:2,ad:'Quadris',miktar:7,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
-  {id:3,ad:'Karete',miktar:14,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
-  {id:4,ad:'Torpedo',miktar:6,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
-  {id:5,ad:'Laminar',miktar:16,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
-  {id:6,ad:'Cytokin',miktar:3,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:3},
-  {id:7,ad:'Nemanir',miktar:30,ambalaj:'Torba',icerik:1,icBirim:'kg',kritik:10},
-  {id:8,ad:'Pemena',miktar:9,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:5},
-  {id:9,ad:'Isabion',miktar:2,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:1},
-  {id:10,ad:'Mapa 20sp',miktar:60,ambalaj:'Paket',icerik:400,icBirim:'gr',kritik:20},
-  {id:12,ad:'Grenmaz',miktar:10,ambalaj:'Paket',icerik:1,icBirim:'kg',kritik:5},
-  {id:13,ad:'Bordo',miktar:10,ambalaj:'Torba',icerik:10,icBirim:'kg',kritik:5},
-  {id:14,ad:'Innostar 10-0-45+ME',miktar:4,ambalaj:'Torba',icerik:25,icBirim:'kg',kritik:2},
-  {id:15,ad:'Clear Out 48 SL',miktar:1,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:5},
-  {id:1774711345264,ad:'Can % 26 Gübre',miktar:25,ambalaj:'Çuval',icerik:50,icBirim:'kg',kritik:2},
-  {id:1774711786242,ad:'Fulvera hümik asit',miktar:80,ambalaj:'Bidon',icerik:20,icBirim:'L',kritik:2},
-  {id:1774713074890,ad:'Greenleaf 20.20.20',miktar:20,ambalaj:'Paket',icerik:2.5,icBirim:'kg',kritik:2},
-  {id:1774714874393,ad:'CANION PLUS',miktar:2,ambalaj:'Şişe',icerik:2,icBirim:'L',kritik:5},
-  {id:1774717289773,ad:'MICROLEX',miktar:13,ambalaj:'Paket',icerik:2.5,icBirim:'L',kritik:2},
-  {id:1774798729763,ad:'DRT Doktor Tarsa Magnezyum Sülfat Damlama Gübresi',miktar:17,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2},
-  {id:1774798780355,ad:'CNPalmira Kalsiyum Nitrat',miktar:22,ambalaj:'Çuval',icerik:25,icBirim:'kg',kritik:2},
-  {id:1774820000001,ad:'BOTENUP',miktar:25,ambalaj:'Paket',icerik:1,icBirim:'kg',kritik:5},
-  {id:1774820000002,ad:'BotePhos',miktar:30,ambalaj:'Paket',icerik:1,icBirim:'kg',kritik:5},
-  {id:1774820000003,ad:'NitroEnt',miktar:4,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2},
-  {id:1774820000004,ad:'MelangeSC',miktar:5,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2},
-  {id:1774820000005,ad:'BLUE-GUARD Likit (Aşı ve Budama Macunu)',miktar:4,ambalaj:'Bidon',icerik:1,icBirim:'L',kritik:2}
-];
+const BAZ=[];
 let stok=[],slog=[],sMod='ekle';
 function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));sbSync('stok');}
 function yukle(){
-  try{stok=JSON.parse(localStorage.getItem(SK))||JSON.parse(JSON.stringify(BAZ));}catch{stok=JSON.parse(JSON.stringify(BAZ));}
+  try{stok=JSON.parse(localStorage.getItem(SK))||[];}catch{stok=[];}
   try{slog=JSON.parse(localStorage.getItem(LK))||[];}catch{slog=[];}
 }
 function sDur(s){
@@ -1821,6 +1666,7 @@ function sayfaGit(id){
   if(c)c.scrollTop=0;
   if(id==='liste')stokListeGun();
   if(id==='sonuc'&&sonHesap)sonucGoster();
+  if(id==='sonuc')rgListeGoster();
   if(id==='ayar')ayarSayfasiGun();
   if(id==='arac'){aracListeGun();mzSayfaGecisGun();}
   if(id==='envanter')envListeGun();
@@ -1829,7 +1675,6 @@ function sayfaGit(id){
 }
 
 /* ═══ YEDEKLEME ═══ */
-/* eski yedekAl/yedekYukle kaldırıldı — v4 aşağıda */
 
 function yedekDurum(msg,ok){
   const el=document.getElementById('yedek-durum');
@@ -1935,6 +1780,25 @@ function ayarSayfasiGun(){
   if(b&&document.getElementById('jb-bin'))document.getElementById('jb-bin').value=b;
   setSyncDot(k?'ok':'off');
   if(k)document.getElementById('sync-lbl').textContent=b?`Bin: ${b}`:'API anahtarı var, ilk kayıt bekleniyor';
+
+  // Bildirim durumu
+  const bd=document.getElementById('bildirim-durum');
+  if(bd){
+    if(!('Notification' in window)){
+      bd.innerHTML='<span style="color:#f87171">❌ Bu cihaz bildirimleri desteklemiyor</span>';
+    }else if(Notification.permission==='granted'){
+      const kritik=stok.filter(s=>s.miktar>0&&s.miktar<=s.kritik).length;
+      const tuken=stok.filter(s=>s.miktar===0).length;
+      bd.innerHTML='<span style="color:#4ade80">✅ Bildirimler aktif</span>'
+        +(tuken?'<br><span style="color:#f87171">🔴 '+tuken+' ürün tükendi</span>':'')
+        +(kritik?'<br><span style="color:#fbbf24">⚠ '+kritik+' ürün kritik seviyede</span>':'')
+        +(!tuken&&!kritik?'<br><span style="color:#64748b">Stok durumu normal</span>':'');
+    }else if(Notification.permission==='denied'){
+      bd.innerHTML='<span style="color:#f87171">🚫 Bildirim izni reddedildi — tarayıcı ayarlarından açın</span>';
+    }else{
+      bd.innerHTML='<span style="color:#f59e0b">⏳ İzin verilmedi — aşağıdaki butona basın</span>';
+    }
+  }
 }
 
 function tumunuSifirla(){
@@ -2084,6 +1948,122 @@ function stokDlGun(){
   document.getElementById('ulist').innerHTML=stok.map(s=>`<option value="${s.ad}">`).join('');
 }
 
+/* ─ Ortak yazdırma yardımcısı ─ */
+function _yazdir(htmlIcerik){
+  try{
+    var blob=new Blob([htmlIcerik],{type:'text/html;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var w=window.open(url,'_blank');
+    if(w){
+      w.onload=function(){
+        try{w.print();}catch(e){}
+        setTimeout(function(){URL.revokeObjectURL(url);},30000);
+      };
+      // onload tetiklenmezse fallback
+      setTimeout(function(){
+        try{if(w&&!w.closed)w.print();}catch(e){}
+      },800);
+    }else{
+      // Popup engellendi — direkt indir
+      var a=document.createElement('a');
+      a.href=url;
+      a.download='recete_'+new Date().toLocaleDateString('tr-TR').replace(/\./g,'-')+'.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast('\u2b07 HTML indirildi — taray\u0131c\u0131da a\xe7\u0131p yazd\u0131r\u0131n');
+      setTimeout(function(){URL.revokeObjectURL(url);},5000);
+    }
+  }catch(e){
+    toast('Hata: '+e.message,'err');
+  }
+}
+
+function stokListeYazdir(){
+  const ara=(document.getElementById('stok-ara')?.value||'').toLowerCase();
+  const fil=stok.filter(s=>!ara||s.ad.toLowerCase().includes(ara));
+  if(!fil.length){toast('Listelenecek ürün yok','err');return;}
+  const tarih=new Date().toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+  const saat=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+
+  const satirlar=fil.map((s,i)=>{
+    const dur=sDur(s);
+    const top=toplamIcerik(s);
+    const topStr=top&&s.icerik>1?(fmt(top.miktar)+' '+top.birim):'—';
+    const foto=stokFotoGetir(s.id);
+    const fotoHtml=foto
+      ?('<img src="'+foto+'" style="width:36px;height:36px;border-radius:6px;object-fit:cover;vertical-align:middle">')
+      :'<div style="width:36px;height:36px;border-radius:6px;background:#e5e7eb;display:inline-flex;align-items:center;justify-content:center;font-size:16px">\ud83d\udce6</div>';
+    const durRenk=s.miktar===0?'#dc2626':s.miktar<=s.kritik?'#d97706':'#16a34a';
+    const durLbl=s.miktar===0?'Tükendi':s.miktar<=s.kritik?'Kritik':'Normal';
+    const ambalajStr=(s.ambalaj||'Adet')+(s.icerik>0?' \xd7 '+s.icerik+' '+s.icBirim:'');
+    return '<tr>'
+      +'<td style="width:40px;padding:6px 8px;text-align:center">'+fotoHtml+'</td>'
+      +'<td style="padding:6px 8px;font-weight:700">'+s.ad+'</td>'
+      +'<td style="padding:6px 8px;color:#555">'+ambalajStr+'</td>'
+      +'<td style="padding:6px 8px;text-align:right;font-weight:800;font-size:15px">'+s.miktar+'</td>'
+      +'<td style="padding:6px 8px;text-align:center">'+s.kritik+'</td>'
+      +'<td style="padding:6px 8px;text-align:center;color:#555">'+topStr+'</td>'
+      +'<td style="padding:6px 8px;text-align:center">'
+        +'<span style="background:'+durRenk+'18;color:'+durRenk+';border:1px solid '+durRenk+'44;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700">'+durLbl+'</span>'
+      +'</td>'
+      +'</tr>';
+  }).join('');
+
+  const kritikSay=stok.filter(s=>s.miktar>0&&s.miktar<=s.kritik).length;
+  const tukenSay=stok.filter(s=>s.miktar===0).length;
+
+  const html=`<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8">
+<title>Stok Listesi — ${tarih}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:#111;background:white;padding:12mm 14mm;font-size:9pt}
+  @page{size:A4;margin:0}
+  h1{font-size:15pt;font-weight:800;margin-bottom:1mm}
+  .alt{font-size:8.5pt;color:#555;margin-bottom:5mm;padding-bottom:4mm;border-bottom:2pt solid #000}
+  .ozet{display:flex;gap:10mm;margin-bottom:5mm}
+  .oz{border:1pt solid #ccc;border-radius:2mm;padding:3mm 5mm;text-align:center;min-width:25mm}
+  .oz-val{font-size:16pt;font-weight:800}
+  .oz-lbl{font-size:7.5pt;color:#555;margin-top:1mm}
+  table{width:100%;border-collapse:collapse;font-size:8.5pt}
+  thead tr{background:#1a1a1a;color:#fff}
+  th{padding:4px 8px;text-align:left;font-size:7.5pt;font-weight:700}
+  th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7){text-align:center}
+  td{border-bottom:.5pt solid #e5e5e5;vertical-align:middle}
+  tr:nth-child(even) td{background:#f9f9f9}
+  .footer{margin-top:6mm;font-size:7.5pt;color:#777;text-align:center;border-top:1pt solid #ccc;padding-top:3mm}
+  @media print{body{padding:10mm 12mm}}
+</style></head><body>
+
+<h1>🌿 Erturan Tarım &amp; Zeytincilik — Stok Listesi</h1>
+<div class="alt">Tarih: <strong>${tarih}</strong> · Saat: ${saat} · Toplam: <strong>${fil.length} ürün</strong>${ara?' · Filtre: "'+ara+'"':''}</div>
+
+<div class="ozet">
+  <div class="oz"><div class="oz-val" style="color:#15803d">${fil.length}</div><div class="oz-lbl">Toplam Ürün</div></div>
+  <div class="oz"><div class="oz-val" style="color:#b45309">${kritikSay}</div><div class="oz-lbl">Kritik Seviye</div></div>
+  <div class="oz"><div class="oz-val" style="color:#dc2626">${tukenSay}</div><div class="oz-lbl">Tükenen</div></div>
+</div>
+
+<table>
+  <thead><tr>
+    <th></th>
+    <th>Ürün Adı</th>
+    <th>Ambalaj</th>
+    <th style="text-align:right">Miktar</th>
+    <th style="text-align:center">Kritik</th>
+    <th style="text-align:center">Toplam İçerik</th>
+    <th style="text-align:center">Durum</th>
+  </tr></thead>
+  <tbody>${satirlar}</tbody>
+</table>
+
+<div class="footer">Erturan Tarım Yönetim Sistemi · ${tarih} ${saat}</div>
+</body></html>`;
+
+  // Popup yerine gizli iframe ile yazdır (Android Chrome popup blocker bypass)
+  _yazdir(html);
+}
 function stokListeGun(){
   const ara=(document.getElementById('stok-ara')?.value||'').toLowerCase();
   const fil=stok.filter(s=>s.ad.toLowerCase().includes(ara));
@@ -2577,6 +2557,277 @@ function sonucGoster(){
 }
 
 /* ═══ STOKTAN DÜŞ (reçeteden) ═══ */
+/* ═══ REÇETE GEÇMİŞİ ═══ */
+const RG_KEY='et_recete_gecmis_v1';
+
+function rgYukle(){
+  try{return JSON.parse(localStorage.getItem(RG_KEY))||[];}catch{return[];}
+}
+function rgKaydet(liste){
+  localStorage.setItem(RG_KEY,JSON.stringify(liste));
+}
+function rgEkle(hesap){
+  const liste=rgYukle();
+  const kayit={
+    id:Date.now(),
+    tarih:hesap.tarih||new Date().toISOString().split('T')[0],
+    kayitZamani:new Date().toISOString(),
+    tip:hesap.tip,
+    aciklama:hesap.aciklama||'',
+    muhendis:hesap.muhendis||'',
+    topAgac:hesap.topAgac,
+    topSu:hesap.topSu,
+    vanaAdet:hesap.vanaAdet,
+    dozMod:hesap.dozMod||'agac',
+    aktifSuLitre:hesap.aktifSuLitre||0,
+    ilaclar:hesap.ilacSonuc.map(il=>({
+      ad:il.ad,birim:il.birim,doz:il.doz,
+      toplam:il.toplam,ambalajGerekli:il.ambalajGerekli,
+      ambalaj:il.ambalaj
+    })),
+    vanalar:hesap.vanaSonuc.map(v=>({
+      ada:v.ada,no:v.no,agac:v.agac,su:v.su,
+      ilacMiktarlar:v.ilacMiktarlar
+    })),
+    ilacAdlari:hesap.ilaclar.map(il=>il.ad),
+    // Tam hesap verisi — tekrar yüklemek için
+    _hesap:hesap
+  };
+  liste.unshift(kayit);
+  // Maks 50 reçete sakla
+  if(liste.length>50)liste.splice(50);
+  rgKaydet(liste);
+}
+
+function sonucTabSec(tab,btn){
+  document.getElementById('sonuc-panel-aktif').style.display=tab==='aktif'?'block':'none';
+  document.getElementById('sonuc-panel-gecmis').style.display=tab==='gecmis'?'block':'none';
+  const bAktif=document.getElementById('sonuc-tab-aktif');
+  const bGecmis=document.getElementById('sonuc-tab-gecmis');
+  if(bAktif&&bGecmis){
+    bAktif.style.background=tab==='aktif'?'linear-gradient(135deg,#2563eb,#1d4ed8)':'transparent';
+    bAktif.style.color=tab==='aktif'?'white':'#64748b';
+    bGecmis.style.background=tab==='gecmis'?'linear-gradient(135deg,#7c3aed,#6d28d9)':'transparent';
+    bGecmis.style.color=tab==='gecmis'?'white':'#64748b';
+  }
+  if(tab==='gecmis')rgListeGoster();
+}
+
+function rgListeGoster(){
+  const el=document.getElementById('recete-gecmis-liste');
+  if(!el)return;
+  const liste=rgYukle();
+  if(!liste.length){
+    el.innerHTML='<div class="empty">Henüz kaydedilmiş reçete yok.<br>Stoktan Düş butonuna basınca otomatik kaydedilir.</div>';
+    return;
+  }
+  el.innerHTML=liste.map(k=>{
+    const zaman=new Date(k.kayitZamani).toLocaleString('tr-TR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const ilacStr=k.ilaclar.slice(0,3).map(il=>il.ad).join(', ')+(k.ilaclar.length>3?' +'+( k.ilaclar.length-3):'');
+    return `<div style="background:#0f172a;border:1.5px solid #1e3a5f;border-left:4px solid #2563eb;border-radius:12px;padding:13px 14px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:13px;font-weight:800;color:#e2e8f0">${k.tip}</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">${zaman}</div>
+        </div>
+        <div style="display:flex;gap:5px">
+          <button onclick="rgYukleHesap(${k.id})" style="background:#0c1f3f;border:1px solid #2563eb;color:#93c5fd;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer">📂 Yükle</button>
+          <button onclick="rgSil(${k.id})" style="background:#1c0a0a;border:1px solid #7f1d1d;color:#f87171;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer">🗑</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:7px">
+        <span style="background:#0c1f3f;color:#60a5fa;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">🌿 ${fmt(k.topAgac)} ağaç</span>
+        <span style="background:#0c1f3f;color:#0ea5e9;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">💧 ${fmt(k.dozMod==='su'?k.aktifSuLitre:k.topSu)} L</span>
+        <span style="background:#0c1f3f;color:#a78bfa;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">🧪 ${k.ilaclar.length} ürün</span>
+        <span style="background:#0c1f3f;color:#4ade80;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">🚿 ${k.vanaAdet} vana</span>
+      </div>
+      <div style="font-size:11px;color:#64748b">${ilacStr}</div>
+      ${k.aciklama&&k.aciklama!=='—'?`<div style="font-size:11px;color:#475569;margin-top:4px;font-style:italic">📝 ${k.aciklama}</div>`:''}
+      <div style="display:flex;gap:6px;margin-top:10px">
+        <button onclick="rgYazdir(${k.id})" style="background:#1e293b;border:1px solid #334155;color:#94a3b8;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;flex:1">🖨 Yazdır</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function rgYukleHesap(id){
+  const liste=rgYukle();
+  const k=liste.find(x=>x.id===id);
+  if(!k||!k._hesap){toast('Reçete verisi bulunamadı','err');return;}
+  sonHesap=k._hesap;
+  sonucTabSec('aktif',null);
+  sonucGoster();
+  toast('✓ Reçete yüklendi');
+}
+
+function rgSil(id){
+  if(!confirm('Bu reçete geçmişten silinsin mi?'))return;
+  const liste=rgYukle().filter(k=>k.id!==id);
+  rgKaydet(liste);
+  rgListeGoster();
+  toast('Reçete silindi');
+}
+
+function rgYazdir(id){
+  const liste=rgYukle();
+  const k=liste.find(x=>x.id===id);
+  if(!k||!k._hesap){toast('Reçete verisi bulunamadı','err');return;}
+  sonHesap=k._hesap;
+  yazdir();
+}
+
+/* ═══ REÇETE ŞABLON SİSTEMİ ═══ */
+const SABLON_KEY='et_recete_sablon_v1';
+
+function sablonYukle(){try{return JSON.parse(localStorage.getItem(SABLON_KEY))||[];}catch{return[];}}
+function sablonKaydetLS(liste){localStorage.setItem(SABLON_KEY,JSON.stringify(liste));}
+
+function sablonKaydet(){
+  var ilaclar=ilaclarOku();
+  if(!ilaclar.length){toast('Önce ürün ekleyin!','err');return;}
+  var ad=prompt('Şablon adı:', document.getElementById('r-tip').value+' Şablonu');
+  if(!ad||!ad.trim())return;
+  var sablon={
+    id:Date.now(),
+    ad:ad.trim(),
+    tip:document.getElementById('r-tip').value,
+    aciklama:document.getElementById('r-aciklama').value||'',
+    muhendis:document.getElementById('r-muhendis').value||'',
+    dozMod:dozMod||'agac',
+    hedefSu:document.getElementById('r-hedef-su')?document.getElementById('r-hedef-su').value:'',
+    hedefSuBirim:document.getElementById('r-hedef-su-birim')?document.getElementById('r-hedef-su-birim').value:'ton',
+    damlatici:document.getElementById('r-damlatici').value,
+    debi:document.getElementById('r-debi').value,
+    sure:document.getElementById('r-sure').value,
+    tank:document.getElementById('r-tank').value||'',
+    ilaclar:ilaclar.map(function(il){return{
+      stokId:il.id, ad:il.ad, doz:il.doz, birim:il.birim
+    };}),
+    olusturma:new Date().toISOString()
+  };
+  var liste=sablonYukle();
+  liste.unshift(sablon);
+  if(liste.length>20)liste.splice(20);
+  sablonKaydetLS(liste);
+  sablonBarGun();
+  toast('✓ "'+sablon.ad+'" şablonu kaydedildi');
+}
+
+function sablonBarGun(){
+  var el=document.getElementById('sablon-listesi');
+  if(!el)return;
+  var liste=sablonYukle();
+  if(!liste.length){
+    el.innerHTML='<div style="font-size:11px;color:#475569;white-space:nowrap;padding:6px 0">Henüz şablon yok — reçete hazırlayıp kaydedin.</div>';
+    return;
+  }
+  el.innerHTML=liste.map(function(s){
+    return '<div style="display:inline-flex;align-items:center;gap:0;flex-shrink:0">'+
+      '<button onclick="sablonYukleForm('+s.id+')" style="background:#0c1f3f;border:1.5px solid #2563eb;border-right:none;color:#93c5fd;border-radius:8px 0 0 8px;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">📋 '+s.ad+'</button>'+
+      '<button onclick="sablonSil('+s.id+')" style="background:#1c0a0a;border:1.5px solid #7f1d1d;color:#f87171;border-radius:0 8px 8px 0;padding:7px 8px;font-size:11px;cursor:pointer">✕</button>'+
+    '</div>';
+  }).join('');
+}
+
+function sablonYukleForm(id){
+  var liste=sablonYukle();
+  var s=null;
+  for(var i=0;i<liste.length;i++){if(liste[i].id===id){s=liste[i];break;}}
+  if(!s)return;
+  // Temel alanlar
+  document.getElementById('r-tip').value=s.tip;
+  document.getElementById('r-aciklama').value=s.aciklama||'';
+  document.getElementById('r-muhendis').value=s.muhendis||'';
+  // Tarih bugün
+  var dn=new Date();
+  document.getElementById('r-tarih').value=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');
+  // Sulama parametreleri
+  if(s.damlatici)document.getElementById('r-damlatici').value=s.damlatici;
+  if(s.debi)document.getElementById('r-debi').value=s.debi;
+  if(s.sure)document.getElementById('r-sure').value=s.sure;
+  if(s.tank)document.getElementById('r-tank').value=s.tank;
+  // Doz modu
+  dozModSec(s.dozMod||'agac');
+  if(s.dozMod==='su'&&s.hedefSu){
+    var hsel=document.getElementById('r-hedef-su');
+    if(hsel)hsel.value=s.hedefSu;
+    var bsel=document.getElementById('r-hedef-su-birim');
+    if(bsel)bsel.value=s.hedefSuBirim||'ton';
+  }
+  // İlaç satırlarını temizle ve yeniden oluştur
+  document.getElementById('ilac-listesi').innerHTML='';
+  rSayac=0;
+  s.ilaclar.forEach(function(il){
+    ilacEkle();
+    var id='rr'+rSayac;
+    // Stok id ile eşleştir
+    var sel=document.getElementById(id+'-sel');
+    if(sel){
+      // Önce ada göre, sonra id'ye göre eşleştir
+      var match=stok.find(function(x){return x.id===il.stokId;});
+      if(!match)match=stok.find(function(x){return x.ad===il.ad;});
+      if(match)sel.value=match.id;
+      ilacSecildi(id);
+    }
+    var dozEl=document.getElementById(id+'-doz');
+    if(dozEl)dozEl.value=il.doz;
+    var brimEl=document.getElementById(id+'-brim');
+    if(brimEl)brimEl.value=il.birim;
+    ilacDozGun(id);
+  });
+  toast('✓ "'+s.ad+'" şablonu yüklendi');
+}
+
+function sablonSil(id){
+  if(!confirm('Bu şablon silinsin mi?'))return;
+  var liste=sablonYukle().filter(function(s){return s.id!==id;});
+  sablonKaydetLS(liste);
+  sablonBarGun();
+  toast('Şablon silindi');
+}
+
+/* ═══ BİLDİRİM SİSTEMİ ═══ */
+const BILDIRIM_KEY='et_bildirim_v1';
+
+function bildirimIzniAl(){
+  if(!('Notification' in window)){toast('Bu cihaz bildirimleri desteklemiyor','wrn');return;}
+  Notification.requestPermission().then(function(perm){
+    if(perm==='granted'){
+      localStorage.setItem(BILDIRIM_KEY,'granted');
+      bildirimKontrol();
+      toast('✓ Bildirimler aktif');
+    }else{
+      toast('Bildirim izni verilmedi','wrn');
+    }
+  });
+}
+
+function bildirimKontrol(){
+  if(Notification.permission!=='granted')return;
+  var kritikler=stok.filter(function(s){return s.miktar>0&&s.miktar<=s.kritik;});
+  var tukenler=stok.filter(function(s){return s.miktar===0;});
+  if(tukenler.length){
+    new Notification('🔴 Erturan Tarım — Stok Uyarısı',{
+      body:tukenler.map(function(s){return s.ad+' tükendi!';}).join('\n'),
+      icon:'/favicon.ico',
+      tag:'stok-ukendi'
+    });
+  } else if(kritikler.length){
+    new Notification('⚠ Erturan Tarım — Kritik Stok',{
+      body:kritikler.map(function(s){return s.ad+': '+s.miktar+' '+s.ambalaj+' kaldı';}).join('\n'),
+      icon:'/favicon.ico',
+      tag:'stok-kritik'
+    });
+  }
+}
+
+function bildirimOtomatik(){
+  // Uygulama açılınca bildirim izni varsa kontrol et
+  if(typeof Notification!=='undefined'&&Notification.permission==='granted'){
+    bildirimKontrol();
+  }
+}
+
 function stokDus(){
   if(!sonHesap)return toast('Önce reçeteyi hesaplayın!','err');
   const yetersiz=sonHesap.ilacSonuc.filter(il=>!il.yeterli);
@@ -2593,7 +2844,8 @@ function stokDus(){
     }
   });
   kaydet();stokStatsGun();stokDlGun();receteSelectGun();
-  toast(`✓ ${sonHesap.ilacSonuc.length} ürün stoktan düşüldü`);
+  rgEkle(sonHesap); // Reçeteyi geçmişe kaydet
+  toast(`✓ ${sonHesap.ilacSonuc.length} ürün stoktan düşüldü — reçete geçmişe kaydedildi`);
   hesapla();
 }
 
@@ -2731,10 +2983,7 @@ ${stokUyari}
 
 </body></html>`;
 
-  const w=window.open('','_blank');
-  w.document.write(html);
-  w.document.close();
-  setTimeout(()=>{w.focus();w.print();},600);
+  _yazdir(html);
 }
 
 /* ═══ REÇETE EXCEL ═══ */
@@ -2941,7 +3190,6 @@ function excelIndir(){
   XLSX.writeFile(wb,`Erturan_${tarih.replace(/\./g,'-')}.xlsx`);
   toast('Excel indirildi — 4 sayfa');
 }
-
 
 /* ════════════════════════════════════════════
    ARAÇ TAKİP SİSTEMİ
@@ -3302,7 +3550,6 @@ function pwaBannerGoster(){
   }
 }
 
-
 /* ════════════════════════════════════════════
    KULLANICI & GİRİŞ SİSTEMİ
 ════════════════════════════════════════════ */
@@ -3400,7 +3647,7 @@ function girisYap(){
   uygulamaBaslat();
 }
 
-function uygulamaBaslat(){setTimeout(()=>sayfaGit('dash'),80);sbIlkYukle();
+function uygulamaBaslat(){setTimeout(()=>sayfaGit('dash'),80);sbIlkYukle();sablonBarGun();bildirimOtomatik();
   const ub=document.getElementById('user-badge-wrap');
   const ubAdi=document.getElementById('ub-adi');
   if(ub)ub.style.display='flex';
@@ -3561,7 +3808,6 @@ function stokDuzenleKaydet(){
   if(document.getElementById('pg-liste').classList.contains('active'))stokListeGun();
   toast('✓ '+stok[idx].ad+': '+eski+' → '+yeniMiktar+' '+(stok[idx].ambalaj||'adet'));
 }
-
 
 /* ════════════════════════════════════════════
    MAZOT / YAKIT / BAKIM SİSTEMİ
@@ -3943,7 +4189,6 @@ function mzRenderKullanim(){
   }
 }
 
-
 /* ── BAKIM FORM ── */
 function bakimFormAcYeni(editId=null){
   document.getElementById('ybf-edit-id').value=editId||'';
@@ -4115,7 +4360,6 @@ function mzSayfaGecisGun(){
   setInterval(notifPeriyodikKontrol,5*60*1000);
   ghConfigYukle();if(ghConfig.user&&ghConfig.token)ghDotGun('ok','GitHub bağlı ✓');
 }
-
 
 /* ════════════════════════════════════════════════════════════
    AKILLI UYARI SİSTEMİ — Merkezi Motor
@@ -4407,7 +4651,6 @@ function notifPeriyodikKontrol(){
   notifBadgeGun();
 }
 
-
 /* ════════════════════════════════════════════════════════════
    GITHUB SYNC SİSTEMİ
 ════════════════════════════════════════════════════════════ */
@@ -4642,7 +4885,6 @@ function ghOtomatikSync(){
 
 /* ── ayarSayfasiGun'a gh ekle ── */
 
-
 /* ════════════════════════════════════════════════════════
    VANA & AĞAÇ YÖNETİMİ
 ════════════════════════════════════════════════════════ */
@@ -4735,7 +4977,6 @@ function vanaYonetimListeGun(){
     </div>`;
   }).join('');
 }
-
 
 /* ════════════════════════════════════════════════════════
    ENVANTER SİSTEMİ
@@ -4964,7 +5205,6 @@ notifOkunanlariYukle();
 ghConfigYukle();
 loginEkraniGoster();
 if(localStorage.getItem('jb_key'))setTimeout(()=>setSyncDot('ok'),100);
-
 
 /* ════ DASHBOARD ════ */
 function dbGun(){
@@ -5372,7 +5612,17 @@ function _pmPListe(){
     out+='<div class="pm-p-ikon">\ud83d\udc77</div>';
     out+='<div style="flex:1;min-width:0">';
     out+='<div style="font-size:13px;font-weight:700;color:#e2e8f0">'+p.ad+'</div>';
-    out+='<div style="font-size:11px;color:#64748b;margin-top:1px">'+(p.uzm||'Genel')+' \xb7 '+_f(ag)+' Adam/G\xfcn</div>';
+    var altBilgi=(p.uzm||'Genel')+' \xb7 '+_f(ag)+' Adam/G\xfcn';
+    if(p.giris){
+      var girisTarih=new Date(p.giris).toLocaleDateString('tr-TR',{day:'2-digit',month:'long',year:'numeric'});
+      // Kıdem hesapla
+      var bugun=new Date(), girisD=new Date(p.giris);
+      var ay=Math.floor((bugun-girisD)/(30.44*86400000));
+      var yil=Math.floor(ay/12); ay=ay%12;
+      var kidem=yil>0?(yil+' yıl'+(ay>0?' '+ay+' ay':'')):(ay>0?ay+' ay':'Yeni');
+      altBilgi+=' \xb7 \ud83d\udcc5 '+girisTarih+' ('+kidem+')';
+    }
+    out+='<div style="font-size:11px;color:#64748b;margin-top:1px">'+altBilgi+'</div>';
     out+='</div>';
     out+='<div style="display:flex;gap:4px">';
     out+='<button onclick="pmPDuzenle('+p.id+')" style="background:#0c1f3f;border:1px solid #2563eb;color:#93c5fd;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer">\u270f</button>';
@@ -5385,11 +5635,16 @@ function _pmPListe(){
 function pmPFormAc(id){
   id=id||null;
   document.getElementById('pm-p-id').value=id||'';
-  if(!id){document.getElementById('pm-p-ad').value='';document.getElementById('pm-p-uzm').value='';}
-  else{
+  if(!id){
+    document.getElementById('pm-p-ad').value='';
+    document.getElementById('pm-p-uzm').value='';
+    document.getElementById('pm-p-giris').value='';
+  }else{
     var p=null;for(var i=0;i<_pmP.length;i++){if(_pmP[i].id===id){p=_pmP[i];break;}}
     if(!p)return;
-    document.getElementById('pm-p-ad').value=p.ad;document.getElementById('pm-p-uzm').value=p.uzm||'';
+    document.getElementById('pm-p-ad').value=p.ad;
+    document.getElementById('pm-p-uzm').value=p.uzm||'';
+    document.getElementById('pm-p-giris').value=p.giris||'';
   }
   formAc('pm-p-modal');
 }
@@ -5397,10 +5652,16 @@ function pmPDuzenle(id){pmPFormAc(id);}
 function pmPKaydet(){
   var ad=document.getElementById('pm-p-ad').value.trim();
   var uzm=document.getElementById('pm-p-uzm').value.trim();
+  var giris=document.getElementById('pm-p-giris').value||'';
   var editId=parseInt(document.getElementById('pm-p-id').value)||null;
   if(!ad)return toast('\u0130sim giriniz!','err');
-  if(editId){for(var i=0;i<_pmP.length;i++){if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;break;}}}
-  else{_pmP.push({id:Date.now(),ad:ad,uzm:uzm});}
+  if(editId){
+    for(var i=0;i<_pmP.length;i++){
+      if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;_pmP[i].giris=giris;break;}
+    }
+  }else{
+    _pmP.push({id:Date.now(),ad:ad,uzm:uzm,giris:giris});
+  }
   _pmSave();formKapat('pm-p-modal');_pmPListe();toast('\u2713 Personel kaydedildi');
 }
 function pmPSil(id){
@@ -5553,11 +5814,10 @@ function pmGunsonOlustur(){
 }
 function pmGunsonYazdir(){
   var ic=document.getElementById('pm-gs-ic');if(!ic)return;
-  var w=window.open('','_blank','width=480,height=700');
-  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>G\xfcn Sonu</title><style>body{font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:16px;max-width:460px;margin:0 auto}@media print{body{background:white!important;color:#000!important}}</style></head><body>'+ic.innerHTML+'</body></html>');
-  w.document.close();setTimeout(function(){w.print();},400);
+  var css='body{font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0;padding:16px;max-width:460px;margin:0 auto}@media print{body{background:white!important;color:#000!important}}';
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>G\xfcn Sonu</title><style>'+css+'</style></head><body>'+ic.innerHTML+'</body></html>';
+  _yazdir(html);
 }
-
 
 /* ═══ STOK FOTOĞRAF SİSTEMİ ═══ */
 const FOTO_KEY = 'et_stok_foto_v1';
@@ -5624,7 +5884,6 @@ pmYukle();
    SUPABASE ENTEGRASYONU
    URL: https://qzgypemxcmulticztnvh.supabase.co
 ════════════════════════════════════════════════════════ */
-/* SB globals yukarıda tanımlandı */
 
 /* ─ REST yardımcısı ─ */
 async function sbReq(method, table, body=null, query=''){
@@ -5823,8 +6082,6 @@ async function sbdenYukle(){
   }
 }
 
-/* sbSync yukarıda tanımlandı */
-
 /* ─ Ana sync fonksiyonu (değişen veriyi gönder) ─ */
 async function sbKaydet(hint='all'){
   if(!sbHazir||sbSyncing) return;
@@ -5967,7 +6224,6 @@ async function _sbSessizYukle(){
 
 /* Eski ghOtomatikSync stub — uyumluluk için boş bırakıldı */
 function ghOtomatikSync(){if(typeof sbSync==="function")sbSync("all");}
-
 
 </script>
 
