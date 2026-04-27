@@ -1615,6 +1615,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 <script>
 /* ═══ VERİ ═══ */
 const SK='tarim_stok_v6',LK='tarim_log_v6';
+var _N=null;try{if(typeof Notification!=='undefined')_N=Notification;}catch(e){_N=null;}
 
 /* ─ Supabase globals — erken tanımla ─ */
 const SB_URL='https://qzgypemxcmulticztnvh.supabase.co';
@@ -1784,16 +1785,16 @@ function ayarSayfasiGun(){
   // Bildirim durumu
   const bd=document.getElementById('bildirim-durum');
   if(bd){
-    if(!('Notification' in window)){
+    if(!_N||!('Notification' in window)){
       bd.innerHTML='<span style="color:#f87171">❌ Bu cihaz bildirimleri desteklemiyor</span>';
-    }else if(Notification.permission==='granted'){
+    }else if(_N.permission==='granted'){
       const kritik=stok.filter(s=>s.miktar>0&&s.miktar<=s.kritik).length;
       const tuken=stok.filter(s=>s.miktar===0).length;
       bd.innerHTML='<span style="color:#4ade80">✅ Bildirimler aktif</span>'
         +(tuken?'<br><span style="color:#f87171">🔴 '+tuken+' ürün tükendi</span>':'')
         +(kritik?'<br><span style="color:#fbbf24">⚠ '+kritik+' ürün kritik seviyede</span>':'')
         +(!tuken&&!kritik?'<br><span style="color:#64748b">Stok durumu normal</span>':'');
-    }else if(Notification.permission==='denied'){
+    }else if(_N.permission==='denied'){
       bd.innerHTML='<span style="color:#f87171">🚫 Bildirim izni reddedildi — tarayıcı ayarlarından açın</span>';
     }else{
       bd.innerHTML='<span style="color:#f59e0b">⏳ İzin verilmedi — aşağıdaki butona basın</span>';
@@ -2790,8 +2791,8 @@ function sablonSil(id){
 const BILDIRIM_KEY='et_bildirim_v1';
 
 function bildirimIzniAl(){
-  if(!('Notification' in window)){toast('Bu cihaz bildirimleri desteklemiyor','wrn');return;}
-  Notification.requestPermission().then(function(perm){
+  if(!_N||!('Notification' in window)){toast('Bu cihaz bildirimleri desteklemiyor','wrn');return;}
+  _N.requestPermission().then(function(perm){
     if(perm==='granted'){
       localStorage.setItem(BILDIRIM_KEY,'granted');
       bildirimKontrol();
@@ -2803,29 +2804,26 @@ function bildirimIzniAl(){
 }
 
 function bildirimKontrol(){
-  if(Notification.permission!=='granted')return;
+  if(!_N||_N.permission!=='granted')return;
   var kritikler=stok.filter(function(s){return s.miktar>0&&s.miktar<=s.kritik;});
   var tukenler=stok.filter(function(s){return s.miktar===0;});
-  if(tukenler.length){
-    new Notification('🔴 Erturan Tarım — Stok Uyarısı',{
-      body:tukenler.map(function(s){return s.ad+' tükendi!';}).join('\n'),
-      icon:'/favicon.ico',
-      tag:'stok-ukendi'
-    });
-  } else if(kritikler.length){
-    new Notification('⚠ Erturan Tarım — Kritik Stok',{
-      body:kritikler.map(function(s){return s.ad+': '+s.miktar+' '+s.ambalaj+' kaldı';}).join('\n'),
-      icon:'/favicon.ico',
-      tag:'stok-kritik'
-    });
-  }
+  try{
+    if(tukenler.length){
+      new _N('🔴 Erturan Tarım — Stok Uyarısı',{
+        body:tukenler.map(function(s){return s.ad+' tükendi!';}).join('\n'),
+        tag:'stok-ukendi'
+      });
+    }else if(kritikler.length){
+      new _N('⚠ Erturan Tarım — Kritik Stok',{
+        body:kritikler.map(function(s){return s.ad+': '+s.miktar+' '+s.ambalaj+' kaldı';}).join('\n'),
+        tag:'stok-kritik'
+      });
+    }
+  }catch(e){console.warn('Bildirim gönderilemedi:',e.message);}
 }
 
 function bildirimOtomatik(){
-  // Uygulama açılınca bildirim izni varsa kontrol et
-  if(typeof Notification!=='undefined'&&Notification.permission==='granted'){
-    bildirimKontrol();
-  }
+  if(_N&&_N.permission==='granted')bildirimKontrol();
 }
 
 function stokDus(){
