@@ -757,13 +757,27 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </div>
     </div>
 
+    <!-- Hava Durumu Widget -->
+    <div id="hava-widget" style="margin-bottom:10px;display:none">
+      <div style="background:#0c1a33;border:1.5px solid #1e3a5f;border-radius:12px;padding:12px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div style="font-size:10px;font-weight:800;color:#60a5fa;letter-spacing:.6px;text-transform:uppercase">🌤 Hava Durumu</div>
+          <div id="hava-konum-lbl" style="font-size:10px;color:#475569"></div>
+        </div>
+        <div id="hava-icerik">
+          <div style="text-align:center;color:#64748b;font-size:12px;padding:8px">Yükleniyor...</div>
+        </div>
+        <div id="hava-uyari" style="display:none;margin-top:8px;background:#1c0a0a;border:1.5px solid #991b1b;border-radius:8px;padding:8px 12px;font-size:12px;color:#f87171;font-weight:700"></div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="ctit">🗓 Uygulama Bilgileri</div>
       <div class="g2">
         <div class="field"><label>Tür</label>
           <select id="r-tip" class="sel"><option>İlaçlama</option><option>Gübreleme</option><option>Yaprak Gübresi</option><option>Diğer</option></select>
         </div>
-        <div class="field"><label>Tarih</label><input id="r-tarih" class="inp" type="date"></div>
+        <div class="field"><label>Tarih</label><input id="r-tarih" class="inp" type="date" onchange="havaReceteYukle(this.value)"></div>
       </div>
       <div class="field"><label>Ziraat Müh.</label><input id="r-muhendis" class="inp" placeholder="Ad Soyad"></div>
       <div class="field"><label>Açıklama</label><input id="r-aciklama" class="inp" placeholder="Hedef, hastalık..."></div>
@@ -914,6 +928,33 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </div>
       <div id="vana-yonetim-liste"></div>
       <button class="btn btn-ghost" style="margin-top:8px;font-size:12px" onclick="adalarSifirla()">↩ Fabrika Ayarlarına Dön</button>
+    </div>
+
+    <!-- BÖLÜM 0: KONUM & HAVA -->
+    <div class="card" style="border-color:#0ea5e944">
+      <div class="ctit" style="color:#38bdf8">🌤 Konum & Hava Durumu</div>
+      <p style="font-size:13px;color:#64748b;line-height:1.7;margin-bottom:12px">
+        Reçete hazırlarken o günün hava durumunu görmek için konum girin veya otomatik alın.
+      </p>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="field" style="margin-bottom:0">
+          <label>Enlem</label>
+          <input id="hava-lat" class="inp" type="number" step="any" placeholder="38.4192">
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>Boylam</label>
+          <input id="hava-lon" class="inp" type="number" step="any" placeholder="27.1287">
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:10px">
+        <label>Konum Adı (isteğe bağlı)</label>
+        <input id="hava-ad" class="inp" placeholder="Örn: Erturan Çiftliği, Tire">
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-blue btn-sm" style="flex:1" onclick="havaKonumOtomatik()">📍 Konumumu Kullan</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="havaKonumKaydet()">💾 Kaydet</button>
+      </div>
+      <div id="hava-ayar-durum" style="margin-top:8px;font-size:12px;color:#64748b"></div>
     </div>
 
     <!-- BÖLÜM 0: BİLDİRİM -->
@@ -1673,6 +1714,11 @@ function sayfaGit(id){
   if(id==='envanter')envListeGun();
   if(id==='personel')pmSayfaGun();
   if(id==='dash')dbGun();
+  if(id==='recete'){
+    var rtEl=document.getElementById('r-tarih');
+    if(rtEl&&!rtEl.value){var dn=new Date();rtEl.value=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');}
+    if(rtEl&&rtEl.value)havaReceteYukle(rtEl.value);
+  }
 }
 
 /* ═══ YEDEKLEME ═══ */
@@ -1770,6 +1816,7 @@ function togglePw(id){
 function ayarSayfasiGun(){
   ghAyarSayfasiGun();
   vanaYonetimListeGun();
+  ayarHavaGun();
   const el=document.getElementById('aktif-ku-adi');
   if(el&&aktifKullanici)el.textContent=ROL_ICO[aktifKullanici.rol]+' '+aktifKullanici.adi+' ('+ROL_ETIKET[aktifKullanici.rol]+')';
   const kuCard=document.getElementById('ku-yonetim-card');
@@ -2824,6 +2871,216 @@ function bildirimKontrol(){
 
 function bildirimOtomatik(){
   if(_N&&_N.permission==='granted')bildirimKontrol();
+}
+
+/* ═══ HAVA DURUMU SİSTEMİ ═══ */
+const HAVA_KEY='et_hava_konum_v1';
+const HAVA_CACHE_KEY='et_hava_cache_v1';
+
+// WMO hava kodu → emoji + açıklama
+var WMO={
+  0:['☀️','Açık'],1:['🌤','Az bulutlu'],2:['⛅','Parçalı bulutlu'],3:['☁️','Kapalı'],
+  45:['🌫','Sisli'],48:['🌫','Kırağılı sis'],
+  51:['🌦','Hafif çisenti'],53:['🌦','Çisenti'],55:['🌧','Yoğun çisenti'],
+  61:['🌧','Hafif yağmur'],63:['🌧','Yağmur'],65:['🌧','Şiddetli yağmur'],
+  71:['🌨','Hafif kar'],73:['🌨','Kar'],75:['❄️','Yoğun kar'],
+  80:['🌦','Sağanak'],81:['🌧','Kuvvetli sağanak'],82:['⛈','Şiddetli sağanak'],
+  85:['🌨','Kar sağanağı'],86:['❄️','Yoğun kar sağanağı'],
+  95:['⛈','Gök gürültülü'],96:['⛈','Dolu ile fırtına'],99:['⛈','Şiddetli fırtına']
+};
+
+function havaWmo(kod){return WMO[kod]||['🌡','Bilinmiyor'];}
+
+function havaKonumYukle(){
+  try{return JSON.parse(localStorage.getItem(HAVA_KEY))||null;}catch{return null;}
+}
+function havaKonumKaydetLS(k){localStorage.setItem(HAVA_KEY,JSON.stringify(k));}
+
+function havaKonumOtomatik(){
+  var durEl=document.getElementById('hava-ayar-durum');
+  if(durEl)durEl.textContent='Konum alınıyor...';
+  if(!navigator.geolocation){
+    if(durEl)durEl.textContent='❌ Konum servisi desteklenmiyor';
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      var lat=pos.coords.latitude.toFixed(4);
+      var lon=pos.coords.longitude.toFixed(4);
+      var latEl=document.getElementById('hava-lat');
+      var lonEl=document.getElementById('hava-lon');
+      if(latEl)latEl.value=lat;
+      if(lonEl)lonEl.value=lon;
+      if(durEl)durEl.textContent='\u2713 Konum alındı: '+lat+', '+lon;
+      havaKonumKaydet();
+    },
+    function(err){
+      if(durEl)durEl.textContent='❌ Konum alınamadı: '+err.message;
+    },
+    {timeout:10000,maximumAge:60000}
+  );
+}
+
+function havaKonumKaydet(){
+  var lat=parseFloat(document.getElementById('hava-lat').value);
+  var lon=parseFloat(document.getElementById('hava-lon').value);
+  var ad=(document.getElementById('hava-ad').value||'').trim();
+  if(!lat||!lon){toast('Enlem ve boylam giriniz!','err');return;}
+  var konum={lat:lat,lon:lon,ad:ad||'Çiftlik'};
+  havaKonumKaydetLS(konum);
+  var durEl=document.getElementById('hava-ayar-durum');
+  if(durEl)durEl.innerHTML='<span style="color:#4ade80">\u2713 Kaydedildi — '+konum.ad+' ('+lat+', '+lon+')</span>';
+  // Önbelleği temizle
+  localStorage.removeItem(HAVA_CACHE_KEY);
+  toast('\u2713 Konum kaydedildi');
+}
+
+function ayarHavaGun(){
+  var k=havaKonumYukle();
+  if(!k)return;
+  var latEl=document.getElementById('hava-lat');
+  var lonEl=document.getElementById('hava-lon');
+  var adEl=document.getElementById('hava-ad');
+  if(latEl)latEl.value=k.lat;
+  if(lonEl)lonEl.value=k.lon;
+  if(adEl)adEl.value=k.ad||'';
+  var durEl=document.getElementById('hava-ayar-durum');
+  if(durEl)durEl.innerHTML='<span style="color:#60a5fa">Kayıtlı: '+k.ad+' ('+k.lat+', '+k.lon+')</span>';
+}
+
+async function havaVeriGetir(lat,lon){
+  // 30 dk cache
+  try{
+    var cache=JSON.parse(localStorage.getItem(HAVA_CACHE_KEY)||'null');
+    if(cache&&cache.lat===lat&&cache.lon===lon&&Date.now()-cache.zaman<30*60*1000)return cache.veri;
+  }catch{}
+  var url='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon
+    +'&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,precipitation_probability_max'
+    +'&current_weather=true&timezone=Europe%2FIstanbul&forecast_days=7';
+  var r=await fetch(url);
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  var veri=await r.json();
+  try{localStorage.setItem(HAVA_CACHE_KEY,JSON.stringify({lat:lat,lon:lon,zaman:Date.now(),veri:veri}));}catch{}
+  return veri;
+}
+
+function havaUyariKontrol(gun){
+  // İlaçlama için uygunluk kontrolü
+  var uyarilar=[];
+  if(gun.precipitation_probability_max>=40)uyarilar.push('🌧 Yağmur ihtimali %'+gun.precipitation_probability_max+' — ilaçlama önerilmez');
+  if(gun.precipitation_sum>=1)uyarilar.push('💧 Yağış bekleniyor ('+gun.precipitation_sum+' mm) — ilaç yıkanır');
+  if(gun.windspeed_10m_max>=25)uyarilar.push('💨 Rüzgar kuvvetli ('+gun.windspeed_10m_max+' km/s) — ilaç savrulabilir');
+  var wmo=havaWmo(gun.weathercode);
+  if([61,63,65,80,81,82,95,96,99].includes(gun.weathercode))uyarilar.push(wmo[0]+' '+wmo[1]+' — uygulama yapma');
+  return uyarilar;
+}
+
+async function havaDashboardYukle(konum){
+  var el=document.getElementById('db-hava-icerik');
+  if(!el)return;
+  try{
+    var veri=await havaVeriGetir(konum.lat,konum.lon);
+    var daily=veri.daily;
+    var cur=veri.current_weather;
+    var curWmo=havaWmo(cur.weathercode);
+    var out='';
+    // Bugün özet
+    out+='<div style="display:flex;align-items:center;gap:10px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #1e3a5f">';
+    out+='<div style="font-size:36px">'+curWmo[0]+'</div>';
+    out+='<div style="flex:1">';
+    out+='<div style="font-size:22px;font-weight:800;color:#e2e8f0">'+Math.round(cur.temperature)+'°C</div>';
+    out+='<div style="font-size:11px;color:#64748b">'+curWmo[1]+' · Rüzgar: '+cur.windspeed+' km/s</div>';
+    out+='</div>';
+    out+='<div style="text-align:right;font-size:11px;color:#64748b">';
+    out+='<div>↑ '+Math.round(daily.temperature_2m_max[0])+'°</div>';
+    out+='<div>↓ '+Math.round(daily.temperature_2m_min[0])+'°</div>';
+    out+='</div></div>';
+    // 5 günlük
+    out+='<div style="display:flex;gap:4px;overflow-x:auto;scrollbar-width:none">';
+    var gunAd=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+    for(var i=0;i<5;i++){
+      var tarih=new Date(daily.time[i]);
+      var gAd=i===0?'Bugün':i===1?'Yarın':gunAd[tarih.getDay()];
+      var w=havaWmo(daily.weathercode[i]);
+      var yagmurPct=daily.precipitation_probability_max[i]||0;
+      var uygunRenk=yagmurPct>=40?'#ef4444':daily.windspeed_10m_max[i]>=25?'#f59e0b':'#22c55e';
+      out+='<div style="flex:1;min-width:52px;background:#0f172a;border-radius:9px;padding:7px 4px;text-align:center;border:1px solid '+(i===0?'#2563eb':'#1e293b')+'">';
+      out+='<div style="font-size:9px;color:#64748b;font-weight:700;margin-bottom:3px">'+gAd+'</div>';
+      out+='<div style="font-size:18px;margin-bottom:3px">'+w[0]+'</div>';
+      out+='<div style="font-size:11px;font-weight:800;color:#e2e8f0">'+Math.round(daily.temperature_2m_max[i])+'°</div>';
+      out+='<div style="font-size:9px;color:#64748b">'+Math.round(daily.temperature_2m_min[i])+'°</div>';
+      if(yagmurPct>10)out+='<div style="font-size:9px;color:#60a5fa;margin-top:2px">%'+yagmurPct+'</div>';
+      out+='<div style="width:6px;height:6px;border-radius:50%;background:'+uygunRenk+';margin:4px auto 0" title="'+(uygunRenk==='#22c55e'?'Uygun':'Dikkat')+'"></div>';
+      out+='</div>';
+    }
+    out+='</div>';
+    out+='<div style="margin-top:6px;font-size:9px;color:#334155;text-align:right">🟢 Uygun  🟡 Dikkat  🔴 Uygun değil</div>';
+    el.innerHTML=out;
+  }catch(e){
+    el.innerHTML='<div style="color:#f87171;font-size:12px">\u26a0 Hava verisi alınamadı</div>';
+    console.warn('Hava hatası:',e.message);
+  }
+}
+
+async function havaReceteYukle(tarih){
+  var konum=havaKonumYukle();
+  var widget=document.getElementById('hava-widget');
+  if(!konum||!widget)return;
+  widget.style.display='block';
+  var icerik=document.getElementById('hava-icerik');
+  var uyariEl=document.getElementById('hava-uyari');
+  if(icerik)icerik.innerHTML='<div style="text-align:center;color:#64748b;font-size:12px">Y\xfckleniyor...</div>';
+  if(uyariEl)uyariEl.style.display='none';
+  var konumLbl=document.getElementById('hava-konum-lbl');
+  if(konumLbl)konumLbl.textContent=konum.ad||'';
+  try{
+    var veri=await havaVeriGetir(konum.lat,konum.lon);
+    var daily=veri.daily;
+    // Seçilen tarihe ait günü bul
+    var gunIdx=daily.time.indexOf(tarih);
+    if(gunIdx<0){
+      if(icerik)icerik.innerHTML='<div style="color:#64748b;font-size:12px">\u2139 Bu tarih için tahmin mevcut değil (maks 7 gün)</div>';
+      return;
+    }
+    var gun={
+      weathercode:daily.weathercode[gunIdx],
+      temperature_2m_max:daily.temperature_2m_max[gunIdx],
+      temperature_2m_min:daily.temperature_2m_min[gunIdx],
+      precipitation_sum:daily.precipitation_sum[gunIdx],
+      windspeed_10m_max:daily.windspeed_10m_max[gunIdx],
+      precipitation_probability_max:daily.precipitation_probability_max[gunIdx]||0
+    };
+    var w=havaWmo(gun.weathercode);
+    var uyarılar=havaUyariKontrol(gun);
+    var out='<div style="display:flex;align-items:center;gap:12px">';
+    out+='<div style="font-size:32px">'+w[0]+'</div>';
+    out+='<div style="flex:1">';
+    out+='<div style="font-size:16px;font-weight:800;color:#e2e8f0">'+w[1]+'</div>';
+    out+='<div style="font-size:11px;color:#94a3b8;margin-top:2px">';
+    out+='↑ '+Math.round(gun.temperature_2m_max)+'° / ↓ '+Math.round(gun.temperature_2m_min)+'°';
+    out+=' · 💧 '+gun.precipitation_sum+' mm';
+    out+=' · 💨 '+gun.windspeed_10m_max+' km/s';
+    out+='</div>';
+    if(gun.precipitation_probability_max>0){
+      out+='<div style="font-size:11px;color:#60a5fa;margin-top:2px">\ud83c\udf27 Yağmur ihtimali: %'+gun.precipitation_probability_max+'</div>';
+    }
+    out+='</div>';
+    // Uygunluk göstergesi
+    var uygun=uyarılar.length===0;
+    out+='<div style="text-align:center;flex-shrink:0">';
+    out+='<div style="width:44px;height:44px;border-radius:50%;background:'+(uygun?'#052e16':'#1c0505')+';border:2px solid '+(uygun?'#22c55e':'#ef4444')+';display:flex;align-items:center;justify-content:center;font-size:20px">';
+    out+=uygun?'✅':'⚠️';
+    out+='</div>';
+    out+='<div style="font-size:9px;color:'+(uygun?'#4ade80':'#f87171')+';margin-top:3px;font-weight:700">'+(uygun?'Uygun':'Dikkat')+'</div>';
+    out+='</div></div>';
+    if(icerik)icerik.innerHTML=out;
+    if(uyarılar.length&&uyariEl){
+      uyariEl.innerHTML='⚠ '+uyarılar.join('<br>⚠ ');
+      uyariEl.style.display='block';
+    }
+  }catch(e){
+    if(icerik)icerik.innerHTML='<div style="color:#f87171;font-size:12px">\u26a0 Hava verisi alınamadı</div>';
+  }
 }
 
 function stokDus(){
@@ -5349,7 +5606,21 @@ function dbGun(){
     o+='</div>';
   });
   o+='</div>';
+
+  // Hava durumu kartı
+  var havaK=havaKonumYukle();
+  if(havaK){
+    o+='<div id="db-hava-kart" style="background:#0c1a33;border:1.5px solid #1e3a5f;border-radius:14px;padding:14px;margin-bottom:12px">';
+    o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">';
+    o+='<div style="font-size:10px;font-weight:800;color:#60a5fa;letter-spacing:.6px;text-transform:uppercase">\ud83c\udf24 Hava Durumu</div>';
+    o+='<div style="font-size:10px;color:#475569">'+(havaK.ad||'Konum')+'</div>';
+    o+='</div>';
+    o+='<div id="db-hava-icerik" style="text-align:center;color:#64748b;font-size:12px">Y\xfckleniyor...</div>';
+    o+='</div>';
+  }
+
   el.innerHTML=o;
+  if(havaK)setTimeout(function(){havaDashboardYukle(havaK);},100);
 }
 
 /* ═══ PERSONEL MODÜLÜ ═══ */
