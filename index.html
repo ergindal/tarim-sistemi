@@ -1018,6 +1018,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div id="sonuc-bos" class="empty">Henüz hesaplama yapılmadı.<br>Reçete sekmesinden hesaplayın.</div>
       <div id="sonuc-icerik" style="display:none">
         <div class="warn-box" id="stok-uyari"></div>
+        <div id="sonuc-su-banner" style="display:none;margin-bottom:10px"></div>
         <div class="stat-row" id="ozet-kartlar" style="grid-template-columns:repeat(4,1fr)"></div>
         <div style="margin-bottom:14px">
           <div class="ctit">Ürün / İlaç Miktarları</div>
@@ -2595,29 +2596,34 @@ function sonucGoster(){
     ub.innerHTML='⚠ <strong>Yetersiz Stok:</strong><br>'+yetersiz.map(il=>
       `${il.ad}: Gerekli <strong>${fmt(il.toplam)}</strong>, Mevcut <strong style="color:#f87171">${fmt(il.stokMiktar)}</strong> ${il.birim}`
     ).join('<br>');
-  }else ub.className='warn-box';
+  }else{
+    ub.className='warn-box';
+    ub.innerHTML='';
+  }
 
-  // Su bazlı mod banner
-  const suBanner=h.dozMod==='su'&&h.aktifSuLitre>0?`
-    <div style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:13px">
-      <span style="color:#60a5fa;font-weight:800">💧 Su Bazlı Hesaplama</span>
-      <span style="color:#94a3b8;margin-left:8px">Hedef: <strong style="color:#e2e8f0">${fmt(h.aktifSuLitre)} L (${fmt(h.aktifSuTon)} ton)</strong> su için dozlar hesaplandı</span>
-    </div>`:''
+  // Su bazlı banner — özet kartların üstünde göster
+  const suBannerEl=document.getElementById('sonuc-su-banner');
+  if(suBannerEl){
+    if(h.dozMod==='su'&&h.aktifSuLitre>0){
+      suBannerEl.style.display='block';
+      suBannerEl.innerHTML=`<div style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:10px 14px;font-size:13px">
+        <span style="color:#60a5fa;font-weight:800">💧 Su Bazlı Hesaplama</span>
+        <span style="color:#94a3b8;margin-left:8px">Hedef: <strong style="color:#e2e8f0">${fmt(h.aktifSuLitre)} L (${fmt(h.aktifSuTon)} ton)</strong></span>
+      </div>`;
+    }else{
+      suBannerEl.style.display='none';
+      suBannerEl.innerHTML='';
+    }
+  }
 
-  // Özet
+  // Özet kartlar
   const suGoster=h.dozMod==='su'?fmt(h.aktifSuLitre):fmt(h.topSu);
   document.getElementById('ozet-kartlar').innerHTML=[
-    {i:'🚿',l:'Vana',v:h.vanaAdet,c:'#3b82f6'},
-    {i:'🌳',l:'Ağaç',v:fmt(h.topAgac),c:'#22c55e'},
-    {i:'💧',l:'Su (L)',v:suGoster,c:'#0ea5e9'},
-    {i:'🧪',l:'Ürün',v:h.ilaclar.length,c:'#a78bfa'},
+    {l:'Vana',v:h.vanaAdet,c:'#3b82f6'},
+    {l:'Ağaç',v:fmt(h.topAgac),c:'#22c55e'},
+    {l:'Su (L)',v:suGoster,c:'#0ea5e9'},
+    {l:'Ürün',v:h.ilaclar.length,c:'#a78bfa'},
   ].map(x=>`<div class="stat-box"><div class="stat-num" style="color:${x.c};font-size:18px">${x.v}</div><div class="stat-lbl">${x.l}</div></div>`).join('');
-
-  // Su banner'ı ozet-kartlar'ın önüne ekle
-  const ilacListEl=document.getElementById('ilac-sonuc-liste');
-  if(ilacListEl&&suBanner){
-    ilacListEl.previousElementSibling?.previousElementSibling?.insertAdjacentHTML('beforebegin',suBanner);
-  }
 
   // Doz etiketi
   const dozEtiketi=h.dozMod==='su'?'Doz / ton su':'Doz / Ağaç';
@@ -2628,7 +2634,8 @@ function sonucGoster(){
   // İlaç sonuçları
   document.getElementById('ilac-sonuc-liste').innerHTML=h.ilacSonuc.map(il=>{
     const ambalajStr=il.ambalajGerekli!==null
-      ?`<div class="sonuc-ilac-row"><span style="color:#64748b">Açılacak Ambalaj</span><span style="font-weight:800;color:#f59e0b">📦 ${il.ambalajGerekli} ${il.ambalaj}</span></div>`:'';
+      ?`<div class="sonuc-ilac-row"><span style="color:#64748b">Açılacak Ambalaj</span><span style="font-weight:800;color:#f59e0b">📦 ${il.ambalajGerekli} ${il.ambalaj}</span></div>`
+      :`<div class="sonuc-ilac-row"><span style="color:#64748b">Toplam Miktar</span><span style="font-weight:800;color:#94a3b8">${fmt(il.toplam)} ${il.birim}</span></div>`;
     return`<div class="sonuc-ilac-item">
       <div class="sonuc-ilac-ad">${il.ad}</div>
       <div class="sonuc-ilac-row"><span style="color:#64748b">${dozEtiketi}</span><span>${il.doz} ${il.birim}</span></div>
@@ -3342,21 +3349,25 @@ function stokDus(){
   if(!sonHesap)return toast('Önce reçeteyi hesaplayın!','err');
   const yetersiz=sonHesap.ilacSonuc.filter(il=>!il.yeterli);
   if(yetersiz.length)return toast(`Yetersiz stok: ${yetersiz.map(il=>il.ad).join(', ')}`,'wrn');
-  const onay=sonHesap.ilacSonuc.map(il=>`• ${il.ad}: ${il.ambalajGerekli!==null?`${il.ambalajGerekli} ${il.ambalaj} açılacak (${fmt(il.toplam)} ${il.birim})`:`${fmt(il.toplam)} ${il.birim}`}`).join('\n');
+  // Düşülecek ürünleri filtrele — ambalajGerekli null olanları atla
+  const dusulecek=sonHesap.ilacSonuc.filter(il=>il.ambalajGerekli!==null&&il.ambalajGerekli>0);
+  if(!dusulecek.length)return toast('Düşülecek ambalaj hesaplanamadı — birim uyuşmazlığı olabilir','wrn');
+  const onay=dusulecek.map(il=>`• ${il.ad}: ${il.ambalajGerekli} ${il.ambalaj} (${fmt(il.toplam)} ${il.birim})`).join('\n');
   if(!confirm(`Reçetedeki malzemeler stoktan düşülecek:\n${onay}\n\nOnaylıyor musunuz?`))return;
-  sonHesap.ilacSonuc.forEach(il=>{
+  dusulecek.forEach(il=>{
     const idx=stok.findIndex(s=>s.id===il.stokId);
     if(idx>=0){
       const eski=stok[idx].miktar;
-      const dus=il.ambalajGerekli!==null?il.ambalajGerekli:1;
+      const dus=il.ambalajGerekli;
       stok[idx].miktar=Math.max(0,eski-dus);
       logEkle('dus',il.ad,dus,eski,stok[idx].miktar,`${il.ambalaj} (${fmt(il.toplam)} ${il.birim})`,`Reçete: ${sonHesap.tip}`);
     }
   });
   kaydet();stokStatsGun();stokDlGun();receteSelectGun();
-  rgEkle(sonHesap); // Reçeteyi geçmişe kaydet
-  toast(`✓ ${sonHesap.ilacSonuc.length} ürün stoktan düşüldü — reçete geçmişe kaydedildi`);
-  hesapla();
+  rgEkle(sonHesap);
+  toast(`✓ ${dusulecek.length} ürün stoktan düşüldü — reçete geçmişe kaydedildi`);
+  // Sonuç sayfasını güncelle (stok miktarları değişti)
+  sonucGoster();
 }
 
 /* ═══ YAZDIR ═══ */
