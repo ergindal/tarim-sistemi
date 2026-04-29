@@ -2673,36 +2673,72 @@ function rgKaydet(liste){
   localStorage.setItem(RG_KEY,JSON.stringify(liste));
 }
 function rgEkle(hesap){
-  const liste=rgYukle();
-  const kayit={
-    id:Date.now(),
-    tarih:hesap.tarih||new Date().toISOString().split('T')[0],
-    kayitZamani:new Date().toISOString(),
-    tip:hesap.tip,
-    aciklama:hesap.aciklama||'',
-    muhendis:hesap.muhendis||'',
-    topAgac:hesap.topAgac,
-    topSu:hesap.topSu,
-    vanaAdet:hesap.vanaAdet,
-    dozMod:hesap.dozMod||'agac',
-    aktifSuLitre:hesap.aktifSuLitre||0,
-    ilaclar:hesap.ilacSonuc.map(il=>({
-      ad:il.ad,birim:il.birim,doz:il.doz,
-      toplam:il.toplam,ambalajGerekli:il.ambalajGerekli,
-      ambalaj:il.ambalaj
-    })),
-    vanalar:hesap.vanaSonuc.map(v=>({
-      ada:v.ada,no:v.no,agac:v.agac,su:v.su,
-      ilacMiktarlar:v.ilacMiktarlar
-    })),
-    ilacAdlari:hesap.ilaclar.map(il=>il.ad),
-    // Tam hesap verisi — tekrar yüklemek için
-    _hesap:hesap
-  };
-  liste.unshift(kayit);
-  // Maks 50 reçete sakla
-  if(liste.length>50)liste.splice(50);
-  rgKaydet(liste);
+  try{
+    const liste=rgYukle();
+    const kayit={
+      id:Date.now(),
+      tarih:hesap.tarih||new Date().toISOString().split('T')[0],
+      kayitZamani:new Date().toISOString(),
+      tip:hesap.tip||'Reçete',
+      aciklama:hesap.aciklama||'',
+      muhendis:hesap.muhendis||'',
+      topAgac:hesap.topAgac||0,
+      topSu:hesap.topSu||0,
+      vanaAdet:hesap.vanaAdet||0,
+      dozMod:hesap.dozMod||'agac',
+      aktifSuLitre:hesap.aktifSuLitre||0,
+      ilaclar:(hesap.ilacSonuc||[]).map(il=>({
+        ad:il.ad||'',
+        birim:il.birim||'',
+        doz:il.doz||0,
+        toplam:il.toplam||0,
+        ambalajGerekli:il.ambalajGerekli,
+        ambalaj:il.ambalaj||''
+      })),
+      vanalar:(hesap.vanaSonuc||[]).map(v=>({
+        ada:v.ada||'',
+        no:v.no||0,
+        agac:v.agac||0,
+        su:v.su||0,
+        ilacMiktarlar:v.ilacMiktarlar||[]
+      })),
+      // Özet bilgiler (yüklemek için yeterli)
+      _hesap:{
+        tip:hesap.tip,tarih:hesap.tarih,aciklama:hesap.aciklama,
+        muhendis:hesap.muhendis,topAgac:hesap.topAgac,topSu:hesap.topSu,
+        topSira:hesap.topSira,vanaAdet:hesap.vanaAdet,
+        dozMod:hesap.dozMod,aktifSuLitre:hesap.aktifSuLitre,
+        aktifSuTon:hesap.aktifSuTon,
+        damlatici:hesap.damlatici,debi:hesap.debi,
+        sure:hesap.sure,tank:hesap.tank,
+        litrePerAgac:hesap.litrePerAgac,
+        ilacSonuc:(hesap.ilacSonuc||[]).map(il=>({
+          stokId:il.stokId,ad:il.ad,birim:il.birim,doz:il.doz,
+          toplam:il.toplam,ambalajGerekli:il.ambalajGerekli,
+          ambalaj:il.ambalaj,stokMiktar:il.stokMiktar,
+          yeterli:il.yeterli
+        })),
+        ilaclar:(hesap.ilaclar||[]).map(il=>({
+          id:il.stokId,ad:il.ad,birim:il.birim,doz:il.doz
+        })),
+        vanaSonuc:(hesap.vanaSonuc||[]).map(v=>({
+          ada:v.ada,no:v.no,agac:v.agac,su:v.su,
+          sira:v.sira,ilacMiktarlar:v.ilacMiktarlar||[]
+        })),
+        totIlac:hesap.totIlac||[],
+        list:(hesap.list||[]).map(l=>({
+          ak:l.ak,ada:l.ada,no:l.no,sira:l.sira,agac:l.agac
+        }))
+      }
+    };
+    liste.unshift(kayit);
+    if(liste.length>50)liste.splice(50);
+    rgKaydet(liste);
+    console.log('✓ Reçete geçmişe kaydedildi, id:',kayit.id);
+  }catch(e){
+    console.error('rgEkle hatası:',e.message);
+    toast('Reçete geçmişe kaydedilemedi: '+e.message,'err');
+  }
 }
 
 function sonucTabSec(tab,btn){
