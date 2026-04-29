@@ -1082,6 +1082,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:#3b82f6"></div>Personel Op.</div>
     <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>Reçete Uyg.</div>
     <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:#f59e0b"></div>Stok Hareketi</div>
+    <div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:#a78bfa"></div>Brifing</div>
   </div>
 
   <!-- Seçili gün detayı -->
@@ -1098,7 +1099,10 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div style="font-size:15px;font-weight:800">👷 Personel &amp; Operasyon</div>
       <div style="font-size:11px;color:#64748b;margin-top:1px" id="pm-ozet-lbl">Efor takibi</div>
     </div>
-    <button onclick="pmKayitFormAc()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer">＋ Kayıt</button>
+    <div style="display:flex;gap:6px">
+      <button onclick="brifingFormAc()" style="background:#052e16;border:1.5px solid #16a34a;color:#4ade80;padding:9px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer">📋 Brifing</button>
+      <button onclick="pmKayitFormAc()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:white;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer">＋ Kayıt</button>
+    </div>
   </div>
   <div class="pm-kpi-row">
     <div class="pm-kpi"><div class="pm-kpi-val" id="pm-kpi-op" style="color:#3b82f6">0</div><div class="pm-kpi-lbl">Operasyon</div></div>
@@ -1232,7 +1236,60 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   </div>
 </div>
 
-<!-- ════ DASHBOARD ════ -->
+<!-- Brifing Modal -->
+<div class="form-overlay" id="brifing-modal">
+  <div class="form-sheet" style="max-height:90vh">
+    <div class="form-sheet-baslik">
+      <span>📋 Günlük Faaliyet Brifing</span>
+      <button class="form-sheet-kapat" onclick="formKapat('brifing-modal')">✕</button>
+    </div>
+
+    <!-- Temel bilgiler -->
+    <div class="g2">
+      <div class="field"><label>Tarih *</label><input id="br-tarih" type="date" class="inp"></div>
+      <div class="field">
+        <label>Alan / Ada</label>
+        <select id="br-ada" class="sel">
+          <option value="ADA1">Ada 1</option>
+          <option value="ADA2">Ada 2</option>
+          <option value="ADA3">Ada 3</option>
+          <option value="GENEL">Genel</option>
+          <option value="OZEL">Özel Bölge</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Bölge / Mevki</label>
+      <input id="br-bolge" class="inp" placeholder="Seferihisar Tepecik, Kuzey Parsel...">
+    </div>
+
+    <!-- Görev grupları -->
+    <div style="font-size:10px;font-weight:800;color:#64748b;letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">
+      🔧 Görev Grupları
+    </div>
+    <div id="br-gorev-listesi"></div>
+    <button onclick="brGorevEkle()" style="width:100%;padding:10px;background:#0f172a;border:1.5px dashed #334155;color:#64748b;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:12px">
+      ＋ Görev Grubu Ekle
+    </button>
+
+    <!-- Genel not -->
+    <div class="field">
+      <label>Genel Not</label>
+      <input id="br-not" class="inp" placeholder="Hava durumu, özel durum...">
+    </div>
+
+    <!-- Özet -->
+    <div id="br-ozet" style="background:#0c1f3f;border:1.5px solid #2563eb;border-radius:10px;padding:11px 14px;margin-bottom:12px;display:none">
+      <div style="font-size:11px;font-weight:800;color:#60a5fa;margin-bottom:6px">📊 Brifing Özeti</div>
+      <div id="br-ozet-icerik" style="font-size:12px;color:#94a3b8;line-height:1.8"></div>
+    </div>
+
+    <button class="btn btn-green" onclick="brifingKaydet()">✓ Brifing Kaydet</button>
+    <button class="btn btn-ghost" onclick="formKapat('brifing-modal')">İptal</button>
+  </div>
+</div>
+
+
 <div class="page" id="pg-dash">
   <div id="db-wrap" style="padding-bottom:4px"></div>
 </div>
@@ -3234,6 +3291,7 @@ function takvimGun(){
     if(gunOlay.pm>0)html+='<div style="width:7px;height:7px;border-radius:50%;background:#3b82f6" title="'+gunOlay.pm+' personel op."></div>';
     if(gunOlay.recete>0)html+='<div style="width:7px;height:7px;border-radius:50%;background:#22c55e" title="'+gunOlay.recete+' reçete"></div>';
     if(gunOlay.stok>0)html+='<div style="width:7px;height:7px;border-radius:50%;background:#f59e0b" title="'+gunOlay.stok+' stok hareketi"></div>';
+    if(gunOlay.brifing>0)html+='<div style="width:7px;height:7px;border-radius:50%;background:#a78bfa" title="'+gunOlay.brifing+' brifing"></div>';
     html+='</div>';
     // Toplam göstergesi
     var topOlay=gunOlay.pm+gunOlay.recete+gunOlay.stok;
@@ -3299,6 +3357,18 @@ function takvimOlaylariTopla(){
       }
     });
   }
+  // Brifing kayıtları
+  try{
+    var brListe=JSON.parse(localStorage.getItem('et_brifing_v1'))||[];
+    brListe.forEach(function(b){
+      if(!olaylar[b.tarih])olaylar[b.tarih]={pm:0,recete:0,stok:0,pmOlaylar:[],receteOlaylar:[],stokOlaylar:[],brifingOlaylar:[]};
+      if(!olaylar[b.tarih].brifingOlaylar)olaylar[b.tarih].brifingOlaylar=[];
+      olaylar[b.tarih].brifingOlaylar.push(b);
+      // Brifing olan günlere mor nokta ekle
+      if(!olaylar[b.tarih].brifing)olaylar[b.tarih].brifing=0;
+      olaylar[b.tarih].brifing++;
+    });
+  }catch(e){}
   return olaylar;
 }
 
@@ -3373,6 +3443,27 @@ function takvimDetayGoster(gunStr,olay){
       o+='<div style="font-size:10px;color:#64748b;margin-top:4px">+ '+(olay.stokOlaylar.length-5)+' hareket daha</div>';
     }
     o+='</div>';
+  }
+
+  // Brifing olaylar
+  if(olay.brifingOlaylar&&olay.brifingOlaylar.length){
+    olay.brifingOlaylar.forEach(function(b){
+      var topKisi=b.topKisi||(b.gruplar||[]).reduce(function(s,g){return s+g.kisi;},0);
+      o+='<div style="font-size:10px;font-weight:800;color:#a78bfa;letter-spacing:.5px;text-transform:uppercase;margin:8px 0 6px">📋 Günlük Brifing</div>';
+      o+='<div style="background:#1a1040;border:1.5px solid #7c3aed44;border-left:3px solid #a78bfa;border-radius:8px;padding:10px 12px;margin-bottom:8px">';
+      o+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+      o+='<div style="font-size:13px;font-weight:800;color:#e2e8f0">'+(b.bolge||'Brifing')+'</div>';
+      o+='<div style="background:#7c3aed22;color:#a78bfa;border-radius:20px;padding:2px 8px;font-size:11px;font-weight:700">👥 '+topKisi+' kişi</div>';
+      o+='</div>';
+      (b.gruplar||[]).forEach(function(g){
+        o+='<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #1e293b">';
+        o+='<div style="font-size:12px;color:#e2e8f0">'+g.gorev+(g.not?' <span style="color:#64748b;font-size:10px">('+g.not+')</span>':'')+'</div>';
+        o+='<div style="font-size:12px;font-weight:800;color:#c4b5fd">'+g.kisi+' kişi</div>';
+        o+='</div>';
+      });
+      if(b.not)o+='<div style="font-size:11px;color:#64748b;margin-top:6px;font-style:italic">📝 '+b.not+'</div>';
+      o+='</div>';
+    });
   }
 
   icerik.innerHTML=o;
@@ -5930,6 +6021,132 @@ var _PM_DEF=['Hasat','Budama','İlaçlama','Gübreleme','Sulama Bakım','Toprak 
 var _PM_AADI={ADA1:'Ada 1',ADA2:'Ada 2',ADA3:'Ada 3',GENEL:'Genel'};
 var _PM_ARNK={ADA1:'#3b82f6',ADA2:'#60a5fa',ADA3:'#93c5fd',GENEL:'#7c3aed'};
 var _pmK=[],_pmP=[],_pmG=_PM_DEF.slice(),_pmTab='kayitlar';
+
+/* ═══ GÜNLÜK BRİFİNG SİSTEMİ ═══ */
+const BR_KEY='et_brifing_v1';
+var brSayac=0;
+
+function brYukle(){try{return JSON.parse(localStorage.getItem(BR_KEY))||[];}catch{return[];}}
+function brKaydetLS(liste){localStorage.setItem(BR_KEY,JSON.stringify(liste));}
+
+function brifingFormAc(){
+  var dn=new Date();
+  document.getElementById('br-tarih').value=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');
+  document.getElementById('br-bolge').value='';
+  document.getElementById('br-not').value='';
+  document.getElementById('br-ada').value='ADA1';
+  document.getElementById('br-gorev-listesi').innerHTML='';
+  document.getElementById('br-ozet').style.display='none';
+  brSayac=0;
+  // İlk grubu otomatik ekle
+  brGorevEkle();
+  brGorevEkle();
+  formAc('brifing-modal');
+}
+
+function brGorevEkle(){
+  brSayac++;
+  var id='brg'+brSayac;
+  var div=document.createElement('div');
+  div.id=id;
+  div.style.cssText='background:#0f172a;border:1px solid #334155;border-radius:10px;padding:12px;margin-bottom:8px;position:relative';
+
+  var gorevOpt=_pmG.map(function(g){return'<option>'+g+'</option>';}).join('');
+
+  div.innerHTML=
+    '<div style="display:flex;gap:6px;margin-bottom:8px">'
+    +'<select class="sel br-gorev-sel" id="'+id+'-gorev" style="flex:2;font-size:12px">'+gorevOpt+'</select>'
+    +'<input type="number" id="'+id+'-kisi" class="inp" min="1" placeholder="Kişi" style="flex:1;font-size:13px" oninput="brOzetGun()" value="1">'
+    +'<button onclick="document.getElementById(\''+id+'\').remove();brOzetGun()" style="background:#1c0a0a;border:1px solid #7f1d1d;color:#f87171;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;flex-shrink:0">✕</button>'
+    +'</div>'
+    // Ek araç/makine notu
+    +'<input class="inp" id="'+id+'-not" placeholder="Ek not: 1 Traktör, sulama hattı..." style="font-size:12px;padding:8px 12px">';
+
+  document.getElementById('br-gorev-listesi').appendChild(div);
+  brOzetGun();
+}
+
+function brOzetGun(){
+  var gruplar=brGruplarOku();
+  var topKisi=gruplar.reduce(function(s,g){return s+g.kisi;},0);
+  var ozet=document.getElementById('br-ozet');
+  var icerik=document.getElementById('br-ozet-icerik');
+  if(!gruplar.length){ozet.style.display='none';return;}
+  var html='<strong>👥 Toplam: '+topKisi+' kişi · '+gruplar.length+' görev grubu</strong><br>';
+  gruplar.forEach(function(g){
+    html+='&nbsp;&nbsp;• '+g.gorev+': <strong>'+g.kisi+' kişi</strong>'+(g.not?' ('+g.not+')':'')+'<br>';
+  });
+  icerik.innerHTML=html;
+  ozet.style.display='block';
+}
+
+function brGruplarOku(){
+  var gruplar=[];
+  document.querySelectorAll('#br-gorev-listesi > div').forEach(function(div){
+    var id=div.id;
+    var gorevEl=document.getElementById(id+'-gorev');
+    var kisiEl=document.getElementById(id+'-kisi');
+    var notEl=document.getElementById(id+'-not');
+    if(!gorevEl||!kisiEl)return;
+    var kisi=parseInt(kisiEl.value)||0;
+    if(kisi<=0)return;
+    gruplar.push({gorev:gorevEl.value,kisi:kisi,not:(notEl?notEl.value.trim():'')});
+  });
+  return gruplar;
+}
+
+function brifingKaydet(){
+  var tarih=document.getElementById('br-tarih').value;
+  var ada=document.getElementById('br-ada').value;
+  var bolge=document.getElementById('br-bolge').value.trim();
+  var not=document.getElementById('br-not').value.trim();
+  if(!tarih)return toast('Tarih giriniz!','err');
+  var gruplar=brGruplarOku();
+  if(!gruplar.length)return toast('En az bir görev grubu ekleyin!','err');
+
+  var topKisi=gruplar.reduce(function(s,g){return s+g.kisi;},0);
+  var t=new Date(tarih.split('-')[0],parseInt(tarih.split('-')[1])-1,parseInt(tarih.split('-')[2])).getTime();
+
+  // Her görev grubu için ayrı PM kaydı oluştur
+  gruplar.forEach(function(g){
+    var kayit={
+      id:Date.now()+Math.random(),
+      ada:ada,
+      gorev:g.gorev,
+      gun:1,
+      kisiSayi:g.kisi,
+      ag:g.kisi*1,
+      personel:'',
+      saatBas:'08:00',
+      saatBit:'17:00',
+      not:(bolge?bolge+' — ':'')+g.gorev+(g.not?' ('+g.not+')':''),
+      t:t,
+      brifing:true
+    };
+    _pmK.unshift(kayit);
+  });
+
+  // Brifing kaydını da sakla (takvim + özet için)
+  var liste=brYukle();
+  var brifingKayit={
+    id:Date.now(),
+    tarih:tarih,
+    ada:ada,
+    bolge:bolge,
+    topKisi:topKisi,
+    gruplar:gruplar,
+    not:not,
+    olusturma:new Date().toISOString()
+  };
+  liste.unshift(brifingKayit);
+  if(liste.length>100)liste.splice(100);
+  brKaydetLS(liste);
+
+  _pmSave();
+  formKapat('brifing-modal');
+  pmSayfaGun();
+  toast('✓ Brifing kaydedildi — '+gruplar.length+' görev, '+topKisi+' kişi');
+}
 
 function pmYukle(){
   try{_pmK=JSON.parse(localStorage.getItem(_PMK))||[];}catch(e){_pmK=[];}
