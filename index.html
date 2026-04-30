@@ -4110,14 +4110,19 @@ function aracListeGun(){
 /* ── YEDEK (araçlar dahil) ── */
 function yedekAl(){
   const veri={
-    versiyon:4,tarih:new Date().toISOString(),
+    versiyon:5,tarih:new Date().toISOString(),
     stok,log:slog,araclar,mazotlar,
     kullanim:kullanımlar,yakitBakimlar,adalar:ADALAR,
     envanter:typeof envanter!=='undefined'?envanter:[],
     pmKayitlar:typeof _pmK!=='undefined'?_pmK:[],
     pmPersoneller:typeof _pmP!=='undefined'?_pmP:[],
     pmGorevler:typeof _pmG!=='undefined'?_pmG:[],
-    kullaniciler:(()=>{try{return JSON.parse(localStorage.getItem('erturan_users_v1'))||[];}catch{return [];}})()
+    kullaniciler:(()=>{try{return JSON.parse(localStorage.getItem('erturan_users_v1'))||[];}catch{return[];}})(),
+    receteGecmis:(()=>{try{return JSON.parse(localStorage.getItem('et_recete_gecmis_v1'))||[];}catch{return[];}})(),
+    receteSablonlar:(()=>{try{return JSON.parse(localStorage.getItem('et_recete_sablon_v1'))||[];}catch{return[];}})(),
+    brifingKayitlar:(()=>{try{return JSON.parse(localStorage.getItem('et_brifing_v1'))||[];}catch{return[];}})(),
+    havaKonum:(()=>{try{return JSON.parse(localStorage.getItem('et_hava_konum_v1'))||null;}catch{return null;}})(),
+    stokFotolar:(()=>{try{return JSON.parse(localStorage.getItem('et_stok_foto_v1'))||{};}catch{return{};}})()
   };
   const blob=new Blob([JSON.stringify(veri,null,2)],{type:'application/json'});
   const a=document.createElement('a');
@@ -4126,7 +4131,9 @@ function yedekAl(){
   a.click();URL.revokeObjectURL(a.href);
   const pmSay=typeof _pmK!=='undefined'?_pmK.length:0;
   const envSay=typeof envanter!=='undefined'?envanter.length:0;
-  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
+  const rgSay=veri.receteGecmis.length;
+  const brSay=veri.brifingKayitlar.length;
+  yedekDurum(`✓ Yedek indirildi — ${stok.length} ürün · ${pmSay} PM kayıt · ${rgSay} reçete · ${brSay} brifing · ${envSay} envanter`,true);
   if(typeof sbSync==='function')sbSync('all');
   toast('⬇ Tam yedek indirildi!');
 }
@@ -4140,32 +4147,61 @@ function yedekYukle(e){
       const tarih=d.tarih?new Date(d.tarih).toLocaleString('tr-TR'):'?';
       const pmSay=(d.pmKayitlar||[]).length;
       const envSay=(d.envanter||[]).length;
-      if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n👷 ${pmSay} personel kaydı\n📦 ${envSay} envanter\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
+      const rgSay=(d.receteGecmis||[]).length;
+      const brSay=(d.brifingKayitlar||[]).length;
+      if(!confirm(`Yedek yüklensin mi?\n\n📦 ${d.stok.length} ürün\n🚗 ${(d.araclar||[]).length} araç\n👷 ${pmSay} personel kaydı\n📦 ${envSay} envanter\n🌿 ${rgSay} reçete geçmişi\n📋 ${brSay} brifing\n🕑 ${tarih}\n\n⚠ Mevcut veriler silinecek!`))return;
+
+      // Temel veriler
       stok=d.stok;slog=d.log||[];
       araclar=d.araclar||[];mazotlar=d.mazotlar||[];
       kullanımlar=d.kullanim||d.kullanımlar||[];
       yakitBakimlar=d.yakitBakimlar||[];
       if(d.adalar){ADALAR=d.adalar;adalarKaydet();}
+
       // Envanter
       if(d.envanter){envanter=d.envanter;envKaydetLS();}
+
       // Personel modülü
       if(typeof _pmK!=='undefined'){
         if(d.pmKayitlar){_pmK=d.pmKayitlar;localStorage.setItem(_PMK,JSON.stringify(_pmK));}
         if(d.pmPersoneller){_pmP=d.pmPersoneller;localStorage.setItem(_PPK,JSON.stringify(_pmP));}
         if(d.pmGorevler&&d.pmGorevler.length){_pmG=d.pmGorevler;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
       }
-      localStorage.setItem(SK,JSON.stringify(stok));
-      localStorage.setItem(LK,JSON.stringify(slog));
-      aracKaydetLS();mzKaydetLS();
-      gridCiz();stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
-      // Supabase sync
-      if(typeof sbSync==='function')sbSync('all');
-      // Kullanıcılar yedekte varsa yükle
+
+      // Reçete geçmişi
+      if(d.receteGecmis){localStorage.setItem('et_recete_gecmis_v1',JSON.stringify(d.receteGecmis));}
+
+      // Reçete şablonları
+      if(d.receteSablonlar){localStorage.setItem('et_recete_sablon_v1',JSON.stringify(d.receteSablonlar));}
+
+      // Brifing kayıtları
+      if(d.brifingKayitlar){localStorage.setItem('et_brifing_v1',JSON.stringify(d.brifingKayitlar));}
+
+      // Hava konum
+      if(d.havaKonum){localStorage.setItem('et_hava_konum_v1',JSON.stringify(d.havaKonum));}
+
+      // Stok fotoğrafları
+      if(d.stokFotolar){localStorage.setItem('et_stok_foto_v1',JSON.stringify(d.stokFotolar));}
+
+      // Kullanıcılar
       if(d.kullaniciler&&Array.isArray(d.kullaniciler)&&d.kullaniciler.length){
         localStorage.setItem('erturan_users_v1',JSON.stringify(d.kullaniciler));
         if(typeof kullanicilariKaydetLS==='function')kullanicilariKaydetLS(d.kullaniciler);
       }
-      yedekDurum(`✓ Yüklendi — ${stok.length} ürün · ${araclar.length} araç · ${pmSay} personel kaydı · ${envSay} envanter`,true);
+
+      // localStorage'a yaz
+      localStorage.setItem(SK,JSON.stringify(stok));
+      localStorage.setItem(LK,JSON.stringify(slog));
+      aracKaydetLS();mzKaydetLS();
+
+      // UI güncelle
+      gridCiz();stokStatsGun();stokDlGun();receteSelectGun();aracSelectGun();
+      if(typeof sablonBarGun==='function')sablonBarGun();
+
+      // Supabase sync
+      if(typeof sbSync==='function')sbSync('all');
+
+      yedekDurum(`✓ Yüklendi — ${stok.length} ürün · ${pmSay} PM kayıt · ${rgSay} reçete · ${brSay} brifing · ${envSay} envanter`,true);
       toast('⬆ Tam yedek yüklendi!');
     }catch(err){yedekDurum(`✕ ${err.message}`,false);toast('Geçersiz yedek!','err');}
   };
