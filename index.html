@@ -1230,6 +1230,8 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <div class="field"><label>İsim *</label><input id="pm-p-ad" class="inp" placeholder="Ali Yılmaz"></div>
     <div class="field"><label>Görev / Uzmanlık</label><input id="pm-p-uzm" class="inp" placeholder="Hasat Ustası"></div>
     <div class="field"><label>İşe Giriş Tarihi</label><input id="pm-p-giris" type="date" class="inp"></div>
+    <div class="field"><label>💰 Aylık Maaş (₺)</label><input id="pm-p-maas" type="number" min="0" class="inp" placeholder="0"></div>
+    <div class="field"><label>💳 Avans Bakiyesi (₺)</label><input id="pm-p-avans" type="number" min="0" class="inp" placeholder="0"></div>
     <input type="hidden" id="pm-p-id">
     <button class="btn btn-blue" onclick="pmPKaydet()">✓ Kaydet</button>
   </div>
@@ -6489,6 +6491,13 @@ function _pmPListe(){
       altBilgi+=' \xb7 \ud83d\udcc5 '+girisTarih+' ('+kidem+')';
     }
     out+='<div style="font-size:11px;color:#64748b;margin-top:1px">'+altBilgi+'</div>';
+    if(p.maas||p.avans){
+      var finBilgi='';
+      if(p.maas)finBilgi+='<span style="color:#4ade80;font-weight:700">💰 '+p.maas.toLocaleString('tr-TR')+'₺</span>';
+      if(p.maas&&p.avans)finBilgi+=' &nbsp;';
+      if(p.avans)finBilgi+='<span style="color:#fb923c;font-weight:700">💳 Avans: '+p.avans.toLocaleString('tr-TR')+'₺</span>';
+      out+='<div style="font-size:11px;margin-top:3px">'+finBilgi+'</div>';
+    }
     out+='</div>';
     out+='<div style="display:flex;gap:4px">';
     out+='<button onclick="pmPDuzenle('+p.id+')" style="background:#0c1f3f;border:1px solid #2563eb;color:#93c5fd;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer">\u270f</button>';
@@ -6505,12 +6514,16 @@ function pmPFormAc(id){
     document.getElementById('pm-p-ad').value='';
     document.getElementById('pm-p-uzm').value='';
     document.getElementById('pm-p-giris').value='';
+    document.getElementById('pm-p-maas').value='';
+    document.getElementById('pm-p-avans').value='';
   }else{
     var p=null;for(var i=0;i<_pmP.length;i++){if(_pmP[i].id===id){p=_pmP[i];break;}}
     if(!p)return;
     document.getElementById('pm-p-ad').value=p.ad;
     document.getElementById('pm-p-uzm').value=p.uzm||'';
     document.getElementById('pm-p-giris').value=p.giris||'';
+    document.getElementById('pm-p-maas').value=p.maas||'';
+    document.getElementById('pm-p-avans').value=p.avans||'';
   }
   formAc('pm-p-modal');
 }
@@ -6519,14 +6532,16 @@ function pmPKaydet(){
   var ad=document.getElementById('pm-p-ad').value.trim();
   var uzm=document.getElementById('pm-p-uzm').value.trim();
   var giris=document.getElementById('pm-p-giris').value||'';
+  var maas=parseFloat(document.getElementById('pm-p-maas').value)||0;
+  var avans=parseFloat(document.getElementById('pm-p-avans').value)||0;
   var editId=parseInt(document.getElementById('pm-p-id').value)||null;
   if(!ad)return toast('\u0130sim giriniz!','err');
   if(editId){
     for(var i=0;i<_pmP.length;i++){
-      if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;_pmP[i].giris=giris;break;}
+      if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;_pmP[i].giris=giris;_pmP[i].maas=maas;_pmP[i].avans=avans;break;}
     }
   }else{
-    _pmP.push({id:Date.now(),ad:ad,uzm:uzm,giris:giris});
+    _pmP.push({id:Date.now(),ad:ad,uzm:uzm,giris:giris,maas:maas,avans:avans});
   }
   _pmSave();formKapat('pm-p-modal');_pmPListe();toast('\u2713 Personel kaydedildi');
 }
@@ -6863,7 +6878,7 @@ async function sbTumunuYukle(){
     }
     // PM Personeller
     if(typeof _pmP!=='undefined'&&_pmP.length){
-      const pRows = _pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+      const pRows = _pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||'',giris:p.giris||'',maas:p.maas||0,avans:p.avans||0}));
       await sbReq('POST','pm_personeller',pRows);
     }
     // PM Görevler
@@ -6925,7 +6940,7 @@ async function sbdenYukle(){
     // PM Personeller
     const ppData = await sbReq('GET','pm_personeller','','?order=id');
     if(typeof _pmP!=='undefined'){
-      _pmP = ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+      _pmP = ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||'',giris:p.giris||'',maas:parseFloat(p.maas)||0,avans:parseFloat(p.avans)||0}));
       localStorage.setItem(_PPK,JSON.stringify(_pmP));
     }
     // PM Görevler
@@ -6983,7 +6998,7 @@ async function sbKaydet(hint='all'){
         await sbReq('POST','pm_kayitlar',r);
       }
       if(typeof _pmP!=='undefined'&&_pmP.length){
-        const r=_pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));
+        const r=_pmP.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||'',giris:p.giris||'',maas:p.maas||0,avans:p.avans||0}));
         await sbReq('POST','pm_personeller',r);
       }
       if(typeof _pmG!=='undefined'){
@@ -7074,7 +7089,7 @@ async function _sbSessizYukle(){
     const pmData=await sbReq('GET','pm_kayitlar','','?order=t.desc');
     if(typeof _pmK!=='undefined'&&pmData.length){_pmK=pmData.map(k=>({id:k.id,ada:k.ada,gorev:k.gorev,gun:parseFloat(k.gun),kisiSayi:k.kisi_sayi,ag:parseFloat(k.ag),personel:k.personel||'',saatBas:k.saat_bas||'',saatBit:k.saat_bit||'',not:k.not_||'',t:k.t}));localStorage.setItem(_PMK,JSON.stringify(_pmK));}
     const ppData=await sbReq('GET','pm_personeller','','?order=id');
-    if(typeof _pmP!=='undefined'&&ppData.length){_pmP=ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||''}));localStorage.setItem(_PPK,JSON.stringify(_pmP));}
+    if(typeof _pmP!=='undefined'&&ppData.length){_pmP=ppData.map(p=>({id:p.id,ad:p.ad,uzm:p.uzm||'',giris:p.giris||'',maas:parseFloat(p.maas)||0,avans:parseFloat(p.avans)||0}));localStorage.setItem(_PPK,JSON.stringify(_pmP));}
     const pgData=await sbReq('GET','pm_gorevler','','?id=eq.1');
     if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){_pmG=pgData[0].liste;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
     // Kullanıcılar
