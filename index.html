@@ -51,15 +51,15 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── ALT NAVİGASYON ── */
 .bottom-nav{flex-shrink:0;background:#1e293b;border-top:1px solid #334155;
-  display:grid;grid-template-columns:repeat(10,1fr);
-  padding-bottom:env(safe-area-inset-bottom)}
+  display:flex;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav::-webkit-scrollbar{display:none}
 .bnav-btn{background:transparent;border:none;cursor:pointer;color:#64748b;
-  padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;
-  transition:color .2s;min-height:56px;justify-content:center}
+  padding:8px 6px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  transition:color .2s;min-height:54px;min-width:58px;flex-shrink:0;justify-content:center}
 .bnav-btn.active{color:#16a34a}
 .bnav-btn .bico{font-size:20px;line-height:1}
-.bnav-btn .blbl{font-size:10px;font-weight:700;letter-spacing:.2px}
-
+.bnav-btn .blbl{font-size:9px;font-weight:700;letter-spacing:.1px;white-space:nowrap}
 /* ── KARTLAR ── */
 .card{background:#1e293b;border-radius:14px;padding:16px;border:1px solid #334155;margin-bottom:12px}
 .ctit{font-size:10px;font-weight:800;color:#64748b;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px}
@@ -470,8 +470,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
   .content{overflow:visible !important;min-height:auto !important;height:auto !important}
 
-  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:40;
-    max-width:100%;grid-template-columns:repeat(10,1fr)}
+  .bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:40;max-width:100%}
 
   /* Ana içerik ortalanmış, nav için boşluk */
   .page{max-width:900px;margin:0 auto;padding:20px 24px 80px}
@@ -1031,7 +1030,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
         <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
           <button class="btn btn-purple btn-sm" style="flex:1;min-width:130px" onclick="yazdir()">🖨 Yazdır / PDF</button>
           <button class="btn btn-green btn-sm" style="flex:1;min-width:130px;margin-bottom:0" onclick="receteExcel()">📊 Excel İndir</button>
-          <button class="btn btn-red btn-sm" style="width:100%;margin-bottom:0;margin-top:0" onclick="stokDus()">▼ Stoktan Düş</button>
+          <button id="stok-dus-btn" class="btn btn-red btn-sm" style="width:100%;margin-bottom:0;margin-top:0" onclick="stokDus()">▼ Stoktan Düş</button>
         </div>
       </div>
     </div>
@@ -2717,6 +2716,23 @@ function sonucGoster(){
         </div>`).join('')}
       </div>
     </div>`).join('');
+
+  // Stoktan Düş butonunu güncelle
+  const sdBtn=document.getElementById('stok-dus-btn');
+  if(sdBtn){
+    if(h._dusuld){
+      sdBtn.textContent='✓ Stoktan Düşüldü';
+      sdBtn.style.background='#052e16';
+      sdBtn.style.color='#4ade80';
+      sdBtn.style.border='1.5px solid #16a34a';
+    }else{
+      sdBtn.textContent='▼ Stoktan Düş';
+      sdBtn.style.background='';
+      sdBtn.style.color='';
+      sdBtn.style.border='';
+      sdBtn.className='btn btn-red btn-sm';
+    }
+  }
 }
 
 /* ═══ STOKTAN DÜŞ (reçeteden) ═══ */
@@ -3474,27 +3490,54 @@ function takvimDetayGoster(gunStr,olay){
 
 function stokDus(){
   if(!sonHesap)return toast('Önce reçeteyi hesaplayın!','err');
+  if(sonHesap._dusuld){
+    if(!confirm('Bu reçete zaten stoktan düşüldü!\nTekrar düşmek istiyor musunuz?'))return;
+  }
   const yetersiz=sonHesap.ilacSonuc.filter(il=>!il.yeterli);
-  if(yetersiz.length)return toast(`Yetersiz stok: ${yetersiz.map(il=>il.ad).join(', ')}`,'wrn');
-  // Düşülecek ürünleri filtrele — ambalajGerekli null olanları atla
+  if(yetersiz.length)return toast('Yetersiz stok: '+yetersiz.map(il=>il.ad).join(', '),'wrn');
+
+  // Düşülecek ürünler — ambalajGerekli hesaplanmış olanlar
   const dusulecek=sonHesap.ilacSonuc.filter(il=>il.ambalajGerekli!==null&&il.ambalajGerekli>0);
-  if(!dusulecek.length)return toast('Düşülecek ambalaj hesaplanamadı — birim uyuşmazlığı olabilir','wrn');
-  const onay=dusulecek.map(il=>`• ${il.ad}: ${il.ambalajGerekli} ${il.ambalaj} (${fmt(il.toplam)} ${il.birim})`).join('\n');
-  if(!confirm(`Reçetedeki malzemeler stoktan düşülecek:\n${onay}\n\nOnaylıyor musunuz?`))return;
+  if(!dusulecek.length)return toast('Düşülecek ambalaj hesaplanamadı.\nBirim uyuşmazlığı olabilir (örn: stok L, doz mL).','wrn');
+
+  // Onay mesajı
+  const onay=dusulecek.map(il=>'• '+il.ad+': '+il.ambalajGerekli+' '+il.ambalaj+' ('+fmt(il.toplam)+' '+il.birim+')').join('\n');
+  if(!confirm('Stoktan düşülecek:\n\n'+onay+'\n\nOnaylıyor musunuz?'))return;
+
+  // Her ürünü düş — id karşılaştırmasını güvenli yap
+  let dusulen=0;
   dusulecek.forEach(il=>{
-    const idx=stok.findIndex(s=>s.id===il.stokId);
+    const hedefId=parseInt(il.stokId)||il.stokId;
+    // stokId ile eşleştir
+    let idx=stok.findIndex(s=>parseInt(s.id)===parseInt(hedefId));
+    if(idx<0){
+      // İsimle dene (fallback)
+      idx=stok.findIndex(s=>s.ad===il.ad);
+      if(idx>=0)console.warn('stokId eşleşmedi, isimle bulundu:',il.ad);
+    }
     if(idx>=0){
       const eski=stok[idx].miktar;
       const dus=il.ambalajGerekli;
       stok[idx].miktar=Math.max(0,eski-dus);
-      logEkle('dus',il.ad,dus,eski,stok[idx].miktar,`${il.ambalaj} (${fmt(il.toplam)} ${il.birim})`,`Reçete: ${sonHesap.tip}`);
+      logEkle('dus',il.ad,dus,eski,stok[idx].miktar,
+        il.ambalaj+' ('+fmt(il.toplam)+' '+il.birim+')',
+        'Reçete: '+sonHesap.tip);
+      dusulen++;
+    }else{
+      console.warn('Stokta bulunamadı:',il.ad,'id:',il.stokId);
+      toast(il.ad+' stokta bulunamadı!','wrn');
     }
   });
+
+  if(dusulen===0)return toast('Hiçbir ürün düşülemedi — stok eşleşmesi başarısız','err');
+
+  // Düşüldü flag — tekrar düşmeyi önle
+  sonHesap._dusuld=true;
+
   kaydet();stokStatsGun();stokDlGun();receteSelectGun();
   rgEkle(sonHesap);
-  toast(`✓ ${dusulecek.length} ürün stoktan düşüldü — reçete geçmişe kaydedildi`);
-  // Sonuç sayfasını güncelle (stok miktarları değişti)
-  sonucGoster();
+  toast('✓ '+dusulen+' ürün stoktan düşüldü — reçete geçmişe kaydedildi');
+  sonucGoster(); // Sonuç sayfasını güncelle (stok miktarları yenilendi)
 }
 
 /* ═══ YAZDIR ═══ */
