@@ -1776,7 +1776,12 @@ function sbSync(hint){
 }
 const BAZ=[];
 let stok=[],slog=[],sMod='ekle';
-function kaydet(){localStorage.setItem(SK,JSON.stringify(stok));localStorage.setItem(LK,JSON.stringify(slog));sbSync('stok');}
+function kaydet(){
+  localStorage.setItem(SK,JSON.stringify(stok));
+  localStorage.setItem(LK,JSON.stringify(slog));
+  localStorage.setItem('et_son_kayit',Date.now().toString());
+  sbSync('stok');
+}
 function yukle(){
   try{stok=JSON.parse(localStorage.getItem(SK))||[];}catch{stok=[];}
   try{slog=JSON.parse(localStorage.getItem(LK))||[];}catch{slog=[];}
@@ -3903,7 +3908,7 @@ let araclar=[];
 function aracYukle(){
   try{araclar=JSON.parse(localStorage.getItem(AK))||[];}catch{araclar=[];}
 }
-function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));sbSync('araclar');}
+function aracKaydetLS(){localStorage.setItem(AK,JSON.stringify(araclar));localStorage.setItem('et_son_kayit',Date.now().toString());sbSync('araclar');}
 
 function gunFarki(ts){
   if(!ts)return null;
@@ -4247,6 +4252,7 @@ function yedekYukle(e){
       // localStorage'a yaz
       localStorage.setItem(SK,JSON.stringify(stok));
       localStorage.setItem(LK,JSON.stringify(slog));
+      localStorage.setItem('et_son_kayit',Date.now().toString());
       aracKaydetLS();mzKaydetLS();
 
       // UI güncelle
@@ -4563,6 +4569,7 @@ function mzKaydetLS(){
   localStorage.setItem(MZK,JSON.stringify(mazotlar));
   localStorage.setItem(KULK,JSON.stringify(kullanımlar));
   localStorage.setItem(BAKK,JSON.stringify(yakitBakimlar));
+  localStorage.setItem('et_son_kayit',Date.now().toString());
   sbSync('misc');
 }
 
@@ -5728,7 +5735,7 @@ let envAktifId=null;
 function envYukle(){
   try{envanter=JSON.parse(localStorage.getItem(ENV_KEY))||[];}catch{envanter=[];}
 }
-function envKaydetLS(){localStorage.setItem(ENV_KEY,JSON.stringify(envanter));sbSync('envanter');}
+function envKaydetLS(){localStorage.setItem(ENV_KEY,JSON.stringify(envanter));localStorage.setItem('et_son_kayit',Date.now().toString());sbSync('envanter');}
 
 const KAT_ADI={ekipman:'🚜 Ekipman',sulama:'💧 Sulama',depo:'🏚 Depo',diger:'📌 Diğer'};
 const KAT_CLS={ekipman:'kat-ekipman',sulama:'kat-sulama',depo:'kat-depo',diger:'kat-diger'};
@@ -6248,6 +6255,7 @@ function _pmSave(){
   localStorage.setItem(_PMK,JSON.stringify(_pmK));
   localStorage.setItem(_PPK,JSON.stringify(_pmP));
   localStorage.setItem(_PGK,JSON.stringify(_pmG));
+  localStorage.setItem('et_son_kayit',Date.now().toString());
   sbSync('pm');
 }
 function _f(n){return Number(n).toLocaleString('tr-TR',{maximumFractionDigits:2});}
@@ -6997,14 +7005,18 @@ async function sbKaydet(hint='all'){
   sbLoading();
   try{
     if(hint==='stok'||hint==='all'){
+      // Önce tüm stok kaydını temizle, sonra güncel listeyi yaz
+      // Bu sayede silinen ürünler Supabase'den de silinir
+      await sbReq('DELETE','stok',null,'?id=gt.0');
       if(stok.length){
         const rows=stok.map(s=>({id:s.id,ad:s.ad,miktar:s.miktar,ambalaj:s.ambalaj||null,icerik:s.icerik||0,ic_birim:s.icBirim||null,kritik:s.kritik||2}));
         await sbReq('POST','stok',rows);
       }
-      // Son log kaydı
+      // Log kayıtları da güncelle — tümünü yaz
       if(slog.length){
-        const l=slog[0];
-        await sbReq('POST','stok_log',[{id:Date.now(),tip:l.tip,ad:l.ad,miktar:l.miktar||0,once:l.once||0,sonra:l.sonra||0,birim:l.birim||'',not_:l.not||'',t:l.t||''}]);
+        await sbReq('DELETE','stok_log',null,'?id=gt.0');
+        const logRows=slog.slice(0,300).map((l,i)=>({id:l.id||(Date.now()+i),tip:l.tip,ad:l.ad,miktar:l.miktar||0,once:l.once||0,sonra:l.sonra||0,birim:l.birim||'',not_:l.not||'',t:l.t||''}));
+        await sbReq('POST','stok_log',logRows);
       }
     }
     if(hint==='araclar'||hint==='all'){
@@ -7094,6 +7106,15 @@ async function sbIlkYukle(){
 
 /* ─ Sessiz arka plan yükleme (UI dondurmadan) ─ */
 async function _sbSessizYukle(){
+  // Yerel son değişiklik zamanını kontrol et
+  // Eğer yerel veri Supabase'den daha yeniyse — Supabase'e yaz, üzerine yazma
+  const yerelZaman=parseInt(localStorage.getItem('et_son_kayit')||'0');
+  const simdi=Date.now();
+  // 30 saniye içinde kayıt yapıldıysa Supabase'den yükleme yapma
+  if(simdi-yerelZaman<30000){
+    console.log('Yerel veri daha yeni, Supabase\'den yükleme atlandı');
+    return;
+  }
   try{
     const stokData=await sbReq('GET','stok','','?order=id');
     if(stokData.length){
