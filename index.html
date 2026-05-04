@@ -4668,7 +4668,7 @@ function mzRenderMazot(){
       <div class="yk-body">
         <div class="yk-cell">
           <div class="yk-cell-lbl">📦 Bidon</div>
-          <div class="yk-cell-val">${m.bidon&&m.hacim?m.bidon+' × '+parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})+' L':m.miktar?m.miktar+' L alındı':'—'}</div>
+          <div class="yk-cell-val">${m.bidon&&m.hacim?m.bidon+' × '+parseFloat(m.hacim).toLocaleString('tr-TR',{maximumFractionDigits:0})+' L':m.toplam?'Toplam '+parseFloat(m.toplam).toLocaleString('tr-TR',{maximumFractionDigits:1})+' L':'—'}</div>
         </div>
         <div class="yk-cell">
           <div class="yk-cell-lbl">⛽ Toplam Litre</div>
@@ -4680,7 +4680,7 @@ function mzRenderMazot(){
         </div>
         <div class="yk-cell">
           <div class="yk-cell-lbl">💳 Toplam Tutar</div>
-          <div class="yk-cell-val" style="color:#93c5fd">${m.tutar?m.tutar.toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺':'—'}</div>
+          <div class="yk-cell-val" style="color:#93c5fd">${(()=>{const t=m.tutar||(m.fiyat&&m.toplam?parseFloat(m.fiyat)*parseFloat(m.toplam):null);return t?parseFloat(t).toLocaleString('tr-TR',{maximumFractionDigits:2})+' ₺':'—';})()}</div>
         </div>
       </div>
       ${m.tedarik||m.not?`<div class="yk-footer"><span class="yk-aciklama">${m.tedarik?'🏪 '+m.tedarik:''}${m.tedarik&&m.not?' · ':''}${m.not?'📝 '+m.not:''}</span></div>`:''}
@@ -5973,7 +5973,7 @@ function dbGun(){
   var sonIslemler=slog.slice(0,5);
   var topArac=typeof araclar!=='undefined'?araclar.length:0;
   var bakimGereken=typeof araclar!=='undefined'?araclar.filter(function(a){return a.sonBakim&&a.bakimKm&&(a.kmGuncel-a.sonBakim)>=(a.bakimKm*0.9);}).length:0;
-  var mazotStok=typeof mazotlar!=='undefined'?mazotlar.reduce(function(s,m){return s+(m.miktar||0);},0):0;
+  var mazotStok=typeof getMzStok==='function'?getMzStok():0;
   var bugunT0=new Date();bugunT0.setHours(0,0,0,0);
   var pmBugun=typeof _pmK!=='undefined'?_pmK.filter(function(k){return k.t>=bugunT0.getTime()&&k.t<bugunT0.getTime()+86400000;}).length:0;
   var pmTopAG=typeof _pmK!=='undefined'?_pmK.reduce(function(s,k){return s+(k.ag||0);},0):0;
@@ -6033,7 +6033,7 @@ function dbGun(){
   o+='<div style="font-size:20px;margin-bottom:6px">\ud83d\udc77</div>';
   o+='<div style="font-size:20px;font-weight:800;color:#60a5fa;line-height:1">'+pmBugun+'</div>';
   o+='<div style="font-size:10px;color:#64748b;margin-top:2px">Bug\xfcn Op.</div>';
-  o+='<div style="font-size:10px;color:#3b82f6;margin-top:4px;font-weight:700">'+Number(pmTopAG).toLocaleString('tr-TR',{maximumFractionDigits:1})+' A/G</div>';
+  o+='<div style="font-size:10px;color:#3b82f6;margin-top:4px;font-weight:700">Toplam: '+Number(pmTopAG).toLocaleString('tr-TR',{maximumFractionDigits:1})+' A/G</div>';
   o+='</div>';
   o+='<div onclick="sayfaGit(\'arac\')" style="background:'+aracBg+';border:1.5px solid '+aracColor+'44;border-radius:12px;padding:12px;cursor:pointer">';
   o+='<div style="font-size:20px;margin-bottom:6px">\ud83d\ude97</div>';
