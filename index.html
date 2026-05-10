@@ -528,6 +528,43 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .pm-analiz-row:last-child{border-bottom:none}
 .pm-personel-chip{background:#1e3a5f;color:#93c5fd;border:1px solid #2563eb33;border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;display:inline-block;margin:2px 2px 0 0}
 
+/* ── PUANTAJ MODÜLÜ ── */
+.pt-kisi-kart{background:#0f172a;border:1.5px solid #1e3a5f;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.pt-kisi-header{background:#0c1a33;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.pt-kisi-header:active{background:#091020}
+.pt-kisi-ad{font-size:13px;font-weight:800;color:#e2e8f0;display:flex;align-items:center;gap:8px}
+.pt-kisi-ozet{font-size:10px;color:#64748b;margin-top:1px}
+.pt-kisi-body{display:none;border-top:1px solid #1e3a5f}
+.pt-kisi-body.acik{display:block}
+.pt-ay-tabs{display:flex;gap:4px;padding:10px 12px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid #1e293b}
+.pt-ay-tabs::-webkit-scrollbar{display:none}
+.pt-ay-tab{padding:5px 11px;background:#1e293b;border:1px solid #334155;border-radius:7px;font-size:11px;font-weight:700;color:#64748b;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.pt-ay-tab.active{background:#0c1f3f;border-color:#2563eb;color:#93c5fd}
+.pt-kayit-satir{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #0f172a}
+.pt-kayit-satir:last-child{border-bottom:none}
+.pt-kayit-tip{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.pt-kayit-tip.avans{background:#431407;border:1px solid #92400e}
+.pt-kayit-tip.izin{background:#052e16;border:1px solid #14532d}
+.pt-kayit-tip.ceza{background:#450a0a;border:1px solid #991b1b}
+.pt-kayit-tip.prim{background:#0c1f3f;border:1px solid #1e3a5f}
+.pt-kayit-bilgi{flex:1;min-width:0}
+.pt-kayit-ad{font-size:12px;font-weight:700;color:#e2e8f0}
+.pt-kayit-tarih{font-size:10px;color:#64748b;margin-top:1px}
+.pt-kayit-tutar{font-size:14px;font-weight:800;flex-shrink:0}
+.pt-kayit-tutar.avans{color:#fbbf24}
+.pt-kayit-tutar.izin{color:#4ade80}
+.pt-kayit-tutar.ceza{color:#f87171}
+.pt-kayit-tutar.prim{color:#60a5fa}
+.pt-ozet-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 12px;border-top:1px solid #0f172a;background:#060d1a}
+.pt-ozet-kutu{text-align:center}
+.pt-ozet-val{font-size:14px;font-weight:800;line-height:1}
+.pt-ozet-lbl{font-size:9px;color:#64748b;margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+.pt-bos{text-align:center;padding:20px;color:#475569;font-size:12px}
+.pt-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.pt-kpi{background:#0f172a;border-radius:12px;padding:11px 8px;text-align:center;border:1px solid #1e3a5f}
+.pt-kpi-val{font-size:20px;font-weight:800;line-height:1}
+.pt-kpi-lbl{font-size:9px;color:#64748b;margin-top:2px;text-transform:uppercase;letter-spacing:.3px}
+
 /* ── STOK FOTO ── */
 .stok-foto{width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0;border:1.5px solid #334155;cursor:pointer;transition:opacity .15s}
 .stok-foto:active{opacity:.7}
@@ -1110,6 +1147,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
   <div class="pm-tabs">
     <button class="pm-tab active" onclick="pmTabSec('kayitlar',this)">📋 Kayıtlar</button>
     <button class="pm-tab" onclick="pmTabSec('personel',this)">👷 Personel</button>
+    <button class="pm-tab" onclick="pmTabSec('puantaj',this)">💰 Puantaj</button>
     <button class="pm-tab" onclick="pmTabSec('analiz',this)">📊 Analiz</button>
     <button class="pm-tab" onclick="pmTabSec('gunson',this)">📋 Gün Özeti</button>
   </div>
@@ -1141,8 +1179,33 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       <div id="pm-g-liste"></div>
     </div>
   </div>
+  <!-- ════ PUANTAJ SAYFASI ════ -->
+  <div class="pm-page" id="pm-page-puantaj">
+    <div class="pt-kpi-row">
+      <div class="pt-kpi"><div class="pt-kpi-val" id="pt-kpi-avans" style="color:#fbbf24">0 ₺</div><div class="pt-kpi-lbl">Avans</div></div>
+      <div class="pt-kpi"><div class="pt-kpi-val" id="pt-kpi-izin" style="color:#4ade80">0 G</div><div class="pt-kpi-lbl">İzin</div></div>
+      <div class="pt-kpi"><div class="pt-kpi-val" id="pt-kpi-prim" style="color:#60a5fa">0 ₺</div><div class="pt-kpi-lbl">Prim</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:12px;font-weight:800;color:#fbbf24">💰 Personel Puantajı</div>
+      <button onclick="ptKayitFormAc()" style="background:linear-gradient(135deg,#92400e,#78350f);border:1.5px solid #f59e0b;color:#fbbf24;padding:7px 12px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer">＋ Kayıt Ekle</button>
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:12px">
+      <select id="pt-f-ay" class="sel" style="flex:1;font-size:12px;padding:9px 10px" onchange="ptListeGun()">
+        <option value="">Tüm Aylar</option>
+      </select>
+      <select id="pt-f-tip" class="sel" style="flex:1;font-size:12px;padding:9px 10px" onchange="ptListeGun()">
+        <option value="">Tüm Türler</option>
+        <option value="avans">💵 Avans</option>
+        <option value="izin">🌿 İzin</option>
+        <option value="prim">⭐ Prim</option>
+        <option value="ceza">⚠ Kesinti</option>
+      </select>
+    </div>
+    <div id="pt-p-liste"></div>
+  </div>
+
   <div class="pm-page" id="pm-page-analiz">
-    <div style="background:#0f172a;border-radius:12px;padding:13px 14px;margin-bottom:10px;border:1px solid #1e3a5f">
       <div style="font-size:11px;font-weight:800;color:#60a5fa;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px">🌿 Ada Bazında Efor</div>
       <div id="pm-an-ada"><div style="color:#64748b;font-size:12px">Veri yok.</div></div>
     </div>
@@ -1230,8 +1293,67 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
     <div class="field"><label>İsim *</label><input id="pm-p-ad" class="inp" placeholder="Ali Yılmaz"></div>
     <div class="field"><label>Görev / Uzmanlık</label><input id="pm-p-uzm" class="inp" placeholder="Hasat Ustası"></div>
     <div class="field"><label>İşe Giriş Tarihi</label><input id="pm-p-giris" type="date" class="inp"></div>
+    <div class="field"><label>Aylık Maaş (₺)</label><input id="pm-p-maas" type="number" class="inp" placeholder="15000" inputmode="numeric"></div>
     <input type="hidden" id="pm-p-id">
     <button class="btn btn-blue" onclick="pmPKaydet()">✓ Kaydet</button>
+  </div>
+</div>
+
+<!-- Puantaj Kayıt Modal -->
+<div class="form-overlay" id="pt-kayit-modal">
+  <div class="form-sheet">
+    <div class="form-sheet-baslik">
+      <span>💰 <span id="pt-form-baslik">Puantaj Kaydı</span></span>
+      <button class="form-sheet-kapat" onclick="formKapat('pt-kayit-modal')">✕</button>
+    </div>
+    <div class="field">
+      <label>Personel *</label>
+      <select id="pt-kisi" class="sel">
+        <option value="">Personel seçin...</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Kayıt Türü *</label>
+      <select id="pt-tip" class="sel" onchange="ptTipDegis()">
+        <option value="avans">💵 Maaş Avansı</option>
+        <option value="izin">🌿 İzin</option>
+        <option value="prim">⭐ Prim / İkramiye</option>
+        <option value="ceza">⚠ Kesinti / Ceza</option>
+      </select>
+    </div>
+    <div class="g2">
+      <div class="field"><label>Tarih *</label><input id="pt-tarih" type="date" class="inp"></div>
+      <div class="field" id="pt-bitis-field">
+        <label id="pt-bitis-lbl">Bitiş Tarihi</label>
+        <input id="pt-tarih-bit" type="date" class="inp">
+      </div>
+    </div>
+    <div class="field" id="pt-tutar-field">
+      <label id="pt-tutar-lbl">Tutar (₺) *</label>
+      <input id="pt-tutar" type="number" class="inp" placeholder="0" inputmode="decimal">
+    </div>
+    <div class="field" id="pt-izin-gun-field" style="display:none">
+      <label>İzin Gün Sayısı *</label>
+      <input id="pt-izin-gun" type="number" class="inp" placeholder="1" min="0.5" step="0.5" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label>İzin / Avans Türü</label>
+      <select id="pt-alt-tip" class="sel">
+        <option value="">— Seçiniz —</option>
+        <option value="yillik">📅 Yıllık İzin</option>
+        <option value="mazeret">📝 Mazeret İzni</option>
+        <option value="hastalik">🏥 Hastalık İzni</option>
+        <option value="ucretsiz">❌ Ücretsiz İzin</option>
+        <option value="haftalik">Haftalık Avans</option>
+        <option value="acil">🚨 Acil Avans</option>
+        <option value="diger">Diğer</option>
+      </select>
+    </div>
+    <div class="field"><label>Açıklama</label><input id="pt-aciklama" class="inp" placeholder="Ek bilgi..."></div>
+    <div id="pt-ozet-box" style="display:none;background:#0c1a33;border:1.5px solid #2563eb;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:#93c5fd;line-height:1.6"></div>
+    <input type="hidden" id="pt-edit-id">
+    <button class="btn" style="background:linear-gradient(135deg,#92400e,#78350f);border:1.5px solid #f59e0b;color:#fbbf24" onclick="ptKayitKaydet()">✓ Kaydet</button>
+    <button class="btn btn-ghost" onclick="formKapat('pt-kayit-modal')">İptal</button>
   </div>
 </div>
 
@@ -6278,6 +6400,7 @@ function pmTabSec(tab,btn){
   btn.classList.add('active');
   document.querySelectorAll('.pm-page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('pm-page-'+tab).classList.add('active');
+  if(tab==='puantaj')ptSayfaGun();
   if(tab==='kayitlar')pmKayitListeGun();
   else if(tab==='personel')_pmPListe();
   else if(tab==='analiz')_pmAnalizGun();
@@ -6539,6 +6662,7 @@ function _pmPListe(){
       altBilgi+=' \xb7 \ud83d\udcc5 '+girisTarih+' ('+kidem+')';
     }
     out+='<div style="font-size:11px;color:#64748b;margin-top:1px">'+altBilgi+'</div>';
+    if(p.maas){out+='<div style="font-size:10px;color:#fbbf2499;margin-top:1px">💰 Maaş: '+Number(p.maas).toLocaleString('tr-TR')+'₺</div>';}
     out+='</div>';
     out+='<div style="display:flex;gap:4px">';
     out+='<button onclick="pmPDuzenle('+p.id+')" style="background:#0c1f3f;border:1px solid #2563eb;color:#93c5fd;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer">\u270f</button>';
@@ -6555,12 +6679,14 @@ function pmPFormAc(id){
     document.getElementById('pm-p-ad').value='';
     document.getElementById('pm-p-uzm').value='';
     document.getElementById('pm-p-giris').value='';
+    document.getElementById('pm-p-maas').value='';
   }else{
     var p=null;for(var i=0;i<_pmP.length;i++){if(_pmP[i].id===id){p=_pmP[i];break;}}
     if(!p)return;
     document.getElementById('pm-p-ad').value=p.ad;
     document.getElementById('pm-p-uzm').value=p.uzm||'';
     document.getElementById('pm-p-giris').value=p.giris||'';
+    document.getElementById('pm-p-maas').value=p.maas||'';
   }
   formAc('pm-p-modal');
 }
@@ -6569,14 +6695,15 @@ function pmPKaydet(){
   var ad=document.getElementById('pm-p-ad').value.trim();
   var uzm=document.getElementById('pm-p-uzm').value.trim();
   var giris=document.getElementById('pm-p-giris').value||'';
+  var maas=parseFloat(document.getElementById('pm-p-maas').value)||0;
   var editId=parseInt(document.getElementById('pm-p-id').value)||null;
   if(!ad)return toast('\u0130sim giriniz!','err');
   if(editId){
     for(var i=0;i<_pmP.length;i++){
-      if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;_pmP[i].giris=giris;break;}
+      if(_pmP[i].id===editId){_pmP[i].ad=ad;_pmP[i].uzm=uzm;_pmP[i].giris=giris;_pmP[i].maas=maas;break;}
     }
   }else{
-    _pmP.push({id:Date.now(),ad:ad,uzm:uzm,giris:giris});
+    _pmP.push({id:Date.now(),ad:ad,uzm:uzm,giris:giris,maas:maas});
   }
   _pmSave();formKapat('pm-p-modal');_pmPListe();toast('\u2713 Personel kaydedildi');
 }
@@ -6623,6 +6750,249 @@ function pmGorevSil(g){
   var arr=[];for(var i=0;i<_pmG.length;i++){if(_pmG[i]!==g)arr.push(_pmG[i]);}
   _pmG=arr;_pmSave();_pmGSel();_pmGListe();toast('"'+g+'" silindi');
 }
+
+/* ═══ PUANTAJ MODÜLÜ ═══ */
+var _PTK='et_pt_v1';
+var _ptKayitlar=[];
+
+function ptYukle(){
+  try{_ptKayitlar=JSON.parse(localStorage.getItem(_PTK))||[];}catch(e){_ptKayitlar=[];}
+}
+function ptKaydet(){
+  localStorage.setItem(_PTK,JSON.stringify(_ptKayitlar));
+}
+
+function ptAySecOlustur(){
+  var sel=document.getElementById('pt-f-ay');if(!sel)return;
+  var aylar={};
+  for(var i=0;i<_ptKayitlar.length;i++){
+    var d=_ptKayitlar[i].tarih;
+    if(d){var ay=d.substring(0,7);aylar[ay]=1;}
+  }
+  var keys=Object.keys(aylar).sort().reverse();
+  var cur=sel.value;
+  sel.innerHTML='<option value="">Tüm Aylar</option>';
+  for(var i=0;i<keys.length;i++){
+    var k=keys[i];
+    var parts=k.split('-');
+    var lbl=parts[1]+'/'+parts[0];
+    sel.innerHTML+='<option value="'+k+'"'+(cur===k?' selected':'')+'>'+lbl+'</option>';
+  }
+}
+
+function ptKpiGun(){
+  var topAvans=0,topIzin=0,topPrim=0;
+  for(var i=0;i<_ptKayitlar.length;i++){
+    var r=_ptKayitlar[i];
+    if(r.tip==='avans')topAvans+=parseFloat(r.tutar)||0;
+    else if(r.tip==='izin')topIzin+=parseFloat(r.izinGun)||0;
+    else if(r.tip==='prim')topPrim+=parseFloat(r.tutar)||0;
+  }
+  var avEl=document.getElementById('pt-kpi-avans');
+  var izEl=document.getElementById('pt-kpi-izin');
+  var prEl=document.getElementById('pt-kpi-prim');
+  if(avEl)avEl.textContent=topAvans.toLocaleString('tr-TR')+'₺';
+  if(izEl)izEl.textContent=topIzin+' G';
+  if(prEl)prEl.textContent=topPrim.toLocaleString('tr-TR')+'₺';
+}
+
+function ptSayfaGun(){
+  ptYukle();
+  ptKpiGun();
+  ptAySecOlustur();
+  ptListeGun();
+}
+
+function ptListeGun(){
+  var el=document.getElementById('pt-p-liste');if(!el)return;
+  var filAy=document.getElementById('pt-f-ay')?document.getElementById('pt-f-ay').value:'';
+  var filTip=document.getElementById('pt-f-tip')?document.getElementById('pt-f-tip').value:'';
+
+  // Personel başlıklarına göre grupla
+  var kisiler={};
+  for(var i=0;i<_pmP.length;i++){
+    kisiler[_pmP[i].ad]={p:_pmP[i],kayitlar:[]};
+  }
+  for(var i=0;i<_ptKayitlar.length;i++){
+    var r=_ptKayitlar[i];
+    if(filAy&&r.tarih&&r.tarih.substring(0,7)!==filAy)continue;
+    if(filTip&&r.tip!==filTip)continue;
+    if(!kisiler[r.kisi])kisiler[r.kisi]={p:{ad:r.kisi},kayitlar:[]};
+    kisiler[r.kisi].kayitlar.push(r);
+  }
+  var adlar=Object.keys(kisiler);
+  // Sadece kayıtlı veya kayıtı olanları göster
+  var gorunenAdlar=adlar.filter(function(a){return kisiler[a].kayitlar.length>0||(_pmP.some&&_pmP.some(function(p){return p.ad===a;}));});
+  if(!gorunenAdlar.length){el.innerHTML='<div class="pt-bos">Henüz puantaj kaydı yok.<br>Sağ üstten ＋ Kayıt Ekle butonuna basın.</div>';return;}
+
+  var out='';
+  for(var ki=0;ki<gorunenAdlar.length;ki++){
+    var ad=gorunenAdlar[ki];
+    var grp=kisiler[ad];
+    var k=grp.kayitlar;
+    var topAvans=0,topIzin=0,topPrim=0,topCeza=0;
+    for(var i=0;i<k.length;i++){
+      if(k[i].tip==='avans')topAvans+=parseFloat(k[i].tutar)||0;
+      else if(k[i].tip==='izin')topIzin+=parseFloat(k[i].izinGun)||0;
+      else if(k[i].tip==='prim')topPrim+=parseFloat(k[i].tutar)||0;
+      else if(k[i].tip==='ceza')topCeza+=parseFloat(k[i].tutar)||0;
+    }
+    var pid=grp.p.id||0;
+    out+='<div class="pt-kisi-kart">';
+    out+='<div class="pt-kisi-header" onclick="ptToggle(\'ptk'+ki+'\')">';
+    out+='<div>';
+    out+='<div class="pt-kisi-ad">👷 '+ad+'</div>';
+    var ozet='';
+    if(topAvans)ozet+='💵 '+topAvans.toLocaleString('tr-TR')+'₺ Avans ';
+    if(topIzin)ozet+='🌿 '+topIzin+' Gün İzin ';
+    if(topPrim)ozet+='⭐ '+topPrim.toLocaleString('tr-TR')+'₺ Prim ';
+    if(topCeza)ozet+='⚠ '+topCeza.toLocaleString('tr-TR')+'₺ Kesinti ';
+    if(!ozet)ozet='Kayıt yok';
+    out+='<div class="pt-kisi-ozet">'+ozet.trim()+'</div>';
+    out+='</div>';
+    out+='<span style="color:#475569;font-size:14px">▾</span>';
+    out+='</div>';
+    out+='<div class="pt-kisi-body" id="ptk'+ki+'">';
+
+    if(!k.length){
+      out+='<div class="pt-bos">Bu ay kayıt yok.</div>';
+    }else{
+      // Kayıt satırları
+      k.sort(function(a,b){return (b.tarih||'').localeCompare(a.tarih||'');});
+      for(var i=0;i<k.length;i++){
+        var r=k[i];
+        var tipIko={avans:'💵',izin:'🌿',prim:'⭐',ceza:'⚠'}[r.tip]||'📌';
+        var tarihStr='';
+        if(r.tarih){var td=r.tarih.split('-');tarihStr=td[2]+'.'+td[1]+'.'+td[0];}
+        if(r.tarihBit&&r.tarihBit!==r.tarih){var tb=r.tarihBit.split('-');tarihStr+=' → '+tb[2]+'.'+tb[1]+'.'+tb[0];}
+        var tutarStr='';
+        if(r.tip==='izin')tutarStr=(r.izinGun||0)+' Gün';
+        else tutarStr=(parseFloat(r.tutar)||0).toLocaleString('tr-TR')+'₺';
+        out+='<div class="pt-kayit-satir">';
+        out+='<div class="pt-kayit-tip '+r.tip+'">'+tipIko+'</div>';
+        out+='<div class="pt-kayit-bilgi">';
+        out+='<div class="pt-kayit-ad">'+(r.altTip?ptAltTipAd(r.altTip)+' ':'')+ptTipAd(r.tip)+'</div>';
+        out+='<div class="pt-kayit-tarih">'+tarihStr+(r.aciklama?' · '+r.aciklama:'')+'</div>';
+        out+='</div>';
+        out+='<div style="display:flex;align-items:center;gap:6px">';
+        out+='<div class="pt-kayit-tutar '+r.tip+'">'+tutarStr+'</div>';
+        out+='<button onclick="ptSil(\''+r.id+'\')" style="background:#1c0a0a;border:1px solid #7f1d1d;color:#f87171;border-radius:6px;padding:3px 7px;font-size:10px;font-weight:700;cursor:pointer">🗑</button>';
+        out+='</div></div>';
+      }
+    }
+    // Özet bar
+    out+='<div class="pt-ozet-bar">';
+    out+='<div class="pt-ozet-kutu"><div class="pt-ozet-val" style="color:#fbbf24">'+topAvans.toLocaleString('tr-TR')+'₺</div><div class="pt-ozet-lbl">Avans</div></div>';
+    out+='<div class="pt-ozet-kutu"><div class="pt-ozet-val" style="color:#4ade80">'+topIzin+' G</div><div class="pt-ozet-lbl">İzin</div></div>';
+    out+='<div class="pt-ozet-kutu"><div class="pt-ozet-val" style="color:#f87171">'+topCeza.toLocaleString('tr-TR')+'₺</div><div class="pt-ozet-lbl">Kesinti</div></div>';
+    out+='</div>';
+    out+='</div></div>';
+  }
+  el.innerHTML=out;
+}
+
+function ptToggle(id){
+  var el=document.getElementById(id);if(!el)return;
+  el.classList.toggle('acik');
+}
+function ptTipAd(t){return{avans:'Maaş Avansı',izin:'İzin',prim:'Prim/İkramiye',ceza:'Kesinti/Ceza'}[t]||t;}
+function ptAltTipAd(t){return{yillik:'Yıllık İzin',mazeret:'Mazeret İzni',hastalik:'Hastalık İzni',ucretsiz:'Ücretsiz İzin',haftalik:'Haftalık Avans',acil:'Acil Avans',diger:''}[t]||t;}
+
+function ptKayitFormAc(){
+  // Personel select doldur
+  var sel=document.getElementById('pt-kisi');
+  sel.innerHTML='<option value="">Personel seçin...</option>';
+  for(var i=0;i<_pmP.length;i++){
+    sel.innerHTML+='<option value="'+_pmP[i].ad+'">'+_pmP[i].ad+'</option>';
+  }
+  // Tarih bugün
+  var dn=new Date();
+  var bugun=dn.getFullYear()+'-'+String(dn.getMonth()+1).padStart(2,'0')+'-'+String(dn.getDate()).padStart(2,'0');
+  document.getElementById('pt-tarih').value=bugun;
+  document.getElementById('pt-tarih-bit').value=bugun;
+  document.getElementById('pt-tutar').value='';
+  document.getElementById('pt-izin-gun').value='1';
+  document.getElementById('pt-aciklama').value='';
+  document.getElementById('pt-alt-tip').value='';
+  document.getElementById('pt-tip').value='avans';
+  document.getElementById('pt-edit-id').value='';
+  document.getElementById('pt-ozet-box').style.display='none';
+  ptTipDegis();
+  formAc('pt-kayit-modal');
+}
+
+function ptTipDegis(){
+  var tip=document.getElementById('pt-tip').value;
+  var tutarField=document.getElementById('pt-tutar-field');
+  var izinField=document.getElementById('pt-izin-gun-field');
+  var bitisField=document.getElementById('pt-bitis-field');
+  var tutarLbl=document.getElementById('pt-tutar-lbl');
+  var bitisLbl=document.getElementById('pt-bitis-lbl');
+  if(tip==='izin'){
+    tutarField.style.display='none';
+    izinField.style.display='block';
+    bitisField.style.display='block';
+    bitisLbl.textContent='Bitiş Tarihi';
+  }else{
+    tutarField.style.display='block';
+    izinField.style.display='none';
+    if(tip==='avans'){tutarLbl.textContent='Avans Tutarı (₺) *';bitisField.style.display='none';}
+    else if(tip==='prim'){tutarLbl.textContent='Prim Tutarı (₺) *';bitisField.style.display='none';}
+    else if(tip==='ceza'){tutarLbl.textContent='Kesinti Tutarı (₺) *';bitisField.style.display='none';}
+  }
+}
+
+function ptKayitKaydet(){
+  var kisi=document.getElementById('pt-kisi').value;
+  var tip=document.getElementById('pt-tip').value;
+  var tarih=document.getElementById('pt-tarih').value;
+  var tarihBit=document.getElementById('pt-tarih-bit').value;
+  var tutar=parseFloat(document.getElementById('pt-tutar').value)||0;
+  var izinGun=parseFloat(document.getElementById('pt-izin-gun').value)||0;
+  var altTip=document.getElementById('pt-alt-tip').value;
+  var aciklama=document.getElementById('pt-aciklama').value.trim();
+  var editId=document.getElementById('pt-edit-id').value;
+
+  if(!kisi)return toast('Personel seçin!','err');
+  if(!tarih)return toast('Tarih girin!','err');
+  if(tip==='izin'&&!izinGun)return toast('İzin gün sayısı girin!','err');
+  if(tip!=='izin'&&!tutar)return toast('Tutar girin!','err');
+
+  var kayit={
+    id:editId||String(Date.now()),
+    kisi:kisi,
+    tip:tip,
+    tarih:tarih,
+    tarihBit:(tip==='izin'?tarihBit:tarih),
+    tutar:(tip!=='izin'?tutar:0),
+    izinGun:(tip==='izin'?izinGun:0),
+    altTip:altTip,
+    aciklama:aciklama,
+    olusturma:new Date().toISOString()
+  };
+
+  if(editId){
+    for(var i=0;i<_ptKayitlar.length;i++){
+      if(_ptKayitlar[i].id===editId){_ptKayitlar[i]=kayit;break;}
+    }
+  }else{
+    _ptKayitlar.unshift(kayit);
+  }
+  ptKaydet();
+  formKapat('pt-kayit-modal');
+  ptSayfaGun();
+  toast('✓ Puantaj kaydedildi');
+}
+
+function ptSil(id){
+  if(!confirm('Bu kayıt silinsin mi?'))return;
+  _ptKayitlar=_ptKayitlar.filter(function(r){return r.id!==id;});
+  ptKaydet();
+  ptSayfaGun();
+  toast('Kayıt silindi');
+}
+
+/* ═══ PUANTAJ MODÜLÜ SONU ═══ */
 
 function _pmAnalizGun(){
   var adaM={},gM={};
@@ -6795,6 +7165,7 @@ function stokFotoYukle(id, input){
 }
 
 pmYukle();
+ptYukle();
 
 /* ════════════════════════════════════════════════════════
    SUPABASE ENTEGRASYONU
