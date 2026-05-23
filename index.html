@@ -41,8 +41,9 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── İÇERİK ALANI ── */
 .content{position:fixed;top:62px;bottom:54px;left:0;right:0;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
-.page{display:none;padding:14px 14px 20px}
+  overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;
+  touch-action:pan-y}
+.page{display:none;padding:14px 14px 20px;touch-action:pan-y}
 .page.active{display:block}
 
 /* ── ALT NAVİGASYON ── */
@@ -293,12 +294,12 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .pwa-step-no{width:22px;height:22px;border-radius:50%;background:#2563eb;color:white;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 
 /* ── MAZOT/YAKIT MODÜLÜ ── */
-.arac-page-tabs{display:flex;gap:4px;background:#0f172a;border-radius:12px;padding:4px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.arac-page-tabs{display:flex;gap:4px;background:#0f172a;border-radius:12px;padding:4px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x}
 .arac-page-tabs::-webkit-scrollbar{display:none}
 .apt{padding:9px 14px;background:transparent;border:none;color:#64748b;font-size:12px;font-weight:700;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
 .apt.active{background:#1e293b;color:#e2e8f0}
-.apt-page{display:none}
-.apt-page.active{display:block;min-height:0}
+.apt-page{display:none;touch-action:pan-y}
+.apt-page.active{display:block;touch-action:pan-y}
 
 .mz-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .mz-kpi{background:#1e293b;border-radius:12px;padding:14px;border:1px solid #334155;text-align:center}
@@ -1936,6 +1937,7 @@ function sayfaGit(id){
   document.getElementById('bnav-'+id).classList.add('active');
   const c=document.querySelector('.content');
   if(c)c.scrollTop=0;
+  _layoutDuzelt();
   if(id==='liste')stokListeGun();
   if(id==='sonuc'&&sonHesap)sonucGoster();
   if(id==='sonuc')rgListeGoster();
@@ -4514,14 +4516,23 @@ function _layoutDuzelt(){
   const hdr=document.querySelector('.header');
   const nav=document.querySelector('.bottom-nav');
   const cnt=document.querySelector('.content');
-  if(hdr&&nav&&cnt){
-    const ht=hdr.offsetHeight;
-    const nt=nav.offsetHeight;
+  if(cnt){
+    const ht=hdr?hdr.getBoundingClientRect().height:62;
+    const nt=nav?nav.getBoundingClientRect().height:54;
     cnt.style.top=ht+'px';
     cnt.style.bottom=nt+'px';
   }
 }
-function uygulamaBaslat(){setTimeout(()=>{sayfaGit('dash');_layoutDuzelt();},80);sbIlkYukle();sablonBarGun();bildirimOtomatik();
+window.addEventListener('resize',_layoutDuzelt);
+// İlk yüklenmede birkaç kez çalıştır
+setTimeout(_layoutDuzelt,0);
+setTimeout(_layoutDuzelt,300);
+setTimeout(_layoutDuzelt,1000);
+function uygulamaBaslat(){
+  _layoutDuzelt();
+  setTimeout(()=>{_layoutDuzelt();sayfaGit('dash');},100);
+  setTimeout(_layoutDuzelt,500);
+  sbIlkYukle();sablonBarGun();bildirimOtomatik();
   const ub=document.getElementById('user-badge-wrap');
   const ubAdi=document.getElementById('ub-adi');
   if(ub)ub.style.display='flex';
