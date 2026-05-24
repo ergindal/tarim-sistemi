@@ -27,10 +27,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:#0f172a;color:#e2e8f0
   height:100%;
   display:grid;
   grid-template-rows:auto 1fr auto;
-  overflow:hidden;
-  position:fixed;
-  width:100%;
-  top:0;left:0}
+  overflow:hidden}
 input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom engelle */}
 
 /* ── HEADER ── */
@@ -52,9 +49,9 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 
 /* ── İÇERİK ALANI ── */
 .content{grid-row:2;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  overscroll-behavior-y:contain;min-height:0;touch-action:pan-y}
+  overscroll-behavior-y:contain;min-height:0}
 .page{display:none;padding:14px 14px 80px}
-.page.active{display:block;touch-action:pan-y}
+.page.active{display:block}
 
 /* ── ALT NAVİGASYON ── */
 .bottom-nav{grid-row:3;background:#1e293b;border-top:1px solid #334155;
@@ -308,7 +305,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 .apt{padding:9px 14px;background:transparent;border:none;color:#64748b;font-size:12px;font-weight:700;border-radius:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
 .apt.active{background:#1e293b;color:#e2e8f0}
 .apt-page{display:none}
-.apt-page.active{display:block;min-height:0;touch-action:pan-y}
+.apt-page.active{display:block;min-height:0}
 
 .mz-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 .mz-kpi{background:#1e293b;border-radius:12px;padding:14px;border:1px solid #334155;text-align:center}
@@ -471,7 +468,7 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
 /* ════════ MASAÜSTÜ MODU ════════ */
 @media (min-width: 768px) {
   html{overflow:auto !important;height:auto !important}
-  body{display:block !important;height:auto !important;overflow:auto !important;padding:0 !important;position:static !important;width:auto !important}
+  body{display:block !important;height:auto !important;overflow:auto !important;padding:0 !important}
 
   .header{position:sticky;top:0;z-index:50;max-width:1200px;margin:0 auto;border-radius:0}
 
@@ -1007,6 +1004,51 @@ input,button,select,textarea{font-family:inherit;font-size:16px;/* iOS zoom enge
       </div>
       <button class="btn btn-blue" onclick="bildirimIzniAl()">🔔 Bildirimleri Etkinleştir</button>
       <button class="btn btn-ghost" onclick="bildirimKontrol()">🔍 Şimdi Kontrol Et</button>
+    </div>
+
+    <!-- SUPABASE BULUT SENKRONIZASYON -->
+    <div class="card" style="border-color:#6366f144">
+      <div class="ctit" style="color:#a5b4fc">☁ Supabase Bulut Senkronizasyon</div>
+      <div id="sb-durum-bar" style="display:flex;align-items:center;gap:8px;background:#0f172a;border-radius:9px;padding:10px 13px;margin-bottom:12px">
+        <span id="sb-dot" class="gh-dot off"></span>
+        <span id="sb-durum-lbl" style="font-size:12px;color:#64748b">Kontrol ediliyor...</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn btn-blue btn-sm" style="flex:1;min-width:120px" onclick="sbBaglan()">🔗 Bağlan & Test</button>
+        <button class="btn btn-green btn-sm" style="flex:1;min-width:120px" onclick="sbTumunuYukle()">⬆ Buluta Yükle</button>
+        <button class="btn btn-ghost btn-sm" style="flex:1;min-width:120px" onclick="sbdenYukle()">⬇ Buluttan Çek</button>
+      </div>
+      <div id="sb-sql-rehber" style="margin-top:8px">
+        <div style="font-size:11px;font-weight:700;color:#6366f1;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">SQL Kurulum — Supabase SQL Editor'e yapıştırın</div>
+        <pre style="background:#0f172a;border:1px solid #334155;border-radius:9px;padding:12px;font-size:10px;color:#94a3b8;overflow-x:auto;white-space:pre;line-height:1.6;font-family:monospace">-- MEVCUT TABLOLAR (11 adet)
+CREATE TABLE IF NOT EXISTS stok (id bigint primary key, ad text, miktar numeric, ambalaj text, icerik numeric default 0, ic_birim text, kritik numeric default 2);
+CREATE TABLE IF NOT EXISTS stok_log (id bigint primary key, tip text, ad text, miktar numeric, once numeric, sonra numeric, birim text, not_ text, t text);
+CREATE TABLE IF NOT EXISTS araclar (id bigint primary key, veri jsonb);
+CREATE TABLE IF NOT EXISTS mazotlar (id bigint primary key, tarih text, miktar numeric, fiyat numeric, toplam numeric, not_ text);
+CREATE TABLE IF NOT EXISTS yakit_kullanim (id bigint primary key, arac_id bigint, arac_adi text, tarih text, km numeric, litre numeric, not_ text);
+CREATE TABLE IF NOT EXISTS envanter (id bigint primary key, veri jsonb);
+CREATE TABLE IF NOT EXISTS vana_adalar (id text primary key, veri jsonb);
+CREATE TABLE IF NOT EXISTS pm_kayitlar (id bigint primary key, ada text, gorev text, gun numeric, kisi_sayi integer, ag numeric, personel text, saat_bas text, saat_bit text, not_ text, t bigint);
+CREATE TABLE IF NOT EXISTS pm_personeller (id bigint primary key, ad text, uzm text);
+CREATE TABLE IF NOT EXISTS pm_gorevler (id integer primary key, liste jsonb);
+CREATE TABLE IF NOT EXISTS kullaniciler (id text primary key, adi text, rol text, sifre text);
+
+-- YENİ TABLOLAR (4 adet — eksik olanlar)
+CREATE TABLE IF NOT EXISTS recete_gecmis (id bigint primary key, tarih text, kayit_zamani text, tip text, aciklama text, muhendis text, top_agac numeric default 0, top_su numeric default 0, vana_adet integer default 0, doz_mod text default 'agac', aktif_su_litre numeric default 0, veri jsonb, created_at timestamptz default now());
+CREATE TABLE IF NOT EXISTS recete_sablonlar (id bigint primary key, ad text not null, tip text, aciklama text, muhendis text, doz_mod text default 'agac', hedef_su text, hedef_su_birim text default 'ton', damlatici text, debi text, sure text, tank text, ilaclar jsonb, olusturma text, created_at timestamptz default now());
+CREATE TABLE IF NOT EXISTS brifing_kayitlar (id bigint primary key, tarih text, ada text, bolge text, top_kisi integer default 0, gruplar jsonb, not_ text, olusturma text, created_at timestamptz default now());
+CREATE TABLE IF NOT EXISTS puantaj_kayitlar (id text primary key, kisi text, tip text, tarih text, tarih_bit text, tutar numeric default 0, izin_gun numeric default 0, alt_tip text, aciklama text, olusturma text, created_at timestamptz default now());
+
+-- RLS Politikaları (tüm tablolar için)
+DO $$ DECLARE t text; BEGIN
+  FOR t IN SELECT unnest(ARRAY['stok','stok_log','araclar','mazotlar','yakit_kullanim','envanter','vana_adalar','pm_kayitlar','pm_personeller','pm_gorevler','kullaniciler','recete_gecmis','recete_sablonlar','brifing_kayitlar','puantaj_kayitlar']) LOOP
+    EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
+    EXECUTE format('DROP POLICY IF EXISTS public_all ON %I', t);
+    EXECUTE format('CREATE POLICY public_all ON %I FOR ALL USING (true) WITH CHECK (true)', t);
+  END LOOP;
+END $$;</pre>
+        <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:6px;font-size:12px" onclick="sbSqlKopyala()">📋 SQL'i Kopyala</button>
+      </div>
     </div>
 
     <!-- BÖLÜM 1: JSON YEDEK -->
@@ -2873,6 +2915,7 @@ function rgYukle(){
 }
 function rgKaydet(liste){
   localStorage.setItem(RG_KEY,JSON.stringify(liste));
+  if(typeof sbSync==='function')sbSync('recete');
 }
 function rgEkle(hesap){
   try{
@@ -3023,7 +3066,7 @@ function rgYazdir(id){
 const SABLON_KEY='et_recete_sablon_v1';
 
 function sablonYukle(){try{return JSON.parse(localStorage.getItem(SABLON_KEY))||[];}catch{return[];}}
-function sablonKaydetLS(liste){localStorage.setItem(SABLON_KEY,JSON.stringify(liste));}
+function sablonKaydetLS(liste){localStorage.setItem(SABLON_KEY,JSON.stringify(liste));if(typeof sbSync==='function')sbSync('recete');}
 
 function sablonKaydet(){
   var ilaclar=ilaclarOku();
@@ -6248,7 +6291,7 @@ const BR_KEY='et_brifing_v1';
 let brSayac=0;
 
 function brYukle(){try{return JSON.parse(localStorage.getItem(BR_KEY))||[];}catch{return[];}}
-function brKaydetLS(liste){localStorage.setItem(BR_KEY,JSON.stringify(liste));}
+function brKaydetLS(liste){localStorage.setItem(BR_KEY,JSON.stringify(liste));if(typeof sbSync==='function')sbSync('brifing');}
 
 function brifingFormAc(){
   var dn=new Date();
@@ -6761,6 +6804,8 @@ function ptYukle(){
 }
 function ptKaydet(){
   localStorage.setItem(_PTK,JSON.stringify(_ptKayitlar));
+  localStorage.setItem('et_son_kayit',Date.now().toString());
+  if(typeof sbSync==='function')sbSync('puantaj');
 }
 
 function ptAySecOlustur(){
@@ -7297,6 +7342,29 @@ async function sbTumunuYukle(){
     if(typeof _pmG!=='undefined'){
       await sbReq('POST','pm_gorevler',[{id:1,liste:_pmG}]);
     }
+    // Reçete geçmişi
+    var rgListeT=rgYukle();
+    if(rgListeT.length){
+      var rgRowsT=rgListeT.map(function(k){return{id:k.id,tarih:k.tarih||'',kayit_zamani:k.kayitZamani||'',tip:k.tip||'',aciklama:k.aciklama||'',muhendis:k.muhendis||'',top_agac:k.topAgac||0,top_su:k.topSu||0,vana_adet:k.vanaAdet||0,doz_mod:k.dozMod||'agac',aktif_su_litre:k.aktifSuLitre||0,veri:k._hesap||null};});
+      await sbReq('POST','recete_gecmis',rgRowsT);
+    }
+    // Reçete şablonları
+    var sbListeT=sablonYukle();
+    if(sbListeT.length){
+      var sbRowsT=sbListeT.map(function(s){return{id:s.id,ad:s.ad||'',tip:s.tip||'',aciklama:s.aciklama||'',muhendis:s.muhendis||'',doz_mod:s.dozMod||'agac',hedef_su:s.hedefSu||'',hedef_su_birim:s.hedefSuBirim||'ton',damlatici:s.damlatici||'',debi:s.debi||'',sure:s.sure||'',tank:s.tank||'',ilaclar:s.ilaclar||[],olusturma:s.olusturma||''};});
+      await sbReq('POST','recete_sablonlar',sbRowsT);
+    }
+    // Brifing kayıtları
+    var brListeT=brYukle();
+    if(brListeT.length){
+      var brRowsT=brListeT.map(function(b){return{id:b.id,tarih:b.tarih||'',ada:b.ada||'',bolge:b.bolge||'',top_kisi:b.topKisi||0,gruplar:b.gruplar||[],not_:b.not||'',olusturma:b.olusturma||''};});
+      await sbReq('POST','brifing_kayitlar',brRowsT);
+    }
+    // Puantaj kayıtları
+    if(typeof _ptKayitlar!=='undefined'&&_ptKayitlar.length){
+      var ptRowsT=_ptKayitlar.map(function(p){return{id:String(p.id),kisi:p.kisi||'',tip:p.tip||'',tarih:p.tarih||'',tarih_bit:p.tarihBit||p.tarih||'',tutar:p.tutar||0,izin_gun:p.izinGun||0,alt_tip:p.altTip||'',aciklama:p.aciklama||'',olusturma:p.olusturma||''};});
+      await sbReq('POST','puantaj_kayitlar',ptRowsT);
+    }
     // Kullanıcılar
     const users=kullanicilariYukle();
     if(users.length){
@@ -7360,6 +7428,31 @@ async function sbdenYukle(){
     if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){
       _pmG = pgData[0].liste;
       localStorage.setItem(_PGK,JSON.stringify(_pmG));
+    }
+    // Reçete geçmişi
+    const rgDataSb = await sbReq('GET','recete_gecmis','','?order=id.desc&limit=50');
+    if(rgDataSb.length){
+      const rgMapped=rgDataSb.map(function(r){return{id:r.id,tarih:r.tarih,kayitZamani:r.kayit_zamani,tip:r.tip,aciklama:r.aciklama,muhendis:r.muhendis,topAgac:parseFloat(r.top_agac)||0,topSu:parseFloat(r.top_su)||0,vanaAdet:r.vana_adet||0,dozMod:r.doz_mod,aktifSuLitre:parseFloat(r.aktif_su_litre)||0,_hesap:r.veri||null};});
+      localStorage.setItem(RG_KEY,JSON.stringify(rgMapped));
+    }
+    // Reçete şablonları
+    const sbDataSb = await sbReq('GET','recete_sablonlar','','?order=id.desc');
+    if(sbDataSb.length){
+      const sbMapped=sbDataSb.map(function(s){return{id:s.id,ad:s.ad,tip:s.tip,aciklama:s.aciklama,muhendis:s.muhendis,dozMod:s.doz_mod,hedefSu:s.hedef_su,hedefSuBirim:s.hedef_su_birim,damlatici:s.damlatici,debi:s.debi,sure:s.sure,tank:s.tank,ilaclar:s.ilaclar||[],olusturma:s.olusturma};});
+      localStorage.setItem(SABLON_KEY,JSON.stringify(sbMapped));
+      if(typeof sablonBarGun==='function')sablonBarGun();
+    }
+    // Brifing kayıtları
+    const brDataSb = await sbReq('GET','brifing_kayitlar','','?order=id.desc&limit=100');
+    if(brDataSb.length){
+      const brMapped=brDataSb.map(function(b){return{id:b.id,tarih:b.tarih,ada:b.ada,bolge:b.bolge,topKisi:b.top_kisi,gruplar:b.gruplar||[],not:b.not_||'',olusturma:b.olusturma};});
+      localStorage.setItem(BR_KEY,JSON.stringify(brMapped));
+    }
+    // Puantaj kayıtları
+    const ptDataSb = await sbReq('GET','puantaj_kayitlar','','?order=created_at.desc');
+    if(typeof _ptKayitlar!=='undefined'&&ptDataSb.length){
+      _ptKayitlar=ptDataSb.map(function(p){return{id:p.id,kisi:p.kisi,tip:p.tip,tarih:p.tarih,tarihBit:p.tarih_bit,tutar:parseFloat(p.tutar)||0,izinGun:parseFloat(p.izin_gun)||0,altTip:p.alt_tip||'',aciklama:p.aciklama||'',olusturma:p.olusturma||''};});
+      localStorage.setItem(_PTK,JSON.stringify(_ptKayitlar));
     }
     // UI güncelle
     stokStatsGun();stokDlGun();receteSelectGun();
@@ -7432,6 +7525,38 @@ async function sbKaydet(hint='all'){
       }
       // Vana
       await sbReq('POST','vana_adalar',[{id:'main',veri:ADALAR}]);
+    }
+    // ── Reçete geçmişi + şablonlar
+    if(hint==='recete'||hint==='all'){
+      var rgListe=rgYukle();
+      if(rgListe.length){
+        await sbReq('DELETE','recete_gecmis',null,'?id=gt.0');
+        var rgRows=rgListe.map(function(k){return{id:k.id,tarih:k.tarih||'',kayit_zamani:k.kayitZamani||'',tip:k.tip||'',aciklama:k.aciklama||'',muhendis:k.muhendis||'',top_agac:k.topAgac||0,top_su:k.topSu||0,vana_adet:k.vanaAdet||0,doz_mod:k.dozMod||'agac',aktif_su_litre:k.aktifSuLitre||0,veri:k._hesap||null};});
+        await sbReq('POST','recete_gecmis',rgRows);
+      }
+      var sbListe=sablonYukle();
+      if(sbListe.length){
+        await sbReq('DELETE','recete_sablonlar',null,'?id=gt.0');
+        var sbRows=sbListe.map(function(s){return{id:s.id,ad:s.ad||'',tip:s.tip||'',aciklama:s.aciklama||'',muhendis:s.muhendis||'',doz_mod:s.dozMod||'agac',hedef_su:s.hedefSu||'',hedef_su_birim:s.hedefSuBirim||'ton',damlatici:s.damlatici||'',debi:s.debi||'',sure:s.sure||'',tank:s.tank||'',ilaclar:s.ilaclar||[],olusturma:s.olusturma||''};});
+        await sbReq('POST','recete_sablonlar',sbRows);
+      }
+    }
+    // ── Brifing kayıtları
+    if(hint==='brifing'||hint==='all'){
+      var brListeK=brYukle();
+      if(brListeK.length){
+        await sbReq('DELETE','brifing_kayitlar',null,'?id=gt.0');
+        var brRowsK=brListeK.map(function(b){return{id:b.id,tarih:b.tarih||'',ada:b.ada||'',bolge:b.bolge||'',top_kisi:b.topKisi||0,gruplar:b.gruplar||[],not_:b.not||'',olusturma:b.olusturma||''};});
+        await sbReq('POST','brifing_kayitlar',brRowsK);
+      }
+    }
+    // ── Puantaj kayıtları
+    if(hint==='puantaj'||hint==='all'){
+      if(typeof _ptKayitlar!=='undefined'&&_ptKayitlar.length){
+        await sbReq('DELETE','puantaj_kayitlar',null,'?id=gt.0');
+        var ptRowsK=_ptKayitlar.map(function(p){return{id:String(p.id),kisi:p.kisi||'',tip:p.tip||'',tarih:p.tarih||'',tarih_bit:p.tarihBit||p.tarih||'',tutar:p.tutar||0,izin_gun:p.izinGun||0,alt_tip:p.altTip||'',aciklama:p.aciklama||'',olusturma:p.olusturma||''};});
+        await sbReq('POST','puantaj_kayitlar',ptRowsK);
+      }
     }
     const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
     sbDurum('✓ Kaydedildi '+zaman);
@@ -7518,6 +7643,18 @@ async function _sbSessizYukle(){
     if(typeof _pmG!=='undefined'&&pgData.length&&pgData[0].liste){_pmG=pgData[0].liste;localStorage.setItem(_PGK,JSON.stringify(_pmG));}
     // Kullanıcılar
     await kullanicilarSbdenYukle();
+    // Reçete geçmişi
+    const rgDataSS=await sbReq('GET','recete_gecmis','','?order=id.desc&limit=50');
+    if(rgDataSS.length){const rgM=rgDataSS.map(function(r){return{id:r.id,tarih:r.tarih,kayitZamani:r.kayit_zamani,tip:r.tip,aciklama:r.aciklama,muhendis:r.muhendis,topAgac:parseFloat(r.top_agac)||0,topSu:parseFloat(r.top_su)||0,vanaAdet:r.vana_adet||0,dozMod:r.doz_mod,aktifSuLitre:parseFloat(r.aktif_su_litre)||0,_hesap:r.veri||null};});localStorage.setItem(RG_KEY,JSON.stringify(rgM));}
+    // Reçete şablonları
+    const sbDataSS=await sbReq('GET','recete_sablonlar','','?order=id.desc');
+    if(sbDataSS.length){const sbM=sbDataSS.map(function(s){return{id:s.id,ad:s.ad,tip:s.tip,aciklama:s.aciklama,muhendis:s.muhendis,dozMod:s.doz_mod,hedefSu:s.hedef_su,hedefSuBirim:s.hedef_su_birim,damlatici:s.damlatici,debi:s.debi,sure:s.sure,tank:s.tank,ilaclar:s.ilaclar||[],olusturma:s.olusturma};});localStorage.setItem(SABLON_KEY,JSON.stringify(sbM));if(typeof sablonBarGun==='function')sablonBarGun();}
+    // Brifing kayıtları
+    const brDataSS=await sbReq('GET','brifing_kayitlar','','?order=id.desc&limit=100');
+    if(brDataSS.length){const brM=brDataSS.map(function(b){return{id:b.id,tarih:b.tarih,ada:b.ada,bolge:b.bolge,topKisi:b.top_kisi,gruplar:b.gruplar||[],not:b.not_||'',olusturma:b.olusturma};});localStorage.setItem(BR_KEY,JSON.stringify(brM));}
+    // Puantaj kayıtları
+    const ptDataSS=await sbReq('GET','puantaj_kayitlar','','?order=created_at.desc');
+    if(typeof _ptKayitlar!=='undefined'&&ptDataSS.length){_ptKayitlar=ptDataSS.map(function(p){return{id:p.id,kisi:p.kisi,tip:p.tip,tarih:p.tarih,tarihBit:p.tarih_bit,tutar:parseFloat(p.tutar)||0,izinGun:parseFloat(p.izin_gun)||0,altTip:p.alt_tip||'',aciklama:p.aciklama||'',olusturma:p.olusturma||''};});localStorage.setItem(_PTK,JSON.stringify(_ptKayitlar));}
     // Dashboard güncelle
     if(typeof dbGun==='function')setTimeout(dbGun,500);
     const zaman=new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
